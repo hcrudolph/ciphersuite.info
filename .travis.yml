@@ -6,7 +6,7 @@ python:
 services: postgresql
 
 before_install:
-  - export DJANGO_SETTINGS_MODULE=csinfo/settings.py
+  - export DJANGO_SETTINGS_MODULE=csinfo.settings
   - export PYTHONPATH=$HOME/builds/hcrudolph/ciphersuite.info
   - export PIP_USE_MIRRORS=true
 
