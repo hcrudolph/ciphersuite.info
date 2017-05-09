@@ -1,0 +1,11 @@
+<h1>All them Cipher suites</h1>
+
+{% if cipher_suite_list %}
+    <ul>
+    {% for cipher_suite in cipher_suite_list %}
+        <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No cipher suites found.</p>
+{% endif %}

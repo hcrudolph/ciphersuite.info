@@ -1,0 +1,22 @@
+<h1>{{ cipher_suite.name }}</h1>
+<p>
+    <b>Key Exchange:</b> {{ cipher_suite.kex }}
+</p>
+<p>
+    <b>Encryption algorithm:</b> {{ cipher_suite.enc }}
+</p>
+<p>
+    <b>MAC algorithm:</b> {{ cipher_suite.mac }}
+</p>
+
+{% if referring_rfc_list %}
+
+<p>
+    <b>Included in RFC:</b>
+</p>
+<ul>
+    {% for rfc in referring_rfc_list %}
+        <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
