@@ -25,7 +25,7 @@ SECRET_KEY = '=yxbg6$nnt8!yvagg@p=*4ek-dy8ymgp%$8nua3^rt@h8rb6n-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['ciphersuite.info', 'ciphersuite-info.herokuapp.com', 'localhost']
 
 
 # Application definition
