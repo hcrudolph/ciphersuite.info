@@ -1,35 +1,52 @@
 from django.db import models
 
+
 class CipherSuite(models.Model):
     name = models.CharField(
         primary_key=True,
         max_length=200,
     )
+    prt = models.CharField(
+        verbose_name='Protocol',
+        max_length=20,
+        editable=False,
+    )
     kex = models.CharField(
         verbose_name='Key exchange algorithm',
         max_length=20,
+        editable=False,
     )
     # encryption algorithm
     enc = models.CharField(
         verbose_name='Encryption algorithm',
         max_length=20,
+        editable=False,
     )
     # message authentication code algorithm
     mac = models.CharField(
         verbose_name='MAC algorithm',
         max_length=20,
+        editable=False,
     )
-    # # pseudorandom function
-    # prf = models.CharField(
-    #     verbose_name='Pseudorandom function',
-    #     max_length=20,
-    # )
-    # RFCs that include this cipher suite
+    # RFCs defining this cipher suite
     rfcs = models.ManyToManyField(
         'Rfc',
         verbose_name='Referring RFC',
         blank=True,
     )
+
+    def save(self):
+        # create member attributes form self.name
+        blank_name = self.name.replace("_", " ")
+        (prt,_,rest) = blank_name.partition(" ")
+        (kex,_,rest) = rest.partition("WITH")
+        (enc,_,mac) = rest.rpartition(" ")
+        self.prt = prt.strip()
+        self.kex = kex.strip()
+        self.enc = enc.strip()
+        self.mac = mac.strip()
+
+        super(CipherSuite, self).save()
 
     def __str__(self):
         return self.name
