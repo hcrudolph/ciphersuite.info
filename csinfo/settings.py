@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import urlparse
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -83,6 +84,19 @@ if 'TRAVIS' in os.environ:
             'PASSWORD': '',
             'HOST':     'localhost',
             'PORT':     '',
+        }
+    }
+elif 'DATABASE_URL' in os.environ:
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql_psycopg2',
+            'NAME':     url.path[1:],
+            'USER':     url.username,
+            'PASSWORD': url.password,
+            'HOST':     url.hostname,
+            'PORT':     url.port,
         }
     }
 else:
