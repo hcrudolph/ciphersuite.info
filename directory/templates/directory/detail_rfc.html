@@ -1,35 +1,39 @@
-<h1>RFC {{ rfc.number }}</h1>
-<p>
-    <b>Title:</b> {{ rfc.title }}
-</p>
-<p>
-    <b>Status:</b> {{ rfc.status }}
-</p>
-<p>
-    <b>Publication:</b> {{ rfc.year }}
-</p>
-{% if obsoleted_by %}
-<p>
-    <b>Obsoleted by:</b> <a href="/rfc/{{ obsoleted_by.number }}">{{ obsoleted_by }}</a>
-</p>
-{% endif %}
-{% if obsoletes %}
-<p>
-    <b>Obsoletes:</b> <a href="/rfc/{{ obsoletes.number }}">{{ obsoletes }}</a>
-</p>
-{% endif %}
-<p>
-    <a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank"><b>View on ietf.org</b></a>
-</p>
+{% extends "directory/base.html" %}
+
+{% block content %}
+    <h2>RFC {{ rfc.number }}</h2>
+    <p>
+        <b>Title:</b> {{ rfc.title }}
+    </p>
+    <p>
+        <b>Status:</b> {{ rfc.status }}
+    </p>
+    <p>
+        <b>Publication:</b> {{ rfc.year }}
+    </p>
+    {% if obsoleted_by %}
+    <p>
+        <b>Obsoleted by:</b> <a href="/rfc/{{ obsoleted_by.number }}">{{ obsoleted_by }}</a>
+    </p>
+    {% endif %}
+    {% if obsoletes %}
+    <p>
+        <b>Obsoletes:</b> <a href="/rfc/{{ obsoletes.number }}">{{ obsoletes }}</a>
+    </p>
+    {% endif %}
+    <p>
+        <a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank"><b>View on ietf.org</b></a>
+    </p>
 
 
-{% if defined_cipher_suites %}
-<p>
-    <b>Defined Cipher suites:</b>
-</p>
-<ul>
-    {% for cipher_suite in defined_cipher_suites %}
-        <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
+    {% if defined_cipher_suites %}
+    <p>
+        <b>Defined Cipher suites:</b>
+    </p>
+    <ul>
+        {% for cipher_suite in defined_cipher_suites %}
+            <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock content %}

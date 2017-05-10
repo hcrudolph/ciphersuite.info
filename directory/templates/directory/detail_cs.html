@@ -1,22 +1,29 @@
-<h1>{{ cipher_suite.name }}</h1>
-<p>
-    <b>Key Exchange:</b> {{ cipher_suite.kex }}
-</p>
-<p>
-    <b>Encryption algorithm:</b> {{ cipher_suite.enc }}
-</p>
-<p>
-    <b>MAC algorithm:</b> {{ cipher_suite.mac }}
-</p>
+{% extends "directory/base.html" %}
 
-{% if referring_rfc_list %}
+{% block content %}
+    <h2>{{ cipher_suite.name }}</h2>
+    <p>
+        <b>Protocol:</b> {{ cipher_suite.prt }}
+    </p>
+    <p>
+        <b>Key Exchange algorithm:</b> {{ cipher_suite.kex }}
+    </p>
+    <p>
+        <b>Encryption algorithm:</b> {{ cipher_suite.enc }}
+    </p>
+    <p>
+        <b>MAC algorithm:</b> {{ cipher_suite.mac }}
+    </p>
 
-<p>
-    <b>Included in RFC:</b>
-</p>
-<ul>
-    {% for rfc in referring_rfc_list %}
-        <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
+    {% if referring_rfc_list %}
+
+    <p>
+        <b>Included in RFC:</b>
+    </p>
+    <ul>
+        {% for rfc in referring_rfc_list %}
+            <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock content %}

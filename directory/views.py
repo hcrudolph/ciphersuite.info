@@ -8,6 +8,9 @@ from .models import CipherSuite, Rfc
 def index_global(request):
     return render(request, 'directory/index_global.html')
 
+def about(request):
+    return render(request, 'directory/about.html')
+
 def index_cs(request):
     cipher_suite_list = CipherSuite.objects.order_by('name')
     context = {
