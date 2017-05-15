@@ -2,18 +2,21 @@
 
 {% block content %}
     <h2>{{ cipher_suite.name }}</h2>
+    {% for item in related_tech %}
+    <p>{% cycle 'Protocol:' 'Key Exchange algorithm:' 'Encryption algorithm:' 'MAC algorithm:' %}</p>
     <p>
-        <b>Protocol:</b> {{ cipher_suite.prt }}
+        {% if item.long_name %}
+            {{ item.long_name }} ({{ item.short_name }})
+            {% if item.vulnerability %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ item.short_name }}:</strong> {{ item.vulnerability.name }}
+                </div>
+            {% endif %}
+        {% else %}
+            {{ item.short_name }}
+        {% endif %}
     </p>
-    <p>
-        <b>Key Exchange algorithm:</b> {{ cipher_suite.kex }}
-    </p>
-    <p>
-        <b>Encryption algorithm:</b> {{ cipher_suite.enc }}
-    </p>
-    <p>
-        <b>MAC algorithm:</b> {{ cipher_suite.mac }}
-    </p>
+    {% endfor %}
 
     {% if referring_rfc_list %}
 

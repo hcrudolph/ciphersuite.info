@@ -9,20 +9,15 @@
         <b>Status:</b> {{ rfc.status }}
     </p>
     <p>
-        <b>Publication:</b> {{ rfc.year }}
+        <b>Publication:</b> {{ rfc.release_year }}
     </p>
-    {% if obsoleted_by %}
+    {% for rel_rfc in related_docs %}
     <p>
-        <b>Obsoleted by:</b> <a href="/rfc/{{ obsoleted_by.number }}">{{ obsoleted_by }}</a>
+        <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
     </p>
-    {% endif %}
-    {% if obsoletes %}
+    {% endfor %}
     <p>
-        <b>Obsoletes:</b> <a href="/rfc/{{ obsoletes.number }}">{{ obsoletes }}</a>
-    </p>
-    {% endif %}
-    <p>
-        <a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank"><b>View on ietf.org</b></a>
+        <b>View on ietf.org:</b> <a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }}</a>
     </p>
 
 
