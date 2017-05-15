@@ -18,3 +18,11 @@ before_script:
 
 script:
   - python manage.py migrate
+
+notifications:
+    webhooks:
+        urls:
+            - "https://scalar.vector.im/api/neb/services/hooks/dHJhdmlzLWNpLyU0MGhjcnVkb2xwaCUzQW1hdHJpeC5uZ2Muem9uZS8lMjFpQlNsSml3c213WmFrZERSVkIlM0FtYXRyaXgubmdjLnpvbmU"
+        on_success: change
+        on_failure: always
+        on_start: never
