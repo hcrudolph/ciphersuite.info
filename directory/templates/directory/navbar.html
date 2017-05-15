@@ -1,24 +1,32 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">ciphersuite.info</a>
+<div class="row">
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">ciphersuite.info</a>
+            </div>
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/cs/">Cipher Suites</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/rfc/">RFCs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/about">About</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li {% if nav_active == "cs" %}class="active"{% endif %}><a href="/cs/">Cipher Suites</a></li>
+                    <li {% if nav_active == "rfc" %}class="active"{% endif %}><a href="/rfc/">RFCs</a></li>
+                    <li {% if nav_active == "about" %}class="active"{% endif %}><a href="/about/">About</a></li>
+                </ul>
+
+                {% if not hide_nav_search %}
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                {% endif %}
+            </div>
+          </div>
+    </nav>
+</div>

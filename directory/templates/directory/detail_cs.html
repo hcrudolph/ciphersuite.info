@@ -1,32 +1,48 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
-    <h2>{{ cipher_suite.name }}</h2>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>{{ cipher_suite.name }}</h2>
+        </div>
+    </div>
+
     {% for item in related_tech %}
-    <p>{% cycle 'Protocol:' 'Key Exchange algorithm:' 'Encryption algorithm:' 'MAC algorithm:' %}</p>
-    <p>
-        {% if item.long_name %}
-            {{ item.long_name }} ({{ item.short_name }})
-            {% if item.vulnerability %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <p>
+                <b>{% cycle 'Protocol:' 'Key Exchange algorithm:' 'Encryption algorithm:' 'MAC algorithm:' %}</b>
+                {% if item.long_name %}
+                    {{ item.long_name }} ({{ item.short_name }})
+                {% else %}
+                    {{ item.short_name }}
+                {% endif %}
+            </p>
+
+            {% for vuln in vulnerabilities %}
                 <div class="alert alert-danger" role="alert">
-                    <strong>{{ item.short_name }}:</strong> {{ item.vulnerability.name }}
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ vuln.name }}:</strong> {{ vuln.decription }}
                 </div>
-            {% endif %}
-        {% else %}
-            {{ item.short_name }}
-        {% endif %}
-    </p>
+            {% endfor %}
+        </div>
+    </div>
     {% endfor %}
 
     {% if referring_rfc_list %}
 
-    <p>
-        <b>Included in RFC:</b>
-    </p>
-    <ul>
-        {% for rfc in referring_rfc_list %}
-            <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <p>
+                <b>Included in RFC:</b>
+            </p>
+            <ul>
+                {% for rfc in referring_rfc_list %}
+                    <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% endif %}
+
 {% endblock content %}

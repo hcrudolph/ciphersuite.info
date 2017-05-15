@@ -1,15 +1,21 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
-    <h2>All them Cipher suites</h2>
 
-    {% if cipher_suite_list %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>Cipher Suites</h2>
+
+        {% if cipher_suite_list %}
         <ul>
-        {% for cipher_suite in cipher_suite_list %}
+            {% for cipher_suite in cipher_suite_list %}
             <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
-        {% endfor %}
+            {% endfor %}
         </ul>
-    {% else %}
+        {% else %}
         <p>No cipher suites found.</p>
-    {% endif %}
+        {% endif %}
+    </div>
+</div>
+
 {% endblock content %}
