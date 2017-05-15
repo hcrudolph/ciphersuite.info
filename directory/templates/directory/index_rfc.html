@@ -1,15 +1,21 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
-    <h2>All them RFCs</h2>
 
-    {% if rfc_list %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>RFCs</h2>
+
+        {% if rfc_list %}
         <ul>
-        {% for rfc in rfc_list %}
+            {% for rfc in rfc_list %}
             <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
-        {% endfor %}
+            {% endfor %}
         </ul>
-    {% else %}
+        {% else %}
         <p>No RFCs found.</p>
-    {% endif %}
+        {% endif %}
+    </div>
+</div>
+
 {% endblock content %}

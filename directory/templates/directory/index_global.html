@@ -1,6 +1,21 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
-    <h2>Hi there!</h2>
-    <h3>Have a look around</h3>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1 class="title_heading centered">Search this site</h1>
+        <div id="custom-search-input">
+            <div class="input-group col-md-12">
+                <input type="text" class="form-control input-lg" placeholder="cipher, algorithm, vulnerability..." />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary btn-lg" type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
