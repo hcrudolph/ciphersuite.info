@@ -83,8 +83,13 @@ class Rfc(models.Model):
         max_length=25,
         choices=STATUS_CHOICES,
     )
-    title = models.CharField(max_length=250)
-    release_year = models.DecimalField(max_digits=4, decimal_places=0)
+    title = models.CharField(
+        max_length=250,
+    )
+    release_year = models.DecimalField(
+        max_digits=4,
+        decimal_places=0,
+    )
     defined_cipher_suites = models.ManyToManyField(
         'CipherSuite',
         verbose_name='Defined cipher suites',
@@ -175,6 +180,16 @@ class Vulnerability(models.Model):
     )
     description = models.TextField(
         max_length=1000,
+        blank=True,
+    )
+    cve_id = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+    cvss_score = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        blank=True,
     )
 
     def __str__(self):
