@@ -1,0 +1,16 @@
+body {
+    padding-top: 70px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.title_heading {
+    margin-top: 10%;
+    margin-bottom: 5%;
+}
