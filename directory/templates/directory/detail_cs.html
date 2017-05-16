@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <p>
-                <b>{% cycle 'Protocol:' 'Key Exchange algorithm:' 'Encryption algorithm:' 'MAC algorithm:' %}</b>
+                <b>{% cycle 'Protocol:' 'Key Exchange algorithm:' 'Encryption algorithm:' 'Hash algorithm:' %}</b>
                 {% if item.long_name %}
                     {{ item.long_name }} ({{ item.short_name }})
                 {% else %}

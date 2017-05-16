@@ -49,7 +49,7 @@ def detail_cs(request, cs_name):
         cipher_suite.protocol_version,
         cipher_suite.kex_algorithm,
         cipher_suite.enc_algorithm,
-        cipher_suite.mac_algorithm,
+        cipher_suite.hash_algorithm,
     ]
     context = {
         'cipher_suite': cipher_suite,
