@@ -20,9 +20,8 @@
                 </ul>
 
                 {% if not hide_nav_search %}
-                <form class="navbar-form navbar-right" action="/search/" method="post">
+                <form class="navbar-form navbar-right" action="/search?q={{ form.get_search_term }}" method="get">
                     <div class="form-group input-group">
-                        {% csrf_token %}
                         {{ form }}
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>

@@ -1,7 +1,7 @@
 from django import forms
 
-class MainSearchForm(forms.Form):
-    search_term = forms.CharField(
+class MainGetSearchForm(forms.Form):
+    q = forms.CharField(
         label="",
         max_length=100,
         widget=forms.TextInput(
@@ -12,9 +12,8 @@ class MainSearchForm(forms.Form):
         ),
     )
 
-
-class NavbarSearchForm(forms.Form):
-    search_term = forms.CharField(
+class NavbarGetSearchForm(forms.Form):
+    q = forms.CharField(
         label="",
         max_length=100,
         widget=forms.TextInput(
@@ -24,5 +23,3 @@ class NavbarSearchForm(forms.Form):
             }
         ),
     )
-
-
