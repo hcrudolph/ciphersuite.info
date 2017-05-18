@@ -9,7 +9,7 @@
         {% if rfc_list %}
         <ul>
             {% for rfc in rfc_list %}
-            <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+            <li><a href="/rfc/{{ rfc.number }}/">{{ rfc }}: {{ rfc.title }}</a></li>
             {% endfor %}
         </ul>
         {% else %}

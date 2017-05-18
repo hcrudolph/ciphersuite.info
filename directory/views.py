@@ -112,7 +112,11 @@ def search(request):
     search_term = request.GET.get('q')
 
     results_cs = CipherSuite.objects.annotate(
-        search=SearchVector('name'),
+        search = SearchVector('name') 
+               + SearchVector('kex_algorithm__long_name')
+               + SearchVector('enc_algorithm__long_name')
+               + SearchVector('hash_algorithm__long_name')
+               + SearchVector('protocol_version__long_name')
     ).filter(search=search_term)
 
     results_rfc = Rfc.objects.annotate(
