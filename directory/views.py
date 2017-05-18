@@ -62,11 +62,23 @@ def detail_cs(request, cs_name):
 def detail_rfc(request, rfc_number):
     """Detailed view of an Rfc instance."""
     rfc = get_object_or_404(Rfc, pk=rfc_number)
+    all_rfc_status_codes = {
+        'BCP': 'Best Current Practise',
+        'DST': 'Draft Standard',
+        'EXP': 'Experimental',
+        'HST': 'Historic',
+        'INF': 'Informational',
+        'IST': 'Internet Standard',
+        'PST': 'Proposed Standard',
+        'UND': 'Undefined',
+    }
+    rfc_status_code = all_rfc_status_codes[rfc.status]
     defined_cipher_suites = rfc.defined_cipher_suites.all()
     related_docs = rfc.related_documents.all()
     context = {
         'rfc': rfc,
         'defined_cipher_suites': defined_cipher_suites,
+        'rfc_status_code': rfc_status_code,
         'related_docs': related_docs,
     }
     return render(request, 'directory/detail_rfc.html', context)
