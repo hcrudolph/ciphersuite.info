@@ -1,11 +1,18 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
+import requests
+from lxml import html
+import re
 
 
 class CipherSuite(models.Model):
     class Meta:
-        verbose_name='cipher suite'
-        verbose_name_plural='cipher suites'
         ordering=['name']
+        verbose_name=_('cipher suite')
+        verbose_name_plural=_('cipher suites')
 
     name = models.CharField(
         primary_key=True,
@@ -14,25 +21,25 @@ class CipherSuite(models.Model):
     # protocol version (SSL, TLS, etc.)
     protocol_version = models.ForeignKey(
         'ProtocolVersion',
-        verbose_name='protocol',
+        verbose_name=_('protocol version'),
         editable=False,
     )
     # key exchange algorithm
     kex_algorithm = models.ForeignKey(
         'KexAlgorithm',
-        verbose_name='key exchange algorithm',
+        verbose_name=_('key exchange algorithm'),
         editable=False,
     )
     # encryption algorithm
     enc_algorithm = models.ForeignKey(
         'EncAlgorithm',
-        verbose_name='encryption algorithm',
+        verbose_name=_('encryption algorithm'),
         editable=False,
     )
     # message authentication code algorithm
     hash_algorithm = models.ForeignKey(
         'HashAlgorithm',
-        verbose_name='hash algorithm',
+        verbose_name=_('hash algorithm'),
         editable=False,
     )
 
@@ -71,32 +78,48 @@ class Rfc(models.Model):
         primary_key=True,
     )
     # predefined choices for document status
+    IST = 'IST'
+    PST = 'PST'
+    DST = 'DST'
+    BCP = 'BCP'
+    INF = 'INF'
+    EXP = 'EXP'
+    HST = 'HST'
+    UND = 'UND'
     STATUS_CHOICES = (
-        ('STD_IN', 'Internet Standard'),
-        ('STD_PR', 'Proposed Standard'),
-        ('STD_DF', 'Draft Standard'),
-        ('BCP', 'Best Current Practise'),
-        ('INF', 'Informational'),
-        ('EXP', 'Experimental'),
-        ('HST', 'Historic'),
+        (IST, 'Internet Standard'),
+        (PST, 'Proposed Standard'),
+        (DST, 'Draft Standard'),
+        (BCP, 'Best Current Practise'),
+        (INF, 'Informational'),
+        (EXP, 'Experimental'),
+        (HST, 'Historic'),
+        (UND, 'Undefined'),
     )
     status = models.CharField(
-        max_length=25,
+        max_length=3,
         choices=STATUS_CHOICES,
+        editable=False,
     )
     title = models.CharField(
         max_length=250,
+        editable=False,
     )
-    release_year = models.IntegerField()
+    release_year = models.IntegerField(
+        editable=False,
+    )
+    url = models.URLField(
+        editable=False,
+    )
     defined_cipher_suites = models.ManyToManyField(
         'CipherSuite',
-        verbose_name='defined cipher suites',
+        verbose_name=_('defined cipher suites'),
         related_name='defining_rfcs',
         blank=True,
     )
     related_documents = models.ManyToManyField(
         'self',
-        verbose_name='related RFCs',
+        verbose_name=_('related RFCs'),
         blank=True,
     )
 
@@ -108,7 +131,6 @@ class Technology(models.Model):
     class Meta:
         abstract=True
         ordering=['short_name']
-        verbose_name_plural='Technologies',
 
     short_name = models.CharField(
         primary_key=True,
@@ -127,33 +149,34 @@ class Technology(models.Model):
 
 
 class ProtocolVersion(Technology):
-    class Meta:
-        verbose_name='protocol version'
-        verbose_name_plural='protocol versions'
+    class Meta(Technology.Meta):
+        verbose_name=_('protocol version')
+        verbose_name_plural=_('protocol versions')
 
 
 class KexAlgorithm(Technology):
-    class Meta:
-        verbose_name='key exchange algorithm'
-        verbose_name_plural='key exchange algorithms'
+    class Meta(Technology.Meta):
+        verbose_name=_('key exchange algorithm')
+        verbose_name_plural=_('key exchange algorithms')
 
 
 class EncAlgorithm(Technology):
-    class Meta:
-        verbose_name='encryption algorithm'
-        verbose_name_plural='encryption algorithms'
+    class Meta(Technology.Meta):
+        verbose_name=_('encryption algorithm')
+        verbose_name_plural=_('encryption algorithms')
 
 
 class HashAlgorithm(Technology):
-    class Meta:
-        verbose_name='hash algorithm'
-        verbose_name_plural='hash algorithms'
+    class Meta(Technology.Meta):
+        verbose_name=_('hash algorithm')
+        verbose_name_plural=_('hash algorithms')
 
 
 class Vulnerability(models.Model):
     class Meta:
-        verbose_name='vulnerability'
-        verbose_name_plural='vulnerabilities'
+        ordering=['name']
+        verbose_name=_('vulnerability')
+        verbose_name_plural=_('vulnerabilities')
 
     name = models.CharField(
         max_length=50,
@@ -166,12 +189,54 @@ class Vulnerability(models.Model):
         max_length=100,
         blank=True,
     )
-    cvss_score = models.DecimalField(
-        max_digits=3,
-        decimal_places=1,
-        blank=True,
-    )
 
     def __str__(self):
         return self.name
+
+def get_text(url):
+    return requests.get(url).text
+
+def get_year(url):
+    text = requests.get(url).text
+    match = re.search('(\d{4})\s*<span class="h1">', text)
+    return int(match.group(1))
+
+def get_title(url):
+    text = requests.get(url).content
+    tree = html.fromstring(text)
+    headers = tree.xpath('//span[@class="h1"]/text()')
+    return " ".join(headers)
+
+def get_status(url):
+    text = requests.get(url).content
+    tree = html.fromstring(text)
+    docinfos = tree.xpath('//span[@class="pre noprint docinfo"]/text()')
+    infostring = " ".join(docinfos)
+
+    if re.search('INTERNET STANDARD', infostring):
+        return 'IST'
+    elif re.search('PROPOSED STANDARD', infostring):
+        return 'PST'
+    elif re.search('DRAFT STANDARD', infostring):
+        return 'DST'
+    elif re.search('BEST CURRENT PRACTISE', infostring):
+        return 'BCP'
+    elif re.search('INFORMATIONAL', infostring):
+        return 'INF'
+    elif re.search('EXPERIMENTAL', infostring):
+        return 'EXP'
+    elif re.search('HISTORIC', infostring):
+        return 'HST'
+    else:
+        return 'UND'
+
+
+@receiver(pre_save, sender=Rfc)
+def populate_rfc(sender, instance, *args, **kwargs):
+    url = "https://tools.ietf.org/html/rfc{}".format(instance.number)
+    instance.url  = url
+    instance.text = get_text(url)
+    instance.release_year = get_year(url)
+    instance.title = get_title(url)
+    instance.status = get_status(url)
 
