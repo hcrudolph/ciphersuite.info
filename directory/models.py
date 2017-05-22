@@ -3,9 +3,14 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-import requests
 from lxml import html
+import requests
 import re
+
+
+#####################
+# Model definitions #
+#####################
 
 
 class CipherSuite(models.Model):
@@ -14,6 +19,7 @@ class CipherSuite(models.Model):
         verbose_name=_('cipher suite')
         verbose_name_plural=_('cipher suites')
 
+    # name of the cipher as defined by RFC
     name = models.CharField(
         primary_key=True,
         max_length=200,
@@ -36,33 +42,12 @@ class CipherSuite(models.Model):
         verbose_name=_('encryption algorithm'),
         editable=False,
     )
-    # message authentication code algorithm
+    # hash algorithm
     hash_algorithm = models.ForeignKey(
         'HashAlgorithm',
         verbose_name=_('hash algorithm'),
         editable=False,
     )
-
-    def save(self):
-        # derive related algorithms form self.name
-        (prt,_,rest) = self.name.replace("_", " ").partition(" ")
-        (kex,_,rest) = rest.partition("WITH")
-        (enc,_,hash) = rest.rpartition(" ")
-
-        self.protocol_version, _ = ProtocolVersion.objects.get_or_create(
-            short_name=prt.strip()
-        )
-        self.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
-            short_name=kex.strip()
-        )
-        self.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-            short_name=enc.strip()
-        )
-        self.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
-            short_name=hash.strip()
-        )
-
-        super(CipherSuite, self).save()
 
     def __str__(self):
         return self.name
@@ -77,6 +62,7 @@ class Rfc(models.Model):
     number = models.IntegerField(
         primary_key=True,
     )
+
     # predefined choices for document status
     IST = 'IST'
     PST = 'PST'
@@ -193,50 +179,89 @@ class Vulnerability(models.Model):
     def __str__(self):
         return self.name
 
-def get_text(url):
-    return requests.get(url).text
 
-def get_year(url):
-    text = requests.get(url).text
-    match = re.search('(\d{4})\s*<span class="h1">', text)
-    return int(match.group(1))
-
-def get_title(url):
-    text = requests.get(url).content
-    tree = html.fromstring(text)
-    headers = tree.xpath('//span[@class="h1"]/text()')
-    return " ".join(headers)
-
-def get_status(url):
-    text = requests.get(url).content
-    tree = html.fromstring(text)
-    docinfos = tree.xpath('//span[@class="pre noprint docinfo"]/text()')
-    infostring = " ".join(docinfos)
-
-    if re.search('INTERNET STANDARD', infostring):
-        return 'IST'
-    elif re.search('PROPOSED STANDARD', infostring):
-        return 'PST'
-    elif re.search('DRAFT STANDARD', infostring):
-        return 'DST'
-    elif re.search('BEST CURRENT PRACTISE', infostring):
-        return 'BCP'
-    elif re.search('INFORMATIONAL', infostring):
-        return 'INF'
-    elif re.search('EXPERIMENTAL', infostring):
-        return 'EXP'
-    elif re.search('HISTORIC', infostring):
-        return 'HST'
-    else:
-        return 'UND'
+######################
+# Signal definitions #
+######################
 
 
 @receiver(pre_save, sender=Rfc)
-def populate_rfc(sender, instance, *args, **kwargs):
-    url = "https://tools.ietf.org/html/rfc{}".format(instance.number)
-    instance.url  = url
-    instance.text = get_text(url)
-    instance.release_year = get_year(url)
-    instance.title = get_title(url)
-    instance.status = get_status(url)
+def complete_rfc_instance(sender, instance, *args, **kwargs):
+    """Automatically fetches general document information
+    from ietf.org before saving RFC instance."""
 
+    def get_year(response):
+        tree = html.fromstring(response.content)
+        docinfo = " ".join(
+            tree.xpath('//pre[1]/text()')
+        )
+        month_list = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December']
+        month_and_year = re.compile(
+            r'\b(?:%s)\b (\d{4})' % '|'.join(month_list)
+        )
+        match = month_and_year.search(docinfo)
+        return int(match.group(1))
+
+    def get_title(response):
+        tree = html.fromstring(response.content)
+        headers = tree.xpath('//span[@class="h1"]/text()')
+        return " ".join(headers)
+
+    def get_status(response):
+        tree = html.fromstring(response.content)
+        # concat all fields possibly containing doc status
+        docinfo = " ".join(
+            tree.xpath('//span[@class="pre noprint docinfo"]/text()')
+        )
+
+        # search for predefined options
+        if re.search('INTERNET STANDARD', docinfo):
+            return 'IST'
+        elif re.search('PROPOSED STANDARD', docinfo):
+            return 'PST'
+        elif re.search('DRAFT STANDARD', docinfo):
+            return 'DST'
+        elif re.search('BEST CURRENT PRACTISE', docinfo):
+            return 'BCP'
+        elif re.search('INFORMATIONAL', docinfo):
+            return 'INF'
+        elif re.search('EXPERIMENTAL', docinfo):
+            return 'EXP'
+        elif re.search('HISTORIC', docinfo):
+            return 'HST'
+        else:
+            return 'UND'
+
+    url = "https://tools.ietf.org/html/rfc{}".format(instance.number)
+    resp = requests.get(url)
+    if resp.status_code == 200:
+        text = resp.text
+        instance.url  = url
+        instance.title = get_title(resp)
+        instance.status = get_status(resp)
+        instance.release_year = get_year(resp)
+    else:
+        # cancel saving the instance if unable to receive web page
+        raise Exception('RFC not found')
+
+
+@receiver(pre_save, sender=CipherSuite)
+def complete_cs_instance(sender, instance, *args, **kwargs):
+    # derive related algorithms form self.name
+    (prt,_,rst) = instance.name.replace("_", " ").partition(" ")
+    (kex,_,rst) = rst.partition("WITH")
+    (enc,_,hsh) = rst.rpartition(" ")
+
+    instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
+        short_name=prt.strip()
+    )
+    instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
+        short_name=kex.strip()
+    )
+    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
+        short_name=enc.strip()
+    )
+    instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
+        short_name=hsh.strip()
+    )
