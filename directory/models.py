@@ -18,11 +18,20 @@ class CipherSuite(models.Model):
         ordering=['name']
         verbose_name=_('cipher suite')
         verbose_name_plural=_('cipher suites')
+        # hex bytes identifiy cipher suite uniquely
+        (('hex_byte_1', 'hex_byte_2'),)
 
     # name of the cipher as defined by RFC
     name = models.CharField(
         primary_key=True,
         max_length=200,
+    )
+    # hex bytes stored as string 0x00-0xFF
+    hex_byte_1 = models.CharField(
+        max_length=4,
+    )
+    hex_byte_2 = models.CharField(
+        max_length=4,
     )
     # protocol version (SSL, TLS, etc.)
     protocol_version = models.ForeignKey(
@@ -120,7 +129,7 @@ class Technology(models.Model):
 
     short_name = models.CharField(
         primary_key=True,
-        max_length=20,
+        max_length=30,
     )
     long_name = models.CharField(
         max_length=100,
@@ -144,6 +153,12 @@ class KexAlgorithm(Technology):
     class Meta(Technology.Meta):
         verbose_name=_('key exchange algorithm')
         verbose_name_plural=_('key exchange algorithms')
+
+
+class AuthAlgorithm(Technology):
+    class Meta(Technology.Meta):
+        verbose_name=_('authentication algorithm')
+        verbose_name_plural=_('authentication algorithms')
 
 
 class EncAlgorithm(Technology):
@@ -171,9 +186,18 @@ class Vulnerability(models.Model):
         max_length=1000,
         blank=True,
     )
-    cve_id = models.CharField(
-        max_length=100,
-        blank=True,
+    HIG = 'HIG'
+    MED = 'MED'
+    LOW = 'LOW'
+    SEVERITY_CHOICES = (
+        (HIG, 'High'),
+        (MED, 'Medium'),
+        (LOW, 'Low'),
+    )
+    severity = models.CharField(
+        max_length=3,
+        choices=SEVERITY_CHOICES,
+        default=LOW,
     )
 
     def __str__(self):
@@ -251,17 +275,32 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     # derive related algorithms form self.name
     (prt,_,rst) = instance.name.replace("_", " ").partition(" ")
     (kex,_,rst) = rst.partition("WITH")
+    # split kex again, potentially yielding auth algorithm
+    (kex,_,aut) = kex.partition(" ")
     (enc,_,hsh) = rst.rpartition(" ")
 
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()
     )
+
     instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
         short_name=kex.strip()
     )
+
     instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
         short_name=enc.strip()
     )
+
     instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
         short_name=hsh.strip()
     )
+
+    # if auth_algorithm not excplicitly defined, equal to kex_algorithm
+    if aut:
+        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
+            short_name=aut.strip()
+        )
+    else:
+        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
+            short_name=kex.strip()
+        )
