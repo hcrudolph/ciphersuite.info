@@ -45,6 +45,12 @@ class CipherSuite(models.Model):
         verbose_name=_('key exchange algorithm'),
         editable=False,
     )
+    # authentication algorithm
+    auth_algorithm = models.ForeignKey(
+        'AuthAlgorithm',
+        verbose_name=_('authentication algorithm'),
+        editable=False,
+    )
     # encryption algorithm
     enc_algorithm = models.ForeignKey(
         'EncAlgorithm',
