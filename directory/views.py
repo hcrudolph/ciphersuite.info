@@ -1,4 +1,5 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.contrib.postgres.search import SearchVector
@@ -40,11 +41,25 @@ def index_cs(request):
         auto_id=False,
     )
     cipher_suite_list = CipherSuite.objects.order_by('name')
+    paginator = Paginator(cipher_suite_list, 10)
+    page = request.GET.get('page')
+
+    try:
+        cipher_suites = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        cipher_suites = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        cipher_suites = paginator.page(paginator.num_pages)
+
     context = {
-        'cipher_suite_list': cipher_suite_list,
+        'cipher_suites': cipher_suites,
+        'page_number_range': range(1, cipher_suites.paginator.num_pages + 1),
         'nav_active': 'cs',
         'form': form,
     }
+
     return render(request, 'directory/index_cs.html', context)
 
 
@@ -55,11 +70,25 @@ def index_rfc(request):
         auto_id=False,
     )
     rfc_list = Rfc.objects.order_by('number')
+    paginator = Paginator(rfc_list, 10)
+    page = request.GET.get('page')
+
+    try:
+        rfc_list_paginated = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        rfc_list_paginated = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        rfc_list_paginated = paginator.page(paginator.num_pages)
+
     context = {
-        'rfc_list': rfc_list,
+        'rfc_list_paginated': rfc_list_paginated,
+        'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
         'nav_active': 'rfc',
         'form': form,
     }
+
     return render(request, 'directory/index_rfc.html', context)
 
 
