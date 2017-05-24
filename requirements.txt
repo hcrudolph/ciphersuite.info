@@ -1,6 +1,8 @@
 appdirs==1.4.3
 asn1crypto==0.22.0
+beautifulsoup4==4.6.0
 brotlipy==0.6.0
+bs4==0.0.1
 cffi==1.10.0
 coverage==4.4
 cssselect==1.0.1
@@ -9,6 +11,7 @@ Django==1.11.1
 gunicorn==19.7.1
 idna==2.5
 lxml==3.7.3
+multidict==2.1.5
 packaging==16.8
 parsel==1.2.0
 psycopg2==2.7.1
