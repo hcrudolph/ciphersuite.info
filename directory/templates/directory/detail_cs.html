@@ -8,22 +8,32 @@
         </div>
     </div>
 
-    {% for item in related_tech %}
+    {% for algo in related_tech %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <p>
-                <b>{% cycle 'Protocol:' 'Key Exchange algorithm:' 'Encryption algorithm:' 'Hash algorithm:' %}</b>
-                {% if item.long_name %}
-                    {{ item.long_name }} ({{ item.short_name }})
+                <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b>
+                {% if algo.long_name %}
+                    {{ algo.long_name }} ({{ algo.short_name }})
                 {% else %}
-                    {{ item.short_name }}
+                    {{ algo.short_name }}
                 {% endif %}
             </p>
 
-            {% for vuln in vulnerabilities %}
-                <div class="alert alert-danger" role="alert">
-                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{ vuln.name }}:</strong> {{ vuln.decription }}
-                </div>
+            {% for item in algo.vulnerabilities.all %}
+                {% if item.severity == 'HIG' %}
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
+                    </div>
+                {% elif item.severity == 'MED' %}
+                    <div class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

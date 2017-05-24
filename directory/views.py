@@ -74,6 +74,7 @@ def detail_cs(request, cs_name):
     related_tech = [
         cipher_suite.protocol_version,
         cipher_suite.kex_algorithm,
+        cipher_suite.auth_algorithm,
         cipher_suite.enc_algorithm,
         cipher_suite.hash_algorithm,
     ]
