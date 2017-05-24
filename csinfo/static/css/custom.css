@@ -2,7 +2,12 @@ body > .container {
   padding: 60px 15px 0;
 }
 
-.centered {
+.centered-block {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centered-text {
     text-align: center;
 }
 

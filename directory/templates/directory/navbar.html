@@ -14,9 +14,21 @@
 
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li {% if nav_active == "cs" %}class="active"{% endif %}><a href="/cs/">Cipher Suites</a></li>
-                    <li {% if nav_active == "rfc" %}class="active"{% endif %}><a href="/rfc/">RFCs</a></li>
-                    <li {% if nav_active == "about" %}class="active"{% endif %}><a href="/about/">About</a></li>
+                    <li {% if nav_active == "cs" %}class="active"{% endif %}>
+                        <a href="/cs/">
+                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Cipher Suites
+                        </a>
+                    </li>
+                    <li {% if nav_active == "rfc" %}class="active"{% endif %}>
+                        <a href="/rfc/">
+                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RFCs
+                        </a>
+                    </li>
+                    <li {% if nav_active == "about" %}class="active"{% endif %}>
+                        <a href="/about/">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About
+                        </a>
+                    </li>
                 </ul>
 
                 {% if not hide_nav_search %}
