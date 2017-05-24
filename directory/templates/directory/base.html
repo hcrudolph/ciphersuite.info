@@ -4,11 +4,12 @@
     {% include "directory/head.html" %}
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container">
         {% include "directory/navbar.html" %}
 
         {% block content %}{% endblock content %}
     </div>
+    {% include "directory/footer.html" %}
 
     {% include "directory/js.html" %}
 </body>
