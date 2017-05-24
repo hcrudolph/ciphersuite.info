@@ -75,6 +75,7 @@ class IanaScraper:
         contents = self.parse_table(page)
         contents = self.filter_dict(contents, 'hex1', r'^0x[0123456789ABCDEF]{2}$')
         contents = self.filter_dict(contents, 'hex2', r'^0x[0123456789ABCDEF]{2}$')
+        contents = self.filter_dict(contents, 'name', r'.*WITH.*')
         contents = self.filter_dict(contents, 'rfc', r'\d+')
         return contents
 
