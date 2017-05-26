@@ -10,52 +10,37 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="table-responsive borderless">
-            <table class="table">
+            <dl class="dl-horizontal">
+                <dt><b>Title:</b></dt>
+                <dd>{{ rfc.title }}</td>
 
-            <tr>
-                <td><b>Title:</b></td>
-                <td>{{ rfc.title }}</td>
-            </tr>
-            <tr>
-                <td><b>Status:</b></td>
-                <td>{{ rfc_status_code }}</td>
-            </tr>
-            <tr>
-                <td><b>Publication:</b></td>
-                <td>{{ rfc.release_year }}</td>
-            </tr>
+                <dt><b>Status:</b></dt>
+                <dd>{{ rfc_status_code }}</dd>
 
-            {% for rel_rfc in related_docs %}
-            <tr>
-                <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
-            </tr>
-            {% endfor %}
+                <dt><b>Publication:</b></dt>
+                <dd>{{ rfc.release_year }}</dd>
 
-            <tr>
-                <td><b>View on ietf.org:</b></td>
-                <td><a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></td>
-            </tr>
+                {% for rel_rfc in related_docs %}
+                    <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
+                {% endfor %}
 
-            </table>
-            </div>
-        </div>
-    </div>
+                <dt><b>View on ietf.org:</b></dt>
+                <dd><a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></dd>
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
             {% if defined_cipher_suites %}
-            <p>
-                <b>Defined Cipher suites:</b>
-            </p>
-            <ul class="prettylist">
+            <dt><b>Defined Cipher suites:</b></dt>
+            <dd>
+            <ul class="minimallist">
                 {% for cipher_suite in defined_cipher_suites %}
                     <li>
-                        <a class="long-string" href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a>
+                        <a class="long-string" href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
+            </dd>
             {% endif %}
+            </dl>
+            </div>
         </div>
     </div>
 {% endblock content %}
