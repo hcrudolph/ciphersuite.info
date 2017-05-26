@@ -1,6 +1,7 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h2>{{ rfc }}</h2>
@@ -9,33 +10,49 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <p>
-                <b>Title:</b> {{ rfc.title }}
-            </p>
-            <p>
-                <b>Status:</b> {{ rfc_status_code }}
-            </p>
-            <p>
-                <b>Publication:</b> {{ rfc.release_year }}
-            </p>
+            <div class="table-responsive borderless">
+            <table class="table">
+
+            <tr>
+                <td><b>Title:</b></td>
+                <td>{{ rfc.title }}</td>
+            </tr>
+            <tr>
+                <td><b>Status:</b></td>
+                <td>{{ rfc_status_code }}</td>
+            </tr>
+            <tr>
+                <td><b>Publication:</b></td>
+                <td>{{ rfc.release_year }}</td>
+            </tr>
 
             {% for rel_rfc in related_docs %}
-            <p>
+            <tr>
                 <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
-            </p>
+            </tr>
             {% endfor %}
 
-            <p>
-                <b>View on ietf.org:</b> <a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
-            </p>
+            <tr>
+                <td><b>View on ietf.org:</b></td>
+                <td><a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></td>
+            </tr>
 
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
             {% if defined_cipher_suites %}
             <p>
-            <b>Defined Cipher suites:</b>
+                <b>Defined Cipher suites:</b>
             </p>
-            <ul>
+            <ul class="prettylist">
                 {% for cipher_suite in defined_cipher_suites %}
-                    <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
+                    <li>
+                        <a href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a>
+                    </li>
                 {% endfor %}
             </ul>
             {% endif %}
