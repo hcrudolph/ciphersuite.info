@@ -20,6 +20,43 @@ body > .container {
     margin-bottom: 5%;
 }
 
+.borderless table,
+.borderless td,
+.borderless th {
+    border: none !important;
+}
+
+.rfclist {
+    padding: 0;
+}
+
+.rfclist li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+}
+
+.prettylist {
+    margin-top: 30px;
+    padding: 0px;
+}
+
+.prettylist li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: .5px dotted #bbb;
+    list-style-type: none;
+    font-size: 1.05em;
+}
+
+.inline-button {
+    display: inline-block;
+    margin-left: 10px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 
