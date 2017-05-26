@@ -2,39 +2,41 @@
 
 {% block content %}
 
-
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2>Results for "{{ search_term }}"</h2>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h3>Cipher Suites</h3>
-        {% if cs_search_results %}
-        <ul>
-            {% for element in cs_search_results %}
-                <li><a href="/cs/{{ element.name }}">{{ element.name }} </a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            <p>No matching Cipher Suites found.</p>
+        <ul class="nav nav-tabs nav-justified">
+        {% if active_tab == "cs" %}
+            <li class="active"><a href="#">Cipher Suites <span class="badge">{{ number_results_cs }}</span></a></li>
+            <li><a href="/search/?q={{ search_term }}&c=rfc">RFCs <span class="badge">{{ number_results_rfc }}</span></a></li>
+        {% elif active_tab == "rfc" %}
+            <li><a href="/search/?q={{ search_term }}&c=cs">Cipher Suites <span class="badge">{{ number_results_cs }}</span></a></li>
+            <li class="active"><a href="#">Rfcs <span class="badge">{{ number_results_rfc }}</span></a></li>
         {% endif %}
+        </ul>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h3>RFCs</h3>
-        {% if rfc_search_results %}
-        <ul>
-            {% for element in rfc_search_results %}
-                <li><a href="/rfc/{{ element.number }}">{{ element }}: {{ element.title }}</a></li>
+    {% if search_result_list %}
+        <ul class="prettylist">
+            {% for element in search_result_list %}
+            {% if active_tab == "cs" %}
+                <li><a href="/cs/{{ element.name }}">&rsaquo; {{ element.name }} </a></li>
+            {% elif active_tab == "rfc" %}
+            <li><a href="/cs/{{ element.title }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+            {% endif %}
             {% endfor %}
         </ul>
-        {% else %}
-            <p>No matching RFC documents found.</p>
-        {% endif %}
+    {% else %}
+        <p>No matching Cipher Suites found.</p>
+    {% endif %}
     </div>
 </div>
 
