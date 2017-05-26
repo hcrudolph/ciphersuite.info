@@ -10,28 +10,22 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="table-responsive borderless">
-                <table class="table">
-                    <tr>
-                        <td><b>Full name:</b></td> 
-                        <td>{{ cipher_suite.name }}</td>
-                    </tr>
+            <dl class="dl-horizontal">
+                <dt><b>Full name:</b></dt> 
+                <dd class="long-string">{{ cipher_suite.name }}</dd>
 
-    {% for algo in related_tech %}
-            <tr>
-                <td> <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b> </td>
-                <td>
+                {% for algo in related_tech %}
+                <dt> <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b> </dt>
+                <dd>
                     {% if algo.long_name %}
                         {{ algo.long_name }} ({{ algo.short_name }})
                     {% else %}
                         {{ algo.short_name }}
                     {% endif %}
-                </td>
-            </tr>
+                </dd>
 
-                {% for item in algo.vulnerabilities.all %}
-                <tr>
-                    <td colspan=2>
+                    {% for item in algo.vulnerabilities.all %}
+                    <p>
                     {% if item.severity == 'HIG' %}
                         <div class="alert alert-danger" role="alert">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
@@ -45,28 +39,23 @@
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
                         </div>
                     {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-    {% endfor %}
-
-            {% if referring_rfc_list %}
-            <tr>
-                <td> <b>Included in RFC:</b> </td>
-                <td>
-                    <ul class="rfclist">
-                    {% for rfc in referring_rfc_list %}
-                        <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+                    </p>
                     {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-            {% endif %}
+                {% endfor %}
 
-            </table>
-            </div>
+                {% if referring_rfc_list %}
+                    <dt><b>Included in RFC:</b></dt>
+                    <dd>
+                        <ul class="rfclist">
+                        {% for rfc in referring_rfc_list %}
+                            <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </dd>
+                {% endif %}
+
+            </dl>
         </div>
     </div>
-
 
 {% endblock content %}

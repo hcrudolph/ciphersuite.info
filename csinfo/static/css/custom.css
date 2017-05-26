@@ -19,8 +19,8 @@ body > .container {
 }
 
 .title_heading {
-    margin-top: 10%;
-    margin-bottom: 5%;
+    margin-top: 25%;
+    margin-bottom: 10%;
 }
 
 .borderless table,
@@ -55,9 +55,25 @@ body > .container {
     font-size: 1.05em;
 }
 
+.minimallist {
+    padding: 0px;
+    margin-left: 14px;
+}
+
+.minimallist li {
+    padding-bottom: 5px;
+    list-style-type: circle;
+    font-size: 1.05em;
+}
+
+dt,
+dd {
+    text-align: left !important;
+    padding-bottom: 5px;
+}
+
 .inline-button {
     display: inline-block;
-    margin-left: 10px;
 }
 
 /* Sticky footer styles
