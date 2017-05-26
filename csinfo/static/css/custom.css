@@ -1,6 +1,16 @@
 body {
     overflow-x: hidden;
+    font-family: 'Open Sans', sans-serif;
 }
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
 body > .container {
   padding: 60px 15px 0;
 }
@@ -66,9 +76,14 @@ body > .container {
     font-size: 1.05em;
 }
 
+dt {
+    text-align: left !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
 dt,
 dd {
-    text-align: left !important;
     padding-bottom: 5px;
 }
 
