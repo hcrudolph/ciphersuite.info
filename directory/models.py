@@ -284,6 +284,9 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     # split kex again, potentially yielding auth algorithm
     (kex,_,aut) = kex.partition(" ")
     (enc,_,hsh) = rst.rpartition(" ")
+    if re.match('\d+', hsh.strip()):
+        (enc,_,hsh1) = enc.rpartition(" ")
+        hsh = hsh1 + " " + hsh
 
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()
