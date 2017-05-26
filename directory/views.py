@@ -40,8 +40,15 @@ def index_cs(request):
     form = NavbarGetSearchForm(
         auto_id=False,
     )
-    cipher_suite_list = CipherSuite.objects.order_by('name')
-    paginator = Paginator(cipher_suite_list, 10)
+
+    sorting = request.GET.get('sort', 'asc')
+
+    if sorting=='asc':
+        cipher_suite_list = CipherSuite.objects.order_by('name')
+    elif sorting=='desc':
+        cipher_suite_list = CipherSuite.objects.order_by('-name')
+
+    paginator = Paginator(cipher_suite_list, 15)
     page = request.GET.get('page')
 
     try:
@@ -69,7 +76,18 @@ def index_rfc(request):
     form = NavbarGetSearchForm(
         auto_id=False,
     )
-    rfc_list = Rfc.objects.order_by('number')
+
+    sorting = request.GET.get('sort', 'number-asc')
+
+    if sorting=='number-asc':
+        rfc_list = Rfc.objects.order_by('number')
+    elif sorting=='number-desc':
+        rfc_list = Rfc.objects.order_by('-number')
+    elif sorting=='title-asc':
+        rfc_list = Rfc.objects.order_by('title')
+    elif sorting=='title-desc':
+        rfc_list = Rfc.objects.order_by('-title')
+
     paginator = Paginator(rfc_list, 10)
     page = request.GET.get('page')
 
@@ -151,11 +169,14 @@ def search(request):
     form = NavbarGetSearchForm(
         auto_id=False,
     )
+
     search_term = request.GET.get('q')
+    category = request.GET.get('c', 'cs')
 
     results_cs = CipherSuite.objects.annotate(
         search = SearchVector('name') 
                + SearchVector('kex_algorithm__long_name')
+               + SearchVector('auth_algorithm__long_name')
                + SearchVector('enc_algorithm__long_name')
                + SearchVector('hash_algorithm__long_name')
                + SearchVector('protocol_version__long_name')
@@ -165,10 +186,22 @@ def search(request):
         search=SearchVector('title'),
     ).filter(search=search_term)
 
+    number_results_cs=len(results_cs)
+    number_results_rfc=len(results_rfc)
+
+    if category=='cs':
+        active_tab = 'cs'
+        results = results_cs
+    elif category=='rfc':
+        active_tab = 'rfc'
+        results = results_rfc
+
     context = {
         'search_term': search_term,
-        'cs_search_results': results_cs,
-        'rfc_search_results': results_rfc,
+        'search_result_list': results,
+        'active_tab': active_tab,
+        'number_results_cs': number_results_cs,
+        'number_results_rfc': number_results_rfc,
         'form': form,
     }
     return render(request, 'directory/search.html', context)
