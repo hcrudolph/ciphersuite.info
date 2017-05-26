@@ -28,9 +28,9 @@
         <ul class="prettylist">
             {% for element in search_result_list %}
             {% if active_tab == "cs" %}
-                <li><a href="/cs/{{ element.name }}">&rsaquo; {{ element.name }} </a></li>
+                <li><a class="long-string" href="/cs/{{ element.name }}">&rsaquo; {{ element.name }} </a></li>
             {% elif active_tab == "rfc" %}
-            <li><a href="/cs/{{ element.title }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+                <li><a href="/cs/{{ element.title }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
             {% endif %}
             {% endfor %}
         </ul>
