@@ -41,12 +41,28 @@ def index_cs(request):
         auto_id=False,
     )
 
-    sorting = request.GET.get('sort', 'asc')
+    sorting = request.GET.get('sort', 'name-asc')
 
-    if sorting=='asc':
+    if sorting=='name-asc':
         cipher_suite_list = CipherSuite.objects.order_by('name')
-    elif sorting=='desc':
+    elif sorting=='name-desc':
         cipher_suite_list = CipherSuite.objects.order_by('-name')
+    elif sorting=='kex-asc':
+        cipher_suite_list = CipherSuite.objects.order_by('kex_algorithm')
+    elif sorting=='kex-desc':
+        cipher_suite_list = CipherSuite.objects.order_by('-kex_algorithm')
+    elif sorting=='auth-asc':
+        cipher_suite_list = CipherSuite.objects.order_by('auth_algorithm')
+    elif sorting=='auth-desc':
+        cipher_suite_list = CipherSuite.objects.order_by('-auth_algorithm')
+    elif sorting=='enc-asc':
+        cipher_suite_list = CipherSuite.objects.order_by('enc_algorithm')
+    elif sorting=='enc-desc':
+        cipher_suite_list = CipherSuite.objects.order_by('-enc_algorithm')
+    elif sorting=='hash-asc':
+        cipher_suite_list = CipherSuite.objects.order_by('hash_algorithm')
+    elif sorting=='hash-desc':
+        cipher_suite_list = CipherSuite.objects.order_by('-hash_algorithm')
 
     paginator = Paginator(cipher_suite_list, 15)
     page = request.GET.get('page')
