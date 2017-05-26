@@ -32,7 +32,7 @@
         {% if cipher_suites %}
             <ul class="prettylist">
                 {% for cipher_suite in cipher_suites %}
-                <li><a href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a></li>
+                <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
