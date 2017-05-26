@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h2>Results for "{{ search_term }}"</h2>
+        <h2>Search results for "{{ search_term }}"</h2>
     </div>
 </div>
 
@@ -37,6 +37,63 @@
     {% else %}
         <p>No matching Cipher Suites found.</p>
     {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2" align="center">
+    <div class="pagination">
+        <span class="step-links">
+            <nav aria-label="Pagination">
+                <ul class="pagination">
+                {% if search_result_list.has_previous %}
+                    <li class="first"><a href="?q={{ search_term }}&c={{ category }}&page=1">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a></li>
+                    <li class="previous"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.previous_page_number }}">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a></li>
+                {% else %}
+                    <li class="first disabled"><a href="#">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a></li>
+                    <li class="previous disabled"><a href="#">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a></li>
+                {% endif %}
+
+
+                {% for page in page_number_range %}
+                    <!-- active case -->
+                    {% if page == search_result_list.number %}
+                        <li class="active"><a href="?q={{ search_term }}&c={{ category }}&page={{ page }}">{{ page }}<span class="sr-only">(current)</span></a></li>
+                    {% elif page > 5 and page > search_result_list.number|add:"+2" %}
+                    {% elif page < search_result_list.paginator.num_pages|add:"-4" and page < search_result_list.number|add:"-2" %}
+                    {% else %}
+                        <li><a href="?q={{ search_term }}&c={{ category }}&page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+
+                {% if search_result_list.has_next %}
+                    <li class="next"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.next_page_number }}">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a></li>
+                    <li class="last"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.paginator.num_pages }}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                {% else %}
+                    <li class="next disabled"><a href="#">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a></li>
+                    <li class="last disabled"><a href="#">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                {% endif %}
+            </ul>
+            </nav>
+        </span>
+    </div>
     </div>
 </div>
 

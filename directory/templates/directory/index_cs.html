@@ -48,14 +48,14 @@
             <nav aria-label="...">
                 <ul class="pagination">
                 {% if cipher_suites.has_previous %}
-                    <li class="previous"><a href="?page=1">
+                    <li class="first"><a href="?page=1">
                         <span aria-hidden="true">&laquo;</span>
                     </a></li>
                     <li class="previous"><a href="?page={{ cipher_suites.previous_page_number }}">
                         <span aria-hidden="true">&lsaquo;</span>
                     </a></li>
                 {% else %}
-                    <li class="previous disabled"><a href="?page=1">
+                    <li class="first disabled"><a href="?page=1">
                         <span aria-hidden="true">&laquo;</span>
                     </a></li>
                     <li class="previous disabled"><a href="#" aria-label="Previous">
@@ -77,17 +77,17 @@
 
 
                 {% if cipher_suites.has_next %}
-                    <li class="previous"><a href="?page={{ cipher_suites.next_page_number }}">
+                    <li class="next"><a href="?page={{ cipher_suites.next_page_number }}">
                         <span aria-hidden="true">&rsaquo;</span>
                     </a></li>
-                    <li class="previous"><a href="?page={{ cipher_suites.paginator.num_pages }}">
+                    <li class="last"><a href="?page={{ cipher_suites.paginator.num_pages }}">
                         <span aria-hidden="true">&raquo;</span>
                     </a></li>
                 {% else %}
-                    <li class="previous disabled"><a href="#">
+                    <li class="next disabled"><a href="#">
                         <span aria-hidden="true">&rsaquo;</span>
                     </a></li>
-                    <li class="previous disabled"><a href="#">
+                    <li class="last disabled"><a href="#">
                         <span aria-hidden="true">&raquo;</span>
                     </a></li>
                 {% endif %}
