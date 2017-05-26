@@ -1,31 +1,36 @@
-#!/usr/bin/python3
+from django.core.management.base import BaseCommand, CommandError
+from directory.models import *
 
-import re
-import sys
-import requests
 from bs4 import BeautifulSoup
+import requests
+import sys
+import re
 
-##################################################
+class Command(BaseCommand):
+    help = 'Scrapes TLS cipher suites from iana.org'
 
-# ./manage.py shell
+    def handle(self, *args, **options):
+        iana = IanaScraper()
+        rec = iana.get_rfc_dicts()
+        num_cs = 0
+        for e in rec:
+            c, _ = CipherSuite.objects.get_or_create(
+                name=e['name'],
+                hex_byte_1=e['hex1'],
+                hex_byte_2=e['hex2'],
+            )
+            r, _ = Rfc.objects.get_or_create(
+                number=e['rfc'],
+            )
+            c.defining_rfcs.add(r)
+            num_cs+=1
 
-# from directory.models import *
-# from IanaScraper import IanaScraper
+        self.stdout.write(
+            self.style.SUCCESS(
+                'Successfully created/got {} cipher suites.'.format(num_cs)
+            )
+        )
 
-# iana = IanaScraper()
-# rec = iana.get_rfc_dicts()
-# for e in rec:
-#     c, _ = CipherSuite.objects.get_or_create(
-#         name=e['name'],
-#         hex_byte_1=e['hex1'],
-#         hex_byte_2=e['hex2'],
-#     )
-#     r, _ = Rfc.objects.get_or_create(
-#         number=e['rfc'],
-#     )
-#     c.defining_rfcs.add(r)
-
-##################################################
 
 class ResourceNotFoundException(Exception):
     pass
