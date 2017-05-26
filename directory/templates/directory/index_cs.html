@@ -3,13 +3,27 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>Cipher Suites</h2>
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Cipher Suites
+        <div class="btn-group inline-button">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort by <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="?sort=asc">Name ascending</a></li>
+                <li><a href="?sort=desc">Name descending</a></li>
+            </ul>
+        </h2>
+        </div>  
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
         {% if cipher_suites %}
-            <ul>
+            <ul class="prettylist">
                 {% for cipher_suite in cipher_suites %}
-                <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
+                <li><a href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}

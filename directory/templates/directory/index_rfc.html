@@ -3,14 +3,31 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>RFCs</h2>
+    <div class="col-md-6 col-md-offset-3">
+        <h2>RFCs
+        <div class="btn-group inline-button">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort by <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="?sort=number-asc">Number ascending</a></li>
+                <li><a href="?sort=number-desc">Number descending</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="?sort=title-asc">Title ascending</a></li>
+                <li><a href="?sort=title-desc">Title descending</a></li>
+            </ul>
+        </h2>
+        </div>  
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
         {% if rfc_list_paginated %}
-        <ul>
-            {% for rfc in rfc_list_paginated %}
-            <li><a href="/rfc/{{ rfc.number }}/">{{ rfc }}: {{ rfc.title }}</a></li>
-            {% endfor %}
+        <ul class="prettylist">
+        {% for rfc in rfc_list_paginated %}
+            <li><a href="/rfc/{{ rfc.number }}/">&rsaquo; <b>{{ rfc }}:</b> {{ rfc.title }}</a></li>
+        {% endfor %}
         </ul>
         {% else %}
         <p>No RFCs found.</p>
