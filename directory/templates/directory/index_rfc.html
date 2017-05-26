@@ -42,14 +42,14 @@
             <nav aria-label="...">
                 <ul class="pagination">
                 {% if rfc_list_paginated.has_previous %}
-                    <li class="previous"><a href="?page=1">
+                    <li class="first"><a href="?page=1">
                         <span aria-hidden="true">&laquo;</span>
                     </a></li>
                     <li class="previous"><a href="?page={{ rfc_list_paginated.previous_page_number }}">
                         <span aria-hidden="true">&lsaquo;</span>
                     </a></li>
                 {% else %}
-                    <li class="previous disabled"><a href="?page=1">
+                    <li class="first disabled"><a href="?page=1">
                         <span aria-hidden="true">&laquo;</span>
                     </a></li>
                     <li class="previous disabled"><a href="#" aria-label="Previous">
