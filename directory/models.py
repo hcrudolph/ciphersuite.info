@@ -278,33 +278,50 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
 
 @receiver(pre_save, sender=CipherSuite)
 def complete_cs_instance(sender, instance, *args, **kwargs):
-    # derive related algorithms form self.name
-    (prt,_,rst) = instance.name.replace("_", " ").partition(" ")
+    '''Derives related algorithms form instance.name of the cipher suites.'''
+
+    # EXPORT substring does not describe any algorithm, so we remove it
+    # EXPORT string is later appended to the protocol_version
+    if re.search("EXPORT", instance.name):
+        name = instance.name.replace('EXPORT_', '')
+        export_cipher = True
+    else:
+        name = instance.name
+        export_cipher = False
+
+    (prt,_,rst) = name.replace("_", " ").partition(" ")
     (kex,_,rst) = rst.partition("WITH")
+
+    # add information about export-grade cipher to protocol version
+    if export_cipher:
+        prt += " EXPORT"
+
     # split kex again, potentially yielding auth algorithm
+    # otherwise this variable will remain unchanged
     (kex,_,aut) = kex.partition(" ")
     (enc,_,hsh) = rst.rpartition(" ")
-    if re.match('\d+', hsh.strip()):
-        (enc,_,hsh1) = enc.rpartition(" ")
-        hsh = hsh1 + " " + hsh
 
+    # split enc again if we only got a number for hsh
+    # specifically needed for 'CCM 8' hash algorithm
+    if re.match('\d+', hsh.strip()):
+        (enc,_,ccm) = enc.rpartition(" ")
+        hsh = ccm + " " + hsh
+
+    # connect foreign keys from other models
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()
     )
-
     instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
         short_name=kex.strip()
     )
-
     instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
         short_name=enc.strip()
     )
-
     instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
         short_name=hsh.strip()
     )
 
-    # if auth_algorithm not excplicitly defined, equal to kex_algorithm
+    # if auth is not excplicitly defined, set it equal to kex
     if aut:
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
