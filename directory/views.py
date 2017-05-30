@@ -29,7 +29,7 @@ def about(request):
         'nav_active': site.title,
         'form': NavbarGetSearchForm(),
     }
-    return render(request, 'directory/about.html', context)
+    return render(request, 'directory/static_page.html', context)
 
 
 def index_cs(request):
