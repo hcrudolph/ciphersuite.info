@@ -210,6 +210,25 @@ class Vulnerability(models.Model):
         return self.name
 
 
+class StaticPage(models.Model):
+    class Meta:
+        ordering=['title']
+        verbose_name=_('static page')
+        verbose_name_plural=_('static pages')
+
+    title = models.CharField(
+        primary_key=True,
+        max_length=50,
+    )
+
+    content = models.TextField(
+        max_length = 1000,
+    )
+
+    def __str__(self):
+        return self.title
+
+
 ######################
 # Signal definitions #
 ######################

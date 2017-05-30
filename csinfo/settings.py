@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'markdown_deux',
     'directory.apps.DirectoryConfig',
     'django.contrib.postgres',
     'django.contrib.admin',
@@ -70,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # makes list of static pages globally available
+                'directory.context_processors.static_pages'
             ],
         },
     },
