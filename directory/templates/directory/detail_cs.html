@@ -1,4 +1,5 @@
 {% extends "directory/base.html" %}
+{% load markdown_deux_tags %}
 
 {% block content %}
 
@@ -35,15 +36,15 @@
                     <p>
                     {% if item.severity == 'HIG' %}
                         <div class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
                     {% elif item.severity == 'MED' %}
                         <div class="alert alert-warning" role="alert">
-                            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
+                            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
                     {% else %}
                         <div class="alert alert-info" role="alert">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
                     {% endif %}
                     </p>

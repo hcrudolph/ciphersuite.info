@@ -1,11 +1,17 @@
 {% extends "directory/base.html" %}
+{% load markdown_deux_tags %}
 
 {% block content %}
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h2>About this site</h2>
-        <p>Ciphersuite.info was created because ...</p>
+        <h2>{{ site.title|title }}</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        {{ site.content|markdown }}
     </div>
 </div>
 

@@ -22,8 +22,11 @@ def index_global(request):
 def about(request):
     """Static page with project information."""
 
+    site = get_object_or_404(StaticPage, pk='about')
+
     context = {
-        'nav_active': 'about',
+        'site': site,
+        'nav_active': site.title,
         'form': NavbarGetSearchForm(),
     }
     return render(request, 'directory/about.html', context)

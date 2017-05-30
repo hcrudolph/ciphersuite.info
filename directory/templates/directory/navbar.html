@@ -24,11 +24,11 @@
                             <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RFCs
                         </a>
                     </li>
-                    <li {% if nav_active == "about" %}class="active"{% endif %}>
-                        <a href="/about/">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About
-                        </a>
-                    </li>
+                    {% for page in static_pages %}
+                        <li {% if nav_active == "{{ page|lower }}" %}class="active"{% endif %}>
+                            <a href="/{{ page|lower }}/">{{ page|title }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
 
                 {% if not hide_nav_search %}
