@@ -70,9 +70,9 @@ def index_cs(request):
 
     context = {
         'cipher_suites': cipher_suites,
-        'page_number_range': range(1, cipher_suites.paginator.num_pages + 1),
-        'nav_active': 'cs',
         'form': NavbarGetSearchForm(),
+        'nav_active': 'cs',
+        'page_number_range': range(1, cipher_suites.paginator.num_pages + 1),
     }
     return render(request, 'directory/index_cs.html', context)
 
@@ -105,16 +105,19 @@ def index_rfc(request):
         rfc_list_paginated = paginator.page(paginator.num_pages)
 
     context = {
-        'rfc_list_paginated': rfc_list_paginated,
-        'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
-        'nav_active': 'rfc',
         'form': NavbarGetSearchForm(),
+        'nav_active': 'rfc',
+        'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
+        'rfc_list_paginated': rfc_list_paginated,
     }
     return render(request, 'directory/index_rfc.html', context)
 
 
 def detail_cs(request, cs_name):
     """Detailed view of a CipherSuite instance."""
+
+    # parse GET parameters
+    prev_page = request.GET.get('prev', None)
 
     cipher_suite = get_object_or_404(CipherSuite, pk=cs_name)
     referring_rfc_list = cipher_suite.defining_rfcs.all()
@@ -127,15 +130,19 @@ def detail_cs(request, cs_name):
     ]
     context = {
         'cipher_suite': cipher_suite,
+        'form': NavbarGetSearchForm(),
+        'prev_page': prev_page,
         'referring_rfc_list': referring_rfc_list,
         'related_tech': related_tech,
-        'form': NavbarGetSearchForm(),
     }
     return render(request, 'directory/detail_cs.html', context)
 
 
 def detail_rfc(request, rfc_number):
     """Detailed view of an Rfc instance."""
+
+    # parse GET parameters
+    prev_page = request.GET.get('prev', None)
 
     rfc = get_object_or_404(Rfc, pk=rfc_number)
     all_rfc_status_codes = {
@@ -152,11 +159,12 @@ def detail_rfc(request, rfc_number):
     defined_cipher_suites = rfc.defined_cipher_suites.all()
     related_docs = rfc.related_documents.all()
     context = {
-        'rfc': rfc,
         'defined_cipher_suites': defined_cipher_suites,
-        'rfc_status_code': rfc_status_code,
-        'related_docs': related_docs,
         'form': NavbarGetSearchForm(),
+        'prev_page': prev_page,
+        'related_docs': related_docs,
+        'rfc': rfc,
+        'rfc_status_code': rfc_status_code,
     }
     return render(request, 'directory/detail_rfc.html', context)
 
@@ -203,6 +211,7 @@ def search(request):
         'active_tab': active_tab,
         'category': category,
         'form': NavbarGetSearchForm(),
+        'full_path' : request.get_full_path(),
         'number_results_cs': len(results_cs),
         'number_results_rfc': len(results_rfc),
         'page_number_range': range(1, results_paginated.paginator.num_pages + 1),

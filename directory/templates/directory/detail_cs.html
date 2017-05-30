@@ -4,6 +4,11 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            {% if prev_page %}
+                <ul class="nav nav-pills">
+                    <li role="presentation"><a href="{{ prev_page }}">&lsaquo; Back to search results</a></li>
+                </ul>
+            {% endif %}
             <h2>Cipher Suite</h2>
         </div>
     </div>
