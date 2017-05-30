@@ -8,6 +8,7 @@
     </div>
 </div>
 
+<!-- CS / RFC Tab Switch -->
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <ul class="nav nav-tabs nav-justified">
@@ -22,15 +23,16 @@
     </div>
 </div>
 
+<!-- Result list --> 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
     {% if search_result_list %}
         <ul class="prettylist">
             {% for element in search_result_list %}
             {% if active_tab == "cs" %}
-                <li><a class="long-string" href="/cs/{{ element }}">&rsaquo; {{ element.name }} </a></li>
+                <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; {{ element.name }} </a></li>
             {% elif active_tab == "rfc" %}
-                <li><a href="/rfc/{{ element.number }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+                <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
             {% endif %}
             {% endfor %}
         </ul>
@@ -40,11 +42,13 @@
     </div>
 </div>
 
+<!-- Pagination -->
 <div class="row">
     <div class="col-md-8 col-md-offset-2" align="center">
     <div class="pagination">
         <span class="step-links">
             <nav aria-label="Pagination">
+                <!-- First and previous button -->
                 <ul class="pagination">
                 {% if search_result_list.has_previous %}
                     <li class="first"><a href="?q={{ search_term }}&c={{ category }}&page=1">
@@ -62,7 +66,7 @@
                     </a></li>
                 {% endif %}
 
-
+                <!-- Current page numbers -->
                 {% for page in page_number_range %}
                     <!-- active case -->
                     {% if page == search_result_list.number %}
@@ -75,6 +79,7 @@
                 {% endfor %}
 
 
+                <!-- Next and last button -->
                 {% if search_result_list.has_next %}
                     <li class="next"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.next_page_number }}">
                         <span aria-hidden="true">&rsaquo;</span>
