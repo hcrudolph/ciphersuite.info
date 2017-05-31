@@ -1,10 +1,9 @@
 {% extends "directory/base.html" %}
-
 {% block content %}
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <h2>Cipher Suites
+        <h1>Cipher Suites
         <div class="btn-group inline-button">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort by <span class="caret"></span>
@@ -22,80 +21,83 @@
                 <li><a href="?sort=hash-asc">Hash ascending</a></li>
                 <li><a href="?sort=hash-desc">Hash descending</a></li>
             </ul>
-        </h2>
-        </div>  
-    </div>
-</div>
+        </h1>
+        </div><!-- end button group -->
+    </div><!-- end column -->
+</div><!-- end row -->
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        {% if cipher_suites %}
-            <ul class="prettylist">
-                {% for cipher_suite in cipher_suites %}
-                <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No cipher suites found.</p>
-        {% endif %}
-    </div>
-</div>
+    {% if cipher_suites %}
+        <ul class="prettylist">
+        {% for cipher_suite in cipher_suites %}
+            <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No cipher suites found.</p>
+    {% endif %}
+    </div><!-- end column -->
+</div><!-- end row -->
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2" align="center">
-    <div class="pagination">
-        <span class="step-links">
-            <nav aria-label="...">
-                <ul class="pagination">
-                {% if cipher_suites.has_previous %}
-                    <li class="first"><a href="?page=1">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a></li>
-                    <li class="previous"><a href="?page={{ cipher_suites.previous_page_number }}">
-                        <span aria-hidden="true">&lsaquo;</span>
-                    </a></li>
-                {% else %}
-                    <li class="first disabled"><a href="?page=1">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a></li>
-                    <li class="previous disabled"><a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&lsaquo;</span>
-                    </a></li>
-                {% endif %}
+        <div class="pagination">
+            <span class="step-links">
+                <nav aria-label="...">
+                    <ul class="pagination">
 
-
-                {% for page in page_number_range %}
-                    <!-- active case -->
-                    {% if page == cipher_suites.number %}
-                        <li class="active"><a href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
-                    {% elif page > 5 and page > cipher_suites.number|add:"+2" %}
-                    {% elif page < cipher_suites.paginator.num_pages|add:"-4" and page < cipher_suites.number|add:"-2" %}
+                    <!-- First and previous links -->
+                    {% if cipher_suites.has_previous %}
+                        <li class="first"><a href="?page=1">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a></li>
+                        <li class="previous"><a href="?page={{ cipher_suites.previous_page_number }}">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a></li>
                     {% else %}
-                        <li><a href="?page={{ page }}">{{ page }} </a></li>
+                        <li class="first disabled"><a href="?page=1">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a></li>
+                        <li class="previous disabled"><a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a></li>
                     {% endif %}
-                {% endfor %}
 
+                    <!-- Current page numbers -->
+                    {% for page in page_number_range %}
+                        <!-- active case -->
+                        {% if page == cipher_suites.number %}
+                            <li class="active"><a href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                        {% elif page > 5 and page > cipher_suites.number|add:"+2" %}
+                        {% elif page < cipher_suites.paginator.num_pages|add:"-4" and page < cipher_suites.number|add:"-2" %}
+                        {% else %}
+                            <li><a href="?page={{ page }}">{{ page }} </a></li>
+                        {% endif %}
+                    {% endfor %}
 
-                {% if cipher_suites.has_next %}
-                    <li class="next"><a href="?page={{ cipher_suites.next_page_number }}">
-                        <span aria-hidden="true">&rsaquo;</span>
-                    </a></li>
-                    <li class="last"><a href="?page={{ cipher_suites.paginator.num_pages }}">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a></li>
-                {% else %}
-                    <li class="next disabled"><a href="#">
-                        <span aria-hidden="true">&rsaquo;</span>
-                    </a></li>
-                    <li class="last disabled"><a href="#">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a></li>
-                {% endif %}
-            </ul>
-            </nav>
-        </span>
-    </div>
-    </div>
-</div>
+                    <!-- Next and last links -->
+                    {% if cipher_suites.has_next %}
+                        <li class="next"><a href="?page={{ cipher_suites.next_page_number }}">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a></li>
+                        <li class="last"><a href="?page={{ cipher_suites.paginator.num_pages }}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a></li>
+                    {% else %}
+                        <li class="next disabled"><a href="#">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a></li>
+                        <li class="last disabled"><a href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a></li>
+                    {% endif %}
+
+                    </ul>
+                </nav>
+            </span>
+        </div><!-- end pagination -->
+    </div><!-- end column -->
+</div><!-- end row -->
 
 {% endblock content %}

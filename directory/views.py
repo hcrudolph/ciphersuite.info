@@ -4,31 +4,32 @@ from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.contrib.postgres.search import SearchVector
 
-
 from .models import *
 from .forms import *
 
 
-def index_global(request):
-    """Site-wide index accessed when visiting web root."""
+def index(request):
+    """Site-wide index accessed when visiting the web root."""
 
     context = {
-        'hide_nav_search': True,
-        'form': MainGetSearchForm(),
+        'hide_navbar_search': True,
+        'search_form': MainSearchForm(),
     }
-    return render(request, 'directory/index_global.html', context)
+
+    return render(request, 'directory/index.html', context)
 
 
 def about(request):
     """Static page with project information."""
 
-    site = get_object_or_404(StaticPage, pk='about')
+    about_page = get_object_or_404(StaticPage, pk='about')
 
     context = {
-        'site': site,
-        'nav_active': site.title,
-        'form': NavbarGetSearchForm(),
+        'navbar_context': about_page.title,
+        'search_form': NavbarSearchForm(),
+        'static_page': about_page,
     }
+
     return render(request, 'directory/static_page.html', context)
 
 
@@ -73,10 +74,11 @@ def index_cs(request):
 
     context = {
         'cipher_suites': cipher_suites,
-        'form': NavbarGetSearchForm(),
-        'nav_active': 'cs',
+        'navbar_context': 'cs',
         'page_number_range': range(1, cipher_suites.paginator.num_pages + 1),
+        'search_form': NavbarSearchForm(),
     }
+
     return render(request, 'directory/index_cs.html', context)
 
 
@@ -108,11 +110,12 @@ def index_rfc(request):
         rfc_list_paginated = paginator.page(paginator.num_pages)
 
     context = {
-        'form': NavbarGetSearchForm(),
-        'nav_active': 'rfc',
+        'navbar_context': 'rfc',
         'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
         'rfc_list_paginated': rfc_list_paginated,
+        'search_form': NavbarSearchForm(),
     }
+
     return render(request, 'directory/index_rfc.html', context)
 
 
@@ -131,13 +134,15 @@ def detail_cs(request, cs_name):
         cipher_suite.enc_algorithm,
         cipher_suite.hash_algorithm,
     ]
+
     context = {
         'cipher_suite': cipher_suite,
-        'form': NavbarGetSearchForm(),
         'prev_page': prev_page,
         'referring_rfc_list': referring_rfc_list,
         'related_tech': related_tech,
+        'search_form': NavbarSearchForm(),
     }
+
     return render(request, 'directory/detail_cs.html', context)
 
 
@@ -161,14 +166,16 @@ def detail_rfc(request, rfc_number):
     rfc_status_code = all_rfc_status_codes[rfc.status]
     defined_cipher_suites = rfc.defined_cipher_suites.all()
     related_docs = rfc.related_documents.all()
+
     context = {
         'defined_cipher_suites': defined_cipher_suites,
-        'form': NavbarGetSearchForm(),
         'prev_page': prev_page,
         'related_docs': related_docs,
         'rfc': rfc,
         'rfc_status_code': rfc_status_code,
+        'search_form': NavbarSearchForm(),
     }
+
     return render(request, 'directory/detail_rfc.html', context)
 
 def search(request):
@@ -180,12 +187,13 @@ def search(request):
     page = request.GET.get('page', 1)
 
     results_cs = CipherSuite.objects.annotate(
-        search = SearchVector('name') 
-               + SearchVector('kex_algorithm__long_name')
-               + SearchVector('auth_algorithm__long_name')
-               + SearchVector('enc_algorithm__long_name')
-               + SearchVector('hash_algorithm__long_name')
-               + SearchVector('protocol_version__long_name')
+        search = SearchVector('name',
+               'kex_algorithm__long_name',
+               'auth_algorithm__long_name',
+               'enc_algorithm__long_name',
+               'hash_algorithm__long_name',
+               'protocol_version__long_name',
+        )
     ).filter(search=search_term)
 
     results_rfc = Rfc.objects.annotate(
@@ -213,12 +221,13 @@ def search(request):
     context = {
         'active_tab': active_tab,
         'category': category,
-        'form': NavbarGetSearchForm(),
         'full_path' : request.get_full_path(),
-        'number_results_cs': len(results_cs),
-        'number_results_rfc': len(results_rfc),
-        'page_number_range': range(1, results_paginated.paginator.num_pages + 1),
+        'page_number_range': range(1, results_paginated.paginator.num_pages+1),
+        'result_count_cs': len(results_cs),
+        'result_count_rfc': len(results_rfc),
+        'search_form': NavbarSearchForm(),
         'search_result_list': results_paginated,
         'search_term': search_term,
     }
+
     return render(request, 'directory/search.html', context)
