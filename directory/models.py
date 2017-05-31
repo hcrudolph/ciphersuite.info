@@ -1,8 +1,10 @@
+# django imports
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
+# general python imports
 from lxml import html
 import requests
 import re
@@ -33,7 +35,7 @@ class CipherSuite(models.Model):
     hex_byte_2 = models.CharField(
         max_length=4,
     )
-    # protocol version (SSL, TLS, etc.)
+    # protocol version
     protocol_version = models.ForeignKey(
         'ProtocolVersion',
         verbose_name=_('protocol version'),
@@ -77,7 +79,6 @@ class Rfc(models.Model):
     number = models.IntegerField(
         primary_key=True,
     )
-
     # predefined choices for document status
     IST = 'IST'
     PST = 'PST'
@@ -220,7 +221,6 @@ class StaticPage(models.Model):
         primary_key=True,
         max_length=50,
     )
-
     content = models.TextField(
         max_length = 1000,
     )
@@ -282,10 +282,9 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         else:
             return 'UND'
 
-    url = "https://tools.ietf.org/html/rfc{}".format(instance.number)
+    url  = "https://tools.ietf.org/html/rfc{}".format(instance.number)
     resp = requests.get(url)
     if resp.status_code == 200:
-        text = resp.text
         instance.url  = url
         instance.title = get_title(resp)
         instance.status = get_status(resp)
@@ -300,7 +299,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
     # EXPORT substring does not describe any algorithm, so we remove it
-    # EXPORT string is later appended to the protocol_version
+    # substring is later appended to the protocol_version
     if re.search("EXPORT", instance.name):
         name = instance.name.replace('EXPORT_', '')
         export_cipher = True
@@ -340,7 +339,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         short_name=hsh.strip()
     )
 
-    # if auth is not excplicitly defined, set it equal to kex
+    # if aut is not excplicitly defined, set it equal to kex
     if aut:
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
