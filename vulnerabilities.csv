@@ -1,0 +1,5 @@
+Secure Hash Algorithm 1;MED;The Secure Hash Algorithm 1 has been proven to be insecure.
+Message Digest 5;HIG;The Message Digest 5 algorithm suffers form multiple vulnerabilities and is considered insecure.
+Export-grade cipher;HIG;Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted. They are considered WEAK for today's standards. 
+Anonymous key exchange;HIG; Anonymous key exchanges are generally vulnerable to Man in the Middle attacks.
+# more vulnerabilities to be added ...

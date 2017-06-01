@@ -1,44 +1,51 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2>{{ rfc }}</h2>
+            {% if prev_page %}
+                <ul class="nav nav-pills">
+                    <li role="presentation"><a href="{{ prev_page }}">&lsaquo; Back to search results</a></li>
+                </ul>
+            {% endif %}
+            <h1>{{ rfc }}</h1>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <p>
-                <b>Title:</b> {{ rfc.title }}
-            </p>
-            <p>
-                <b>Status:</b> {{ rfc_status_code }}
-            </p>
-            <p>
-                <b>Publication:</b> {{ rfc.release_year }}
-            </p>
+            <dl class="dl-horizontal">
+                <dt><b>Title:</b></dt>
+                <dd>{{ rfc.title }}</td>
 
-            {% for rel_rfc in related_docs %}
-            <p>
-                <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
-            </p>
-            {% endfor %}
+                <dt><b>Status:</b></dt>
+                <dd>{{ rfc_status_code }}</dd>
 
-            <p>
-                <b>View on ietf.org:</b> <a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
-            </p>
+                <dt><b>Publication:</b></dt>
+                <dd>{{ rfc.release_year }}</dd>
+
+                {% for rel_rfc in related_docs %}
+                    <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
+                {% endfor %}
+
+                <dt><b>View on ietf.org:</b></dt>
+                <dd><a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></dd>
 
             {% if defined_cipher_suites %}
-            <p>
-            <b>Defined Cipher suites:</b>
-            </p>
-            <ul>
+            <dt><b>Defined Cipher suites:</b></dt>
+            <dd>
+            <ul class="minimallist">
                 {% for cipher_suite in defined_cipher_suites %}
-                    <li><a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a></li>
+                    <li>
+                        <a class="long-string" href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a>
+                    </li>
                 {% endfor %}
             </ul>
+            </dd>
             {% endif %}
+            </dl>
+            </div>
         </div>
     </div>
 {% endblock content %}

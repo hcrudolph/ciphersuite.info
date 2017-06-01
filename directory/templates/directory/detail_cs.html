@@ -1,58 +1,69 @@
 {% extends "directory/base.html" %}
+{% load markdown_deux_tags %}
 
 {% block content %}
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2>{{ cipher_suite.name }}</h2>
+            {% if prev_page %}
+                <ul class="nav nav-pills">
+                    <li role="presentation"><a href="{{ prev_page }}">&lsaquo; Back to search results</a></li>
+                </ul>
+            {% endif %}
+            <h1>Cipher Suite</h1>
         </div>
     </div>
 
-    {% for algo in related_tech %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <p>
-                <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b>
-                {% if algo.long_name %}
-                    {{ algo.long_name }} ({{ algo.short_name }})
-                {% else %}
-                    {{ algo.short_name }}
-                {% endif %}
-            </p>
+            <dl class="dl-horizontal">
+                <dt><b>Full name:</b></dt> 
+                <dd class="long-string">{{ cipher_suite.name }}</dd>
+                <dt><b>Hex code:</b></dt> 
+                <dd>{{ cipher_suite.hex_byte_1 }}, {{ cipher_suite.hex_byte_2 }}</dd>
 
-            {% for item in algo.vulnerabilities.all %}
-                {% if item.severity == 'HIG' %}
-                    <div class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
-                    </div>
-                {% elif item.severity == 'MED' %}
-                    <div class="alert alert-warning" role="alert">
-                        <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-info" role="alert">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
+                {% for algo in related_tech %}
+                <dt> <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b> </dt>
+                <dd>
+                    {% if algo.long_name %}
+                        {{ algo.long_name }} ({{ algo.short_name }})
+                    {% else %}
+                        {{ algo.short_name }}
+                    {% endif %}
+                </dd>
 
-    {% if referring_rfc_list %}
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <p>
-                <b>Included in RFC:</b>
-            </p>
-            <ul>
-                {% for rfc in referring_rfc_list %}
-                    <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+                    {% for item in algo.vulnerabilities.all %}
+                    <p>
+                    {% if item.severity == 'HIG' %}
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                        </div>
+                    {% elif item.severity == 'MED' %}
+                        <div class="alert alert-warning" role="alert">
+                            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info" role="alert">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                        </div>
+                    {% endif %}
+                    </p>
+                    {% endfor %}
                 {% endfor %}
-            </ul>
+
+                {% if referring_rfc_list %}
+                    <dt><b>Included in RFC:</b></dt>
+                    <dd>
+                        <ul class="rfclist">
+                        {% for rfc in referring_rfc_list %}
+                            <li><a href="/rfc/{{ rfc.number }}/">RFC {{ rfc.number }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </dd>
+                {% endif %}
+
+            </dl>
         </div>
     </div>
-    {% endif %}
 
 {% endblock content %}

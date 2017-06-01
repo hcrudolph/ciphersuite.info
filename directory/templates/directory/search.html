@@ -2,39 +2,103 @@
 
 {% block content %}
 
-
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h2>Results for "{{ search_term }}"</h2>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h3>Cipher Suites</h3>
-        {% if cs_search_results %}
-        <ul>
-            {% for element in cs_search_results %}
-                <li><a href="/cs/{{ element.name }}">{{ element.name }} </a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            <p>No matching Cipher Suites found.</p>
-        {% endif %}
+        <h2>Search results for "{{ search_term }}"</h2>
     </div>
 </div>
 
+<!-- CS / RFC Tab Switch -->
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h3>RFCs</h3>
-        {% if rfc_search_results %}
-        <ul>
-            {% for element in rfc_search_results %}
-                <li><a href="/rfc/{{ element.number }}">{{ element }}: {{ element.title }}</a></li>
+        <ul class="nav nav-tabs nav-justified">
+        {% if active_tab == "cs" %}
+            <li class="active"><a href="#">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
+            <li><a href="/search/?q={{ search_term }}&c=rfc">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
+        {% elif active_tab == "rfc" %}
+            <li><a href="/search/?q={{ search_term }}&c=cs">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
+            <li class="active"><a href="#">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
+        {% endif %}
+        </ul>
+    </div>
+</div>
+
+<!-- Result list --> 
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+    {% if search_result_list %}
+        <ul class="prettylist">
+            {% for element in search_result_list %}
+            {% if active_tab == "cs" %}
+                <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; {{ element.name }} </a></li>
+            {% elif active_tab == "rfc" %}
+                <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+            {% endif %}
             {% endfor %}
         </ul>
-        {% else %}
-            <p>No matching RFC documents found.</p>
-        {% endif %}
+    {% else %}
+        <p>No matching Cipher Suites found.</p>
+    {% endif %}
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row">
+    <div class="col-md-8 col-md-offset-2" align="center">
+    <div class="pagination">
+        <span class="step-links">
+            <nav aria-label="Pagination">
+                <!-- First and previous button -->
+                <ul class="pagination">
+                {% if search_result_list.has_previous %}
+                    <li class="first"><a href="?q={{ search_term }}&c={{ category }}&page=1">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a></li>
+                    <li class="previous"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.previous_page_number }}">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a></li>
+                {% else %}
+                    <li class="first disabled"><a href="#">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a></li>
+                    <li class="previous disabled"><a href="#">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a></li>
+                {% endif %}
+
+                <!-- Current page numbers -->
+                {% for page in page_number_range %}
+                    <!-- active case -->
+                    {% if page == search_result_list.number %}
+                        <li class="active"><a href="?q={{ search_term }}&c={{ category }}&page={{ page }}">{{ page }}<span class="sr-only">(current)</span></a></li>
+                    {% elif page > 5 and page > search_result_list.number|add:"+2" %}
+                    {% elif page < search_result_list.paginator.num_pages|add:"-4" and page < search_result_list.number|add:"-2" %}
+                    {% else %}
+                        <li><a href="?q={{ search_term }}&c={{ category }}&page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+
+                <!-- Next and last button -->
+                {% if search_result_list.has_next %}
+                    <li class="next"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.next_page_number }}">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a></li>
+                    <li class="last"><a href="?q={{ search_term }}&c={{ category }}&page={{ search_result_list.paginator.num_pages }}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                {% else %}
+                    <li class="next disabled"><a href="#">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a></li>
+                    <li class="last disabled"><a href="#">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a></li>
+                {% endif %}
+            </ul>
+            </nav>
+        </span>
+    </div>
     </div>
 </div>
 

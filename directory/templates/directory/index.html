@@ -1,19 +1,20 @@
 {% extends "directory/base.html" %}
-
 {% block content %}
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2" align="center">
         <h1 class="title_heading">Search this site</h1>
         <div id="custom-search-input">
-            <form class="input-group" action="/search?q={{ form.get_search_term }}" method="get">
-                {{ form }}
+            <form class="input-group" action="/search?q={{ search_form.get_search_term }}" method="get">
+
+                {{ search_form }}
+
                 <span class="input-group-btn">
                     <button class="btn btn-primary btn-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                 </span>
             </form>
-        </div>
-    </div>
-</div>
+        </div><!-- end end input -->
+    </div><!-- end column -->
+</div><!-- end row -->
 
 {% endblock content %}

@@ -1,3 +1,16 @@
+body {
+    overflow-x: hidden;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
 body > .container {
   padding: 60px 15px 0;
 }
@@ -16,8 +29,66 @@ body > .container {
 }
 
 .title_heading {
-    margin-top: 10%;
-    margin-bottom: 5%;
+    margin-top: 25%;
+    margin-bottom: 10%;
+}
+
+.borderless table,
+.borderless td,
+.borderless th {
+    border: none !important;
+}
+
+.rfclist {
+    padding: 0;
+}
+
+.rfclist li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+}
+
+.prettylist {
+    margin-top: 30px;
+    padding: 0px;
+}
+
+.prettylist li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: .5px dotted #bbb;
+    list-style-type: none;
+    font-size: 1.05em;
+}
+
+.minimallist {
+    padding: 0px;
+    margin-left: 14px;
+}
+
+.minimallist li {
+    padding-bottom: 5px;
+    list-style-type: circle;
+    font-size: 1.05em;
+}
+
+dt {
+    text-align: left !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+dt,
+dd {
+    padding-bottom: 5px;
+}
+
+.inline-button {
+    display: inline-block;
 }
 
 /* Sticky footer styles

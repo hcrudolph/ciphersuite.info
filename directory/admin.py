@@ -1,7 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
-
 from .models import *
 
 admin.site.register(CipherSuite)
@@ -12,3 +9,4 @@ admin.site.register(AuthAlgorithm)
 admin.site.register(EncAlgorithm)
 admin.site.register(HashAlgorithm)
 admin.site.register(Vulnerability)
+admin.site.register(StaticPage)
