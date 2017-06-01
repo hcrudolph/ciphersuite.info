@@ -28,7 +28,10 @@
                     </li>
                     {% for page in static_pages %}
                         <li {% if navbar_context == page.title %}class="active"{% endif %}>
-                            <a href="/{{ page|lower }}/">{{ page|title }}</a>
+                            <a href="/{{ page|lower }}/">
+                                {% if page.glyphicon %}<span class="glyphicon {{ page.glyphicon }}" aria-hidden="true"></span>{% endif %}
+                                {{ page|title }}
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -40,7 +43,7 @@
                             {{ search_form }}
 
                             <span class="input-group-btn">
-                                <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                <button class="btn btn-custom" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                             </span>
                         </div>
                     </form>

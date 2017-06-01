@@ -3,6 +3,10 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+body > .container {
+  padding: 90px 15px 0;
+}
+
 h1,
 h2,
 h3,
@@ -11,8 +15,12 @@ h4 {
     font-weight: 500;
 }
 
-body > .container {
-  padding: 60px 15px 0;
+a {
+    color: #34495e;
+}
+
+a:hover {
+    color: #46637f;
 }
 
 .centered-block {
@@ -28,15 +36,22 @@ body > .container {
     font-weight: bold;
 }
 
-.title_heading {
-    margin-top: 25%;
-    margin-bottom: 10%;
+.title-heading {
+    font-size: 4em;
+    margin-top: 20%;
+    margin-bottom: 7.5%;
 }
 
 .borderless table,
 .borderless td,
 .borderless th {
     border: none !important;
+}
+
+* {
+    -webkit-border-radius: 0 !important;
+       -moz-border-radius: 0 !important;
+            border-radius: 0 !important;
 }
 
 .rfclist {
@@ -87,10 +102,6 @@ dd {
     padding-bottom: 5px;
 }
 
-.inline-button {
-    display: inline-block;
-}
-
 /* Sticky footer styles
 -------------------------------------------------- */
 
@@ -101,20 +112,19 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 50px;
   background-color: #f5f5f5;
 }
 
 .container .text-muted {
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .footer > .container {
@@ -125,3 +135,104 @@ body {
 code {
   font-size: 80%;
 }
+
+/* Navbar customization
+-------------------------------------------------- */
+
+.navbar-inverse { background-color: #34495E}
+.navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #4F6F8F}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #2C3E50}
+.dropdown-menu { background-color: #ECF0F1}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-color: #4F6F8F}
+.navbar-inverse { background-image: none; }
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-image: none; }
+.navbar-inverse { border-color: #2C3E50}
+.navbar-inverse .navbar-brand { color: #EEEEEE}
+.navbar-inverse .navbar-brand:hover { color: #FFFFFF}
+.navbar-inverse .navbar-nav>li>a { color: #BBBBBB}
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus { color: #FFFFFF}
+.dropdown-menu>li>a { color: #2C3E50}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a .caret { border-top-color: #BBBBBB}
+.navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-top-color: #FFFFFF}
+.navbar-inverse .navbar-nav>.dropdown>a .caret { border-bottom-color: #BBBBBB}
+.navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
+
+.btn-custom { 
+    color: #FFFFFF; 
+    background-color: #1ABC9C; 
+    border-color: #117964; 
+} 
+ 
+.btn-custom:hover, 
+.btn-custom:focus, 
+.btn-custom:active, 
+.btn-custom.active, 
+.open .dropdown-toggle.btn-custom { 
+    color: #FFFFFF; 
+    background-color: #148f77; 
+    border-color: #117964; 
+} 
+ 
+.btn-custom:active, 
+.btn-custom.active, 
+.open .dropdown-toggle.btn-custom { 
+    background-image: none; 
+} 
+ 
+.btn-custom.disabled, 
+.btn-custom[disabled], 
+fieldset[disabled] .btn-custom, 
+.btn-custom.disabled:hover, 
+.btn-custom[disabled]:hover, 
+fieldset[disabled] .btn-custom:hover, 
+.btn-custom.disabled:focus, 
+.btn-custom[disabled]:focus, 
+fieldset[disabled] .btn-custom:focus, 
+.btn-custom.disabled:active, 
+.btn-custom[disabled]:active, 
+fieldset[disabled] .btn-custom:active, 
+.btn-custom.disabled.active, 
+.btn-custom[disabled].active, 
+fieldset[disabled] .btn-custom.active { 
+    background-color: #1ABC9C; 
+    border-color: #117964; 
+} 
+ 
+.btn-custom .badge { 
+    color: #1ABC9C; 
+    background-color: #FFFFFF; 
+}
+
+.navbar-inverse .navbar-toggle {
+    background: #333;
+    border-color: #11181f;
+}
+
+.navbar-inverse .navbar-toggle:hover {
+    background: #11181f;
+    border-color: #11181f;
+}
+
+.navbar-inverse .navbar-toggle:focus {
+    background: #11181f;
+    border-color: #11181f;
+}
+
+.form-control:focus {
+    border-color: #7f8c8d;
+    box-shadow: none;
+}
+
+.pagination > .active > a {
+    background: #1ABC9C;
+}
+
+.pagination > .active > a:hover,
+.pagination > .active > a:active,
+.pagination > .active > a:focus {
+    background: #148f77;
+}
+
