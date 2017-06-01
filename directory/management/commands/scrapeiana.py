@@ -1,129 +1,99 @@
 from django.core.management.base import BaseCommand, CommandError
-from directory.models import *
+from directory.models import CipherSuite, Rfc
 
-from bs4 import BeautifulSoup
-import requests
-import sys
+from os import linesep
+from requests import get
 import re
 
 class Command(BaseCommand):
     help = 'Scrapes TLS cipher suites from iana.org'
 
-    def handle(self, *args, **options):
-        iana = IanaScraper()
-        rec = iana.get_rfc_dicts()
-        num_cs = 0
-        for e in rec:
-            c, _ = CipherSuite.objects.get_or_create(
-                name=e['name'],
-                hex_byte_1=e['hex1'],
-                hex_byte_2=e['hex2'],
+    # definition of generic filters for TLS ciphers
+    # only fieldnames that contain (re.search) a
+    # given regex will be added to the database
+    # format: (fieldname, regex)
+    def __init__(self):
+        self.filters = [
+            ('name', 'WITH'),
+            ('rfc', '\d+'),
+        ]
+        # inherit everything else from BaseCommand
+        super().__init__()
+
+
+    def get_csv(self, url='https://www.iana.org/assignments/tls-parameters/tls-parameters-4.csv'):
+        """Tries to download the content at the specified URL,
+        returning the response in plain text format. If status code
+        equals anything else than 200, FailedDownloadException is thrown"""
+
+        response = get(url)
+        if response.status_code == 200:
+            return response.text
+        else:
+            raise FailedDownloadException(
+                "Failed to download resource from the given URL."
             )
-            r, _ = Rfc.objects.get_or_create(
-                number=e['rfc'],
+
+
+    def split_line(self, line):
+        result = dict()
+        info = line.split(',')
+
+        result['hex1'] = re.search('0x[0123456789ABCDEF]{2}', info[0]).group(0)
+        result['hex2'] = re.search('0x[0123456789ABCDEF]{2}', info[1]).group(0)
+        result['name'] = info[2]
+        result['rfc']  = re.search('RFC(\d+)', info[4]).group(1)
+
+        return result
+
+    def handle(self, *args, **options):
+        """Main function to be run when command is executed."""
+
+        # try downloading csv file
+        try:
+            csv_file = self.get_csv()
+        except FailedDownloadException as e:
+            self.stdout.write(self.style.ERROR(e.message))
+
+        # counter for successfully inserted or found ciphers
+        cs_new, cs_old, rfc_new = 0, 0, 0
+        for line in csv_file.split(linesep):
+            # try splitting line its separate components or continue
+            try:
+                d = self.split_line(line)
+            except:
+                continue
+
+            # if any of our filters don't match, skip current cipher suite
+            if not all(re.search(f[1], d[f[0]]) for f in self.filters):
+                continue
+
+            # create model instances in DB
+            c, cstat = CipherSuite.objects.get_or_create(
+                name = d['name'],
+                hex_byte_1 = d['hex1'],
+                hex_byte_2 = d['hex2'],
+            )
+            r, rstat = Rfc.objects.get_or_create(
+                number = re.search('\d+', d['rfc']).group(0)
             )
             c.defining_rfcs.add(r)
-            num_cs+=1
+
+            # keep track of what we created/already found
+            if cstat:
+                cs_new += 1
+            else:
+                cs_old += 1
+            if rstat:
+                rfc_new += 1
 
         self.stdout.write(
             self.style.SUCCESS(
-                'Successfully created/got {} cipher suites.'.format(num_cs)
+                f"Successfully created {cs_new} cipher suites and {rfc_new} RFCs. " +
+                f"{cs_old} cipher suites already in the database."
             )
         )
 
 
-class ResourceNotFoundException(Exception):
+class FailedDownloadException(Exception):
     pass
-
-
-class IanaScraper:
-    def __init__(self, url="https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml"):
-        self.url = url
-
-
-    def get(self, url):
-        """Sends a HTTP request to the given URL. If the status code
-        of its response is not equal 200, a ResourceNotFoundException
-        is raised."""
-
-        response = requests.get(url)
-        if response.status_code != 200:
-            raise ResourceNotFoundException(
-                "Resource not found under the given URL."
-            )
-        else:
-            return response
-
-
-    def get_url_content(self, url):
-        """Tries to fetch a given URL and return the textual contents
-        of the respective HTTP response. If retreiving the web page
-        fails, an Exception is raised an an empty text returned."""
-
-        try:
-            resp = self.get(url)
-        except ResourceNotFoundException as e:
-            print(e.message)
-            return ""
-        return resp.text
-
-
-    def get_rfc_dicts(self):
-        """Parses the IANA TLS paramter table for RFC information. List of all
-        table contents can be parsed with the filter_dict funciton. Returns a
-        list of dicts, where each dict contains the information on one row."""
-
-        page = BeautifulSoup(
-            self.get_url_content(self.url),
-            'html.parser'
-        )
-        contents = self.parse_table(page)
-        contents = self.filter_dict(contents, 'hex1', r'^0x[0123456789ABCDEF]{2}$')
-        contents = self.filter_dict(contents, 'hex2', r'^0x[0123456789ABCDEF]{2}$')
-        contents = self.filter_dict(contents, 'name', r'.*WITH.*')
-        contents = self.filter_dict(contents, 'rfc', r'\d+')
-        return contents
-
-
-    def filter_dict(self, list_of_dicts, key, regex):
-        """Filters out all items in the given list_of_dicts whose value
-        under the specified key does not match the regular expression."""
-
-        return [x for x in list_of_dicts if re.match(regex, x[key])]
-
-
-    def parse_table(self, page):
-        """Parses the table id 'table-tls-parameters-4'."""
-        parsed_contents = []
-        table = page.find(id="table-tls-parameters-4")
-        for row in table.tbody.find_all('tr'):
-            result = dict()
-            for nr, cell in enumerate(row.find_all('td')):
-                if nr == 0:
-                    try:
-                        hex_codes = cell.contents[0].split(',')
-                        result['hex1'] = hex_codes[0].strip()
-                        result['hex2'] = hex_codes[1].strip()
-                    except IndexError:
-                        contents = ""
-                elif nr == 1:
-                    try:
-                        result['name'] = cell.contents[0].strip()
-                    except IndexError:
-                        contents = ""
-                elif nr == 2:
-                    try:
-                        result['dtls'] = cell.contents[0].strip()
-                    except IndexError:
-                        contents = ""
-                elif nr == 3:
-                    try:
-                        contents = cell.contents[1]
-                        match = re.search(">RFC(\d+)</a>", str(contents))
-                        result['rfc'] = match.group(1)
-                    except (IndexError, AttributeError):
-                        result['rfc'] = ""
-
-            parsed_contents.append(result)
-        return parsed_contents
-
