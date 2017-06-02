@@ -38,7 +38,7 @@ def index_cs(request):
 
     # parse GET parameters
     sorting = request.GET.get('sort', 'name-asc')
-    page = request.GET.get('page', 1)
+    page = request.GET.get('p', 1)
 
     if sorting=='name-asc':
         cipher_suite_list = CipherSuite.objects.order_by('name')
@@ -87,7 +87,7 @@ def index_rfc(request):
 
     # parse GET parameters
     sorting = request.GET.get('sort', 'number-asc')
-    page = request.GET.get('page', 1)
+    page = request.GET.get('p', 1)
 
     if sorting=='number-asc':
         rfc_list = Rfc.objects.order_by('number')
@@ -184,7 +184,7 @@ def search(request):
     # parse GET parameters
     search_term = request.GET.get('q')
     category = request.GET.get('c', 'cs')
-    page = request.GET.get('page', 1)
+    page = request.GET.get('p', 1)
 
     results_cs = CipherSuite.objects.annotate(
         search = SearchVector('name',
