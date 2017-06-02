@@ -43,14 +43,14 @@
 
                     <!-- First and previous links -->
                     {% if rfc_list_paginated.has_previous %}
-                        <li class="first"><a href="?page=1">
+                        <li class="first"><a href="?p=1">
                             <span aria-hidden="true">&laquo;</span>
                         </a></li>
-                        <li class="previous"><a href="?page={{ rfc_list_paginated.previous_page_number }}">
+                        <li class="previous"><a href="?p={{ rfc_list_paginated.previous_page_number }}">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a></li>
                     {% else %}
-                        <li class="first disabled"><a href="?page=1">
+                        <li class="first disabled"><a href="?p=1">
                             <span aria-hidden="true">&laquo;</span>
                         </a></li>
                         <li class="previous disabled"><a href="#" aria-label="Previous">
@@ -62,20 +62,20 @@
                     {% for page in page_number_range %}
                         <!-- active case -->
                         {% if page == rfc_list_paginated.number %}
-                            <li class="active"><a href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                            <li class="active"><a href="?p={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
                         {% elif page > 5 and page > rfc_list_paginated.number|add:"+2" %}
                         {% elif page < rfc_list_paginated.paginator.num_pages|add:"-4" and page < rfc_list_paginated.number|add:"-2" %}
                         {% else %}
-                            <li><a href="?page={{ page }}">{{ page }} </a></li>
+                            <li><a href="?p={{ page }}">{{ page }} </a></li>
                         {% endif %}
                     {% endfor %}
 
                     <!-- Next and last links -->
                     {% if rfc_list_paginated.has_next %}
-                        <li class="next"><a href="?page={{ rfc_list_paginated.next_page_number }}">
+                        <li class="next"><a href="?p={{ rfc_list_paginated.next_page_number }}">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a></li>
-                        <li class="last"><a href="?page={{ rfc_list_paginated.paginator.num_pages }}">
+                        <li class="last"><a href="?p={{ rfc_list_paginated.paginator.num_pages }}">
                             <span aria-hidden="true">&raquo;</span>
                         </a></li>
                     {% else %}
