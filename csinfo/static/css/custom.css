@@ -69,15 +69,29 @@ a:hover {
     padding: 0px;
 }
 
+.prettylist li:nth-child(even) {
+    background: #ffffff;;
+}
+
+.prettylist li:nth-child(odd) {
+    background: #eeeeee;
+}
+
 .prettylist li {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    list-style-type: none;
+    font-size: 1.05em;
+}
+
+.prettylist li:hover {
+    background: #c9d5e1;
+}
+
+.prettylist li a {
+    display: block;
+    padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 15px;
-    border-bottom: .5px dotted #bbb;
-    list-style-type: none;
-    font-size: 1.05em;
 }
 
 .minimallist {
@@ -222,7 +236,6 @@ fieldset[disabled] .btn-custom.active {
 }
 
 .form-control:focus {
-    border-color: #7f8c8d;
     box-shadow: none;
 }
 
