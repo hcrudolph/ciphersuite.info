@@ -37,7 +37,7 @@ def index_cs(request):
     """CipherSuite overview, listing all instances in ascending order by hexcode."""
 
     # parse GET parameters
-    sorting = request.GET.get('sort', 'name-asc')
+    sorting = request.GET.get('s', 'name-asc')
     page = request.GET.get('p', 1)
 
     if sorting=='name-asc':
@@ -86,7 +86,7 @@ def index_rfc(request):
     """Rfc overview, listing all instances in ascending order by number."""
 
     # parse GET parameters
-    sorting = request.GET.get('sort', 'number-asc')
+    sorting = request.GET.get('s', 'number-asc')
     page = request.GET.get('p', 1)
 
     if sorting=='number-asc':
