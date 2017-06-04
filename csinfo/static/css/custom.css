@@ -1,10 +1,9 @@
 body {
-    overflow-x: hidden;
     font-family: 'Open Sans', sans-serif;
 }
 
 body > .container {
-  padding: 90px 15px 0;
+  padding: 75px 15px 0;
 }
 
 h1,
