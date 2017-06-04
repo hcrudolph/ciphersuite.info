@@ -1,96 +1,98 @@
 {% extends "directory/base.html" %}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h1>RFCs
-        <div class="btn-group inline-button">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sort by <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="?s=number-asc">Number ascending</a></li>
-                <li><a href="?s=number-desc">Number descending</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="?s=title-asc">Title ascending</a></li>
-                <li><a href="?s=title-desc">Title descending</a></li>
-            </ul>
-        </h1>
-        </div>  
-    </div><!-- end column -->
-</div><!-- end row -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1>RFCs
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="?s=number-asc">Number ascending</a></li>
+                    <li><a href="?s=number-desc">Number descending</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="?s=title-asc">Title ascending</a></li>
+                    <li><a href="?s=title-desc">Title descending</a></li>
+                </ul>
+            </h1>
+            </div>  
+        </div><!-- end column -->
+    </div><!-- end row -->
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        {% if rfc_list_paginated %}
-            <ul class="prettylist">
-            {% for rfc in rfc_list_paginated %}
-                <li><a href="/rfc/{{ rfc.number }}/">&rsaquo; <b>{{ rfc }}:</b> {{ rfc.title }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>No RFCs found.</p>
-        {% endif %}
-    </div><!-- end column -->
-</div><!-- end row -->
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            {% if rfc_list_paginated %}
+                <ul class="prettylist">
+                {% for rfc in rfc_list_paginated %}
+                    <li><a href="/rfc/{{ rfc.number }}/">&rsaquo; <b>{{ rfc }}:</b> {{ rfc.title }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No RFCs found.</p>
+            {% endif %}
+        </div><!-- end column -->
+    </div><!-- end row -->
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2" align="center">
-        <div class="pagination">
-            <span class="step-links">
-                <nav aria-label="...">
-                    <ul class="pagination">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" align="center">
+            <div class="pagination">
+                <span class="step-links">
+                    <nav aria-label="...">
+                        <ul class="pagination">
 
-                    <!-- First and previous links -->
-                    {% if rfc_list_paginated.has_previous %}
-                        <li class="first"><a href="?p=1">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a></li>
-                        <li class="previous"><a href="?p={{ rfc_list_paginated.previous_page_number }}">
-                            <span aria-hidden="true">&lsaquo;</span>
-                        </a></li>
-                    {% else %}
-                        <li class="first disabled"><a href="?p=1">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a></li>
-                        <li class="previous disabled"><a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&lsaquo;</span>
-                        </a></li>
-                    {% endif %}
-
-                    <!-- Current page numbers -->
-                    {% for page in page_number_range %}
-                        <!-- active case -->
-                        {% if page == rfc_list_paginated.number %}
-                            <li class="active"><a href="?p={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
-                        {% elif page > 5 and page > rfc_list_paginated.number|add:"+2" %}
-                        {% elif page < rfc_list_paginated.paginator.num_pages|add:"-4" and page < rfc_list_paginated.number|add:"-2" %}
+                        <!-- First and previous links -->
+                        {% if rfc_list_paginated.has_previous %}
+                            <li class="first"><a href="?p=1">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                            <li class="previous"><a href="?p={{ rfc_list_paginated.previous_page_number }}">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a></li>
                         {% else %}
-                            <li><a href="?p={{ page }}">{{ page }} </a></li>
+                            <li class="first disabled"><a href="?p=1">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                            <li class="previous disabled"><a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a></li>
                         {% endif %}
-                    {% endfor %}
 
-                    <!-- Next and last links -->
-                    {% if rfc_list_paginated.has_next %}
-                        <li class="next"><a href="?p={{ rfc_list_paginated.next_page_number }}">
-                            <span aria-hidden="true">&rsaquo;</span>
-                        </a></li>
-                        <li class="last"><a href="?p={{ rfc_list_paginated.paginator.num_pages }}">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a></li>
-                    {% else %}
-                        <li class="next disabled"><a href="#">
-                            <span aria-hidden="true">&rsaquo;</span>
-                        </a></li>
-                        <li class="last disabled"><a href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a></li>
-                    {% endif %}
-                    </ul>
-                </nav>
-            </span>
-        </div><!-- end pagination -->
-    </div><!-- end column -->
-</div><!-- end row -->
+                        <!-- Current page numbers -->
+                        {% for page in page_number_range %}
+                            <!-- active case -->
+                            {% if page == rfc_list_paginated.number %}
+                                <li class="active"><a href="?p={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                            {% elif page > 5 and page > rfc_list_paginated.number|add:"+2" %}
+                            {% elif page < rfc_list_paginated.paginator.num_pages|add:"-4" and page < rfc_list_paginated.number|add:"-2" %}
+                            {% else %}
+                                <li><a href="?p={{ page }}">{{ page }} </a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- Next and last links -->
+                        {% if rfc_list_paginated.has_next %}
+                            <li class="next"><a href="?p={{ rfc_list_paginated.next_page_number }}">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a></li>
+                            <li class="last"><a href="?p={{ rfc_list_paginated.paginator.num_pages }}">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                        {% else %}
+                            <li class="next disabled"><a href="#">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a></li>
+                            <li class="last disabled"><a href="#">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+                </span>
+            </div><!-- end pagination -->
+        </div><!-- end column -->
+    </div><!-- end row -->
+</div><!-- end container -->
 
 {% endblock content %}
