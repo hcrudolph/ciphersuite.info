@@ -190,7 +190,7 @@ class Vulnerability(models.Model):
         max_length=50,
     )
     description = models.TextField(
-        max_length=1000,
+        max_length=10000,
         blank=True,
     )
     HIG = 'HIG'
