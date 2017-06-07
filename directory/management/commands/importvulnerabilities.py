@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand, CommandError
 from directory.models import Vulnerability, CipherSuite
 
 from os.path import abspath
-import re
 
 class Command(BaseCommand):
     help = 'Imports data from a csv file including information on common vulnerabilities.'
@@ -53,7 +52,7 @@ class Command(BaseCommand):
 
         self.stdout.write(
             self.style.SUCCESS(
-                'Successfully created {} new vulnerabilities'.format(vulns_created)
+                f"Successfully created {vulns_created} new vulnerabilities"
             )
         )
 

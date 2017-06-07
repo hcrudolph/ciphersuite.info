@@ -224,6 +224,9 @@ class StaticPage(models.Model):
     content = models.TextField(
         max_length = 1000,
     )
+    glyphicon = models.CharField(
+        max_length=50,
+    )
 
     def __str__(self):
         return self.title
