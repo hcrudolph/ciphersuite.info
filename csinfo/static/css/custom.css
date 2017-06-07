@@ -22,6 +22,16 @@ a:hover {
     color: #46637f;
 }
 
+::selection {
+    background: #34495e;
+    color: #ffffff;
+}
+
+::-moz-selection {
+    background: #34495e;
+    color: #ffffff;
+}
+
 .centered-block {
     margin-left: auto;
     margin-right: auto;
