@@ -30,7 +30,7 @@
                 {% endfor %}
 
                 <dt><b>View on ietf.org:</b></dt>
-                <dd><a href="https://tools.ietf.org/html/rfc{{ rfc.number }}" target="_blank">https://tools.ietf.org/html/rfc{{ rfc.number }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></dd>
+                <dd><a href="{{ rfc.url }}" target="_blank">{{ rfc.url }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></dd>
 
             {% if defined_cipher_suites %}
             <dt><b>Defined Cipher suites:</b></dt>
