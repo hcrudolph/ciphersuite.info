@@ -21,7 +21,7 @@ class CipherSuite(models.Model):
         verbose_name=_('cipher suite')
         verbose_name_plural=_('cipher suites')
         # hex bytes identifiy cipher suite uniquely
-        (('hex_byte_1', 'hex_byte_2'),)
+        unique_together=(('hex_byte_1', 'hex_byte_2'),)
 
     # name of the cipher as defined by RFC
     name = models.CharField(
