@@ -15,7 +15,6 @@ class Command(BaseCommand):
     def __init__(self):
         self.filters = [
             ('name', 'WITH'),
-            ('rfc', '\d+'),
         ]
         # inherit everything else from BaseCommand
         super().__init__()
@@ -42,7 +41,8 @@ class Command(BaseCommand):
         result['hex1'] = re.search('0x[0123456789ABCDEF]{2}', info[0]).group(0)
         result['hex2'] = re.search('0x[0123456789ABCDEF]{2}', info[1]).group(0)
         result['name'] = info[2]
-        result['rfc']  = re.search('RFC(\d+)', info[4]).group(1)
+        # info[3] is DTLS
+        result['rfcs'] = re.search('\[(RFC.+?)\]', info[4]).groups()
 
         return result
 
@@ -74,18 +74,31 @@ class Command(BaseCommand):
                 hex_byte_1 = d['hex1'],
                 hex_byte_2 = d['hex2'],
             )
-            r, rstat = Rfc.objects.get_or_create(
-                number = re.search('\d+', d['rfc']).group(0)
-            )
-            c.defining_rfcs.add(r)
 
-            # keep track of what we created/already found
+            for rfc in d['rfcs']:
+                regular_rfc = re.match('RFC(\d+)', rfc)
+                draft_rfc   = re.match('RFC-ietf-tls-rfc(\d+).+', rfc)
+
+                if regular_rfc is not None:
+                    rfc_nr = regular_rfc.group(1)
+                    draft_status = False
+                elif draft_rfc is not None:
+                    rfc_nr = draft_rfc.group(1)
+                    draft_status = True
+
+                r, rstat = Rfc.objects.get_or_create(
+                    number = rfc_nr,
+                    is_draft = draft_status
+                )
+                c.defining_rfcs.add(r)
+
+                if rstat:
+                    rfc_new += 1
+
             if cstat:
                 cs_new += 1
             else:
                 cs_old += 1
-            if rstat:
-                rfc_new += 1
 
         self.stdout.write(
             self.style.SUCCESS(
