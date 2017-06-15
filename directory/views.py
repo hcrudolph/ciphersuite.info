@@ -187,18 +187,19 @@ def search(request):
     page = request.GET.get('p', 1)
 
     results_cs = CipherSuite.objects.annotate(
-        search = SearchVector('name',
-               'kex_algorithm__long_name',
-               'auth_algorithm__long_name',
-               'enc_algorithm__long_name',
-               'hash_algorithm__long_name',
-               'protocol_version__long_name',
+        search = SearchVector(
+                'name',
+                'kex_algorithm__long_name',
+                'auth_algorithm__long_name',
+                'enc_algorithm__long_name',
+                'hash_algorithm__long_name',
+                'protocol_version__long_name',
         )
     ).filter(search=search_term)
 
-    results_rfc = Rfc.objects.annotate(
-        search=SearchVector('title'),
-    ).filter(search=search_term)
+    results_rfc_title  = Rfc.objects.filter(title__contains=search_term)
+    results_rfc_number = Rfc.objects.filter(number__contains=search_term)
+    results_rfc = results_rfc_title.union(results_rfc_number)
 
     if category=='cs':
         active_tab = 'cs'
