@@ -36,16 +36,14 @@ class Command(BaseCommand):
         complete_path = abspath(options['file_path'])
         vulns_created = 0
         with open(complete_path, 'r') as f:
-            lines = f.readlines()
-            for l in lines:
-                try:
-                    nam, sev, desc = l.split(';')
-                except ValueError:
-                    pass
+            for line in f.readlines():
+                if not line.startswith('#'):
+                    nam, sev, desc = line.split(';')
+
                 v, c = Vulnerability.objects.get_or_create(
-                    name = nam,
-                    severity = sev,
-                    description = desc,
+                    name = nam.strip(),
+                    severity = sev.strip(),
+                    description = desc.strip(),
                 )
                 if c:
                     vulns_created += 1
