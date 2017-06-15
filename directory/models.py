@@ -115,6 +115,7 @@ class Rfc(models.Model):
     )
     is_draft = models.BooleanField(
         editable=False,
+        default=False,
     )
     defined_cipher_suites = models.ManyToManyField(
         'CipherSuite',
@@ -151,6 +152,7 @@ class Technology(models.Model):
         'Vulnerability',
         blank=True,
     )
+
 
     def __str__(self):
         return self.short_name
@@ -194,6 +196,7 @@ class Vulnerability(models.Model):
 
     name = models.CharField(
         max_length=50,
+        primary_key=True,
     )
     description = models.TextField(
         max_length=10000,
