@@ -21,7 +21,7 @@ class CipherSuite(models.Model):
         verbose_name=_('cipher suite')
         verbose_name_plural=_('cipher suites')
         # hex bytes identifiy cipher suite uniquely
-        (('hex_byte_1', 'hex_byte_2'),)
+        unique_together=(('hex_byte_1', 'hex_byte_2'),)
 
     # name of the cipher as defined by RFC
     name = models.CharField(
@@ -113,6 +113,10 @@ class Rfc(models.Model):
     url = models.URLField(
         editable=False,
     )
+    is_draft = models.BooleanField(
+        editable=False,
+        default=False,
+    )
     defined_cipher_suites = models.ManyToManyField(
         'CipherSuite',
         verbose_name=_('defined cipher suites'),
@@ -126,7 +130,10 @@ class Rfc(models.Model):
     )
 
     def __str__(self):
-        return "RFC {}".format(self.number)
+        if self.is_draft:
+            return f"DRAFT RFC {self.number}"
+        else:
+            return f"RFC {self.number}"
 
 
 class Technology(models.Model):
@@ -145,6 +152,7 @@ class Technology(models.Model):
         'Vulnerability',
         blank=True,
     )
+
 
     def __str__(self):
         return self.short_name
@@ -188,9 +196,10 @@ class Vulnerability(models.Model):
 
     name = models.CharField(
         max_length=50,
+        primary_key=True,
     )
     description = models.TextField(
-        max_length=1000,
+        max_length=10000,
         blank=True,
     )
     HIG = 'HIG'
@@ -250,7 +259,7 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         month_list = ['January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December']
         month_and_year = re.compile(
-            r'\b(?:%s)\b (\d{4})' % '|'.join(month_list)
+            r'\b(?:%s)\b.*?(\d{4})' % '|'.join(month_list)
         )
         match = month_and_year.search(docinfo)
         return int(match.group(1))
@@ -285,7 +294,10 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         else:
             return 'UND'
 
-    url  = "https://tools.ietf.org/html/rfc{}".format(instance.number)
+    if instance.is_draft:
+        url = f"https://tools.ietf.org/html/draft-ietf-tls-rfc{instance.number}"
+    else:
+        url = f"https://tools.ietf.org/html/rfc{instance.number}"
     resp = requests.get(url)
     if resp.status_code == 200:
         instance.url  = url
