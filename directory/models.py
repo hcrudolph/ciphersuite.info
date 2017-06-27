@@ -199,7 +199,7 @@ class Vulnerability(models.Model):
         primary_key=True,
     )
     description = models.TextField(
-        max_length=10000,
+        max_length=1000,
         blank=True,
     )
     HIG = 'HIG'
@@ -231,7 +231,7 @@ class StaticPage(models.Model):
         max_length=50,
     )
     content = models.TextField(
-        max_length = 1000,
+        max_length = 10000,
     )
     glyphicon = models.CharField(
         max_length=50,
