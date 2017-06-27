@@ -1,0 +1,5 @@
+- model: directory.Vulnerability
+    pk: 'Export-grade cipher suite'
+    fields:
+        severity: 'HIG'
+        description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted.'
