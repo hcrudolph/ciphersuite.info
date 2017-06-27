@@ -213,7 +213,7 @@ def search(request):
 
     results_rfc_title  = Rfc.objects.filter(title__contains=search_term)
     results_rfc_number = Rfc.objects.filter(number__contains=search_term)
-    results_rfc = results_rfc_title.union(results_rfc_number)
+    results_rfc = results_rfc_title.union(results_rfc_number, results_rfc_title)
 
     if category=='cs':
         active_tab = 'cs'
@@ -410,8 +410,11 @@ def search(request):
         )
     ).filter(search=search_term)
 
-    results_rfc_title  = Rfc.objects.filter(title__contains=search_term)
+    # search RFCs for title
+    results_rfc_title = Rfc.objects.filter(title__icontains=search_term)
+    # search RFCs for number
     results_rfc_number = Rfc.objects.filter(number__contains=search_term)
+    # combine results from title and number lookup
     results_rfc = results_rfc_title.union(results_rfc_number)
 
     if category=='cs':
