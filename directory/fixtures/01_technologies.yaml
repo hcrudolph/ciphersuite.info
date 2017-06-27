@@ -1,0 +1,10 @@
+- model: directory.KexAlgorithm
+  pk: 'DH'
+  fields:
+    long_name: 'Diffie-Hellman'
+    vulnerabilities: []
+- model: directory.ProtocolVersion
+  pk: 'TLS EXPORT'
+  fields:
+    long_name: 'Export-grade cipher suite'
+    # vulnerabilities: ['Export-grade cipher suite',]
