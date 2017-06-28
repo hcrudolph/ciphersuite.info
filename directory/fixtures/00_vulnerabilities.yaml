@@ -1,20 +1,20 @@
 - model: directory.Vulnerability
-    pk: 'Export-grade cipher suite'
-    fields:
-        severity: 'HIG'
-        description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted.'
+  pk: 'Export-grade cipher suite'
+  fields:
+    severity: 'HIG'
+    description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted.'
 - model: directory.Vulnerability
-    pk: 'Secure Hash Algorithm 1'
-    fields:
-        severity: 'MED'
-        description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (cf. [shattered.io](https://shattered.io).'
+  pk: 'Secure Hash Algorithm 1'
+  fields:
+    severity: 'MED'
+    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (cf. [shattered.io](https://shattered.io).'
 - model: directory.Vulnerability
-    pk: 'Message Digest 5'
-    fields:
-        severity: 'HIG'
-        description: 'The Message Digest 5 algorithm suffers form multiple vulnerabilities and is considered insecure.'
+  pk: 'Message Digest 5'
+  fields:
+    severity: 'HIG'
+    description: 'The Message Digest 5 algorithm suffers form multiple vulnerabilities and is considered insecure.'
 - model: directory.Vulnerability
-    pk: 'Anonymous key exchange'
-    fields:
-        severity: 'HIG'
-        description: 'Anonymous key exchanges are generally vulnerable to Man in the Middle attacks.'
+  pk: 'Anonymous key exchange'
+  fields:
+    severity: 'HIG'
+    description: 'Anonymous key exchanges are generally vulnerable to Man in the Middle attacks.'
