@@ -7,7 +7,7 @@
   pk: 'Secure Hash Algorithm 1'
   fields:
     severity: 'MED'
-    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (cf. [shattered.io](https://shattered.io).'
+    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (cf. [shattered.io](https://shattered.io)).'
 - model: directory.Vulnerability
   pk: 'Message Digest 5'
   fields:
@@ -18,3 +18,28 @@
   fields:
     severity: 'HIG'
     description: 'Anonymous key exchanges are generally vulnerable to Man in the Middle attacks.'
+- model: directory.Vulnerability
+  pk: 'Rivest Cipher 4'
+  fields:
+    severity: 'HIG'
+    description: 'IETF has officially prohibited RC4 for use in TLS in RFC 7465. Therefore, it can be considered insecure.'
+- model: directory.Vulnerability
+  pk: 'NULL Encryption'
+  fields:
+    severity: 'HIG'
+    description: 'This cipher suite uses no encryption at all. Hence, it is not providing confidentiality.'
+- model: directory.Vulnerability
+  pk: 'NULL Authentication'
+  fields:
+    severity: 'HIG'
+    description: 'This cipher suite uses no authentication at all. Hence, it is not providing integrity.'
+- model: directory.Vulnerability
+  pk: 'Data Encryption Standard'
+  fields:
+    severity: 'HIG'
+    description: 'DES is considered weak, primarily due to its short key-lengths of 40 or 65-Bit. Furthermore, it has been withdrawn as a standard by the National Institute of Standards and Technology in 2005.'
+- model: directory.Vulnerability
+  pk: 'Triple DES'
+  fields:
+    severity: 'MED'
+    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it is proven to suffer from several vulnerabilities in the past.'
