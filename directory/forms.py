@@ -7,7 +7,7 @@ class MainSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-lg',
-                'placeholder': 'cipher, algorithm, vulnerability...',
+                'placeholder': 'cipher, algorithm, rfc, vulnerability...',
             }
         ),
     )
