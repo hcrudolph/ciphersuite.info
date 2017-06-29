@@ -39,7 +39,7 @@
     severity: 'HIG'
     description: 'DES is considered weak, primarily due to its short key-lengths of 40 or 65-Bit. Furthermore, it has been withdrawn as a standard by the National Institute of Standards and Technology in 2005.'
 - model: directory.Vulnerability
-  pk: 'Triple DES'
+  pk: 'Triple-DES'
   fields:
     severity: 'MED'
-    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it is proven to suffer from several vulnerabilities in the past.'
+    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it has been proven to suffer from several vulnerabilities in the past (cf. [openssl.org](https://www.openssl.org/blog/blog/2016/08/24/sweet32/)).'

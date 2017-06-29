@@ -171,7 +171,7 @@
   pk: '3DES EDE CBC'
   fields:
     long_name: 'Triple-DES in Encrypt Decrypt Encrypt and Cipher Block Chaining mode'
-    vulnerabilities: []
+    vulnerabilities: ['Triple-DES']
 - model: directory.EncAlgorithm
   pk: 'AES 128'
   fields:
