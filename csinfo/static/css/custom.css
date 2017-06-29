@@ -270,3 +270,9 @@ fieldset[disabled] .btn-custom.active {
     border-color: #d35400;
 }
 
+.help-text {
+    margin-top: 5%;
+    background-color: #eee;
+    border-color: #b9b9b9;
+    color: #555;
+}
