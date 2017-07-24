@@ -100,6 +100,7 @@ def index_cs(request):
 
     context = {
         'cipher_suites': cipher_suites,
+        'filtering': filtering,
         'navbar_context': 'cs',
         'page_number_range': range(1, cipher_suites.paginator.num_pages + 1),
         'search_form': NavbarSearchForm(),
@@ -124,7 +125,7 @@ def index_rfc(request):
     elif sorting=='title-desc':
         rfc_list = Rfc.objects.order_by('-title')
 
-    paginator = Paginator(rfc_list, 10)
+    paginator = Paginator(rfc_list, 15)
 
     try:
         rfc_list_paginated = paginator.page(page)
@@ -210,24 +211,86 @@ def search(request):
 
     # parse GET parameters
     search_term = request.GET.get('q', '')
+    filtering = request.GET.get('f', '')
     category = request.GET.get('c', 'cs')
     page = request.GET.get('p', 1)
 
     results_cs = CipherSuite.objects.filter(
-        Q(name__icontains=search_term) |
-        Q(auth_algorithm__long_name__icontains=search_term) |
-        Q(enc_algorithm__long_name__icontains=search_term) |
-        Q(kex_algorithm__long_name__icontains=search_term) |
-        Q(hash_algorithm__long_name__icontains=search_term) |
-        Q(protocol_version__long_name__icontains=search_term) |
-        Q(auth_algorithm__vulnerabilities__name__icontains=search_term) |
-        Q(enc_algorithm__vulnerabilities__name__icontains=search_term) |
-        Q(kex_algorithm__vulnerabilities__name__icontains=search_term) |
+        Q(name__icontains=search_term)|
+        Q(auth_algorithm__long_name__icontains=search_term)|
+        Q(enc_algorithm__long_name__icontains=search_term)|
+        Q(kex_algorithm__long_name__icontains=search_term)|
+        Q(hash_algorithm__long_name__icontains=search_term)|
+        Q(protocol_version__long_name__icontains=search_term)|
+        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+        Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
+        Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
         Q(hash_algorithm__vulnerabilities__name__icontains=search_term)
     )
 
+    if filtering=='weak':
+        results_cs = results_cs.filter(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
+    elif filtering=='insecure':
+        results_cs = results_cs.filter(
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        ).exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
+    elif filtering=='information':
+        results_cs = results_cs.filter(
+            Q(protocol_version__vulnerabilities__severity='LOW')|
+            Q(kex_algorithm__vulnerabilities__severity='LOW')|
+            Q(enc_algorithm__vulnerabilities__severity='LOW')|
+            Q(auth_algorithm__vulnerabilities__severity='LOW')|
+            Q(hash_algorithm__vulnerabilities__severity='LOW')
+        ).exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        )
+    elif filtering=='secure':
+        results_cs = results_cs.exclude(
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='LOW')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='LOW')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='LOW')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='LOW')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='LOW')|
+            Q(protocol_version__vulnerabilities__severity='MED')
+        )
+
     results_rfc = Rfc.objects.filter(
-        Q(title__icontains=search_term) | Q(number__icontains=search_term)
+        Q(title__icontains=search_term)|
+        Q(number__icontains=search_term)
     )
 
     if category=='cs':
@@ -250,6 +313,7 @@ def search(request):
     context = {
         'active_tab': active_tab,
         'category': category,
+        'filtering': filtering,
         'full_path' : request.get_full_path(),
         'page_number_range': range(1, results_paginated.paginator.num_pages+1),
         'result_count_cs': len(results_cs),
