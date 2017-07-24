@@ -52,28 +52,40 @@ def index_cs(request):
 
     # parse GET parameters
     sorting = request.GET.get('s', 'name-asc')
+    filtering = request.GET.get('f', 'all')
     page = request.GET.get('p', 1)
 
+    if filtering=='weak':
+        cipher_suite_list = CipherSuite.vulnerabilities.high()
+    elif filtering=='insecure':
+        cipher_suite_list = CipherSuite.vulnerabilities.medium()
+    elif filtering=='information':
+        cipher_suite_list = CipherSuite.vulnerabilities.low()
+    elif filtering=='secure':
+        cipher_suite_list = CipherSuite.vulnerabilities.none()
+    else:
+        cipher_suite_list = CipherSuite.objects.all()
+
     if sorting=='name-asc':
-        cipher_suite_list = CipherSuite.objects.order_by('name')
+        cipher_suite_list = cipher_suite_list.order_by('name')
     elif sorting=='name-desc':
-        cipher_suite_list = CipherSuite.objects.order_by('-name')
+        cipher_suite_list = cipher_suite_list.order_by('-name')
     elif sorting=='kex-asc':
-        cipher_suite_list = CipherSuite.objects.order_by('kex_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('kex_algorithm')
     elif sorting=='kex-desc':
-        cipher_suite_list = CipherSuite.objects.order_by('-kex_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('-kex_algorithm')
     elif sorting=='auth-asc':
-        cipher_suite_list = CipherSuite.objects.order_by('auth_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('auth_algorithm')
     elif sorting=='auth-desc':
-        cipher_suite_list = CipherSuite.objects.order_by('-auth_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('-auth_algorithm')
     elif sorting=='enc-asc':
-        cipher_suite_list = CipherSuite.objects.order_by('enc_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('enc_algorithm')
     elif sorting=='enc-desc':
-        cipher_suite_list = CipherSuite.objects.order_by('-enc_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('-enc_algorithm')
     elif sorting=='hash-asc':
-        cipher_suite_list = CipherSuite.objects.order_by('hash_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('hash_algorithm')
     elif sorting=='hash-desc':
-        cipher_suite_list = CipherSuite.objects.order_by('-hash_algorithm')
+        cipher_suite_list = cipher_suite_list.order_by('-hash_algorithm')
 
     paginator = Paginator(cipher_suite_list, 15)
 

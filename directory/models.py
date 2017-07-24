@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.db.models import Q
 
 # general python imports
 from lxml import html
@@ -13,6 +14,72 @@ import re
 #####################
 # Model definitions #
 #####################
+
+class CipherSuiteQuerySet(models.QuerySet):
+    def none(self):
+        return self.all().exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(protocol_version__vulnerabilities__severity='LOW')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='LOW')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='LOW')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='LOW')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='LOW')
+        )
+
+    def low(self):
+        low = self.filter(
+            Q(protocol_version__vulnerabilities__severity='LOW')|
+            Q(kex_algorithm__vulnerabilities__severity='LOW')|
+            Q(enc_algorithm__vulnerabilities__severity='LOW')|
+            Q(auth_algorithm__vulnerabilities__severity='LOW')|
+            Q(hash_algorithm__vulnerabilities__severity='LOW')
+        )
+        return low.exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        )
+
+    def medium(self):
+        medium = self.filter(
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        )
+        return medium.exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
+
+    def high(self):
+        return self.filter(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
 
 
 class CipherSuite(models.Model):
@@ -106,6 +173,9 @@ class CipherSuite(models.Model):
             return True
         else:
             return False
+
+    objects = models.Manager()
+    vulnerabilities = CipherSuiteQuerySet.as_manager()
 
     def __str__(self):
         return self.name
