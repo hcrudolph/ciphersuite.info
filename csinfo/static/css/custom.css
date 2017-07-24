@@ -280,7 +280,6 @@ fieldset[disabled] .btn-custom.active {
 
 .label-fixed-width {
     display: inline-block;
-    margin-bottom: 4px;
     min-width: 65px;
 }
 
