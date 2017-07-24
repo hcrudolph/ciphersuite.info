@@ -66,6 +66,47 @@ class CipherSuite(models.Model):
         editable=False,
     )
 
+    def get_vulnerabilities(self):
+        return set().union(
+            self.protocol_version.vulnerabilities.all().values_list('severity', flat=True),
+            self.enc_algorithm.vulnerabilities.all().values_list('severity', flat=True),
+            self.kex_algorithm.vulnerabilities.all().values_list('severity', flat=True),
+            self.auth_algorithm.vulnerabilities.all().values_list('severity', flat=True),
+            self.hash_algorithm.vulnerabilities.all().values_list('severity', flat=True)
+        )
+
+    @property
+    def no_severity(self):
+        vulnerabilities = self.get_vulnerabilities()
+        if not any(vulnerabilities):
+            return True
+        else:
+            return False
+
+    @property
+    def low_severity(self):
+        vulnerabilities = self.get_vulnerabilities()
+        if any([v for v in vulnerabilities if v=='LOW']):
+            return True
+        else:
+            return False
+
+    @property
+    def med_severity(self):
+        vulnerabilities = self.get_vulnerabilities()
+        if any([v for v in vulnerabilities if v=='MED']):
+            return True
+        else:
+            return False
+
+    @property
+    def high_severity(self):
+        vulnerabilities = self.get_vulnerabilities()
+        if any([v for v in vulnerabilities if v=='HIG']):
+            return True
+        else:
+            return False
+
     def __str__(self):
         return self.name
 

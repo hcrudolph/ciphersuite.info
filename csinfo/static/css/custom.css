@@ -101,6 +101,7 @@ a:hover {
     padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 15px;
+    text-decoration: none;
 }
 
 .minimallist {
@@ -276,3 +277,10 @@ fieldset[disabled] .btn-custom.active {
     border-color: #b9b9b9;
     color: #555;
 }
+
+.label-fixed-width {
+    display: inline-block;
+    margin-bottom: 4px;
+    min-width: 65px;
+}
+

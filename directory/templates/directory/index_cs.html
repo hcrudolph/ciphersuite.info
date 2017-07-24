@@ -31,9 +31,15 @@
         <div class="col-md-8 col-md-offset-2">
         {% if cipher_suites %}
             <ul class="prettylist">
-            {% for cipher_suite in cipher_suites %}
-                <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">&rsaquo; {{ cipher_suite.name }}</a></li>
-            {% endfor %}
+                {% for cipher_suite in cipher_suites %}
+                <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
+                    {% if cipher_suite.high_severity %}<span class="label label-fixed-width label-danger">Insecure</span>
+                    {% elif cipher_suite.med_severity %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% elif cipher_suite.low_severity %}<span class="label label-fixed-width label-info">Information</span>
+                    {% elif cipher_suite.no_severity %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% endif %}
+                {{ cipher_suite.name }}</a></li>
+                {% endfor %}
             </ul>
         {% else %}
             <p>No cipher suites found.</p>
