@@ -16,34 +16,8 @@ import re
 #####################
 
 class CipherSuiteQuerySet(models.QuerySet):
-    def none(self):
+    def secure(self):
         return self.all().exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(protocol_version__vulnerabilities__severity='LOW')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='LOW')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='LOW')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='LOW')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='LOW')
-        )
-
-    def low(self):
-        low = self.filter(
-            Q(protocol_version__vulnerabilities__severity='LOW')|
-            Q(kex_algorithm__vulnerabilities__severity='LOW')|
-            Q(enc_algorithm__vulnerabilities__severity='LOW')|
-            Q(auth_algorithm__vulnerabilities__severity='LOW')|
-            Q(hash_algorithm__vulnerabilities__severity='LOW')
-        )
-        return low.exclude(
             Q(protocol_version__vulnerabilities__severity='HIG')|
             Q(protocol_version__vulnerabilities__severity='MED')|
             Q(kex_algorithm__vulnerabilities__severity='HIG')|
@@ -56,7 +30,7 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(hash_algorithm__vulnerabilities__severity='MED')
         )
 
-    def medium(self):
+    def weak(self):
         medium = self.filter(
             Q(protocol_version__vulnerabilities__severity='MED')|
             Q(kex_algorithm__vulnerabilities__severity='MED')|
@@ -72,7 +46,7 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(hash_algorithm__vulnerabilities__severity='HIG')
         )
 
-    def high(self):
+    def insecure(self):
         return self.filter(
             Q(protocol_version__vulnerabilities__severity='HIG')|
             Q(kex_algorithm__vulnerabilities__severity='HIG')|
@@ -133,7 +107,7 @@ class CipherSuite(models.Model):
         editable=False,
     )
 
-    def get_vulnerabilities(self):
+    def __get_vulnerabilities(self):
         return set().union(
             self.protocol_version.vulnerabilities.all().values_list('severity', flat=True),
             self.enc_algorithm.vulnerabilities.all().values_list('severity', flat=True),
@@ -144,7 +118,7 @@ class CipherSuite(models.Model):
 
     @property
     def no_severity(self):
-        vulnerabilities = self.get_vulnerabilities()
+        vulnerabilities = self.__get_vulnerabilities()
         if not any(vulnerabilities):
             return True
         else:
@@ -152,7 +126,7 @@ class CipherSuite(models.Model):
 
     @property
     def low_severity(self):
-        vulnerabilities = self.get_vulnerabilities()
+        vulnerabilities = self.__get_vulnerabilities()
         if any([v for v in vulnerabilities if v=='LOW']):
             return True
         else:
@@ -160,7 +134,7 @@ class CipherSuite(models.Model):
 
     @property
     def med_severity(self):
-        vulnerabilities = self.get_vulnerabilities()
+        vulnerabilities = self.__get_vulnerabilities()
         if any([v for v in vulnerabilities if v=='MED']):
             return True
         else:
@@ -168,7 +142,7 @@ class CipherSuite(models.Model):
 
     @property
     def high_severity(self):
-        vulnerabilities = self.get_vulnerabilities()
+        vulnerabilities = self.__get_vulnerabilities()
         if any([v for v in vulnerabilities if v=='HIG']):
             return True
         else:

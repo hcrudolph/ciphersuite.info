@@ -52,17 +52,15 @@ def index_cs(request):
 
     # parse GET parameters
     sorting = request.GET.get('s', 'name-asc')
-    filtering = request.GET.get('f', 'all')
+    filtering = request.GET.get('f', '')
     page = request.GET.get('p', 1)
 
-    if filtering=='weak':
-        cipher_suite_list = CipherSuite.vulnerabilities.high()
-    elif filtering=='insecure':
-        cipher_suite_list = CipherSuite.vulnerabilities.medium()
-    elif filtering=='information':
-        cipher_suite_list = CipherSuite.vulnerabilities.low()
+    if filtering=='insecure':
+        cipher_suite_list = CipherSuite.vulnerabilities.insecure()
+    elif filtering=='weak':
+        cipher_suite_list = CipherSuite.vulnerabilities.weak()
     elif filtering=='secure':
-        cipher_suite_list = CipherSuite.vulnerabilities.none()
+        cipher_suite_list = CipherSuite.vulnerabilities.secure()
     else:
         cipher_suite_list = CipherSuite.objects.all()
 
@@ -228,7 +226,7 @@ def search(request):
         Q(hash_algorithm__vulnerabilities__name__icontains=search_term)
     )
 
-    if filtering=='weak':
+    if filtering=='insecure':
         results_cs = results_cs.filter(
             Q(protocol_version__vulnerabilities__severity='HIG')|
             Q(kex_algorithm__vulnerabilities__severity='HIG')|
@@ -236,7 +234,7 @@ def search(request):
             Q(auth_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')
         )
-    elif filtering=='insecure':
+    elif filtering=='weak':
         results_cs = results_cs.filter(
             Q(protocol_version__vulnerabilities__severity='MED')|
             Q(kex_algorithm__vulnerabilities__severity='MED')|
@@ -249,42 +247,18 @@ def search(request):
             Q(enc_algorithm__vulnerabilities__severity='HIG')|
             Q(auth_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
-    elif filtering=='information':
-        results_cs = results_cs.filter(
-            Q(protocol_version__vulnerabilities__severity='LOW')|
-            Q(kex_algorithm__vulnerabilities__severity='LOW')|
-            Q(enc_algorithm__vulnerabilities__severity='LOW')|
-            Q(auth_algorithm__vulnerabilities__severity='LOW')|
-            Q(hash_algorithm__vulnerabilities__severity='LOW')
-        ).exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
         )
     elif filtering=='secure':
         results_cs = results_cs.exclude(
             Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='LOW')|
             Q(auth_algorithm__vulnerabilities__severity='MED')|
             Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='LOW')|
             Q(enc_algorithm__vulnerabilities__severity='MED')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='LOW')|
             Q(hash_algorithm__vulnerabilities__severity='MED')|
             Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='LOW')|
             Q(kex_algorithm__vulnerabilities__severity='MED')|
             Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='LOW')|
             Q(protocol_version__vulnerabilities__severity='MED')
         )
 

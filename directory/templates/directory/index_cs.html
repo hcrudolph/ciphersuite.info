@@ -32,9 +32,8 @@
                     <li><a href="?f=all">All</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="?f=secure">Secure</a></li>
-                    <li><a href="?f=information">Information</a></li>
-                    <li><a href="?f=insecure">Insecure</a></li>
                     <li><a href="?f=weak">Weak</a></li>
+                    <li><a href="?f=insecure">Insecure</a></li>
                 </ul>
             </div><!-- end button group -->
             </h1>
@@ -49,7 +48,6 @@
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
                     {% if cipher_suite.high_severity %}<span class="label label-fixed-width label-danger">Insecure</span>
                     {% elif cipher_suite.med_severity %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% elif cipher_suite.low_severity %}<span class="label label-fixed-width label-info">Information</span>
                     {% elif cipher_suite.no_severity %}<span class="label label-fixed-width label-success">Secure</span>
                     {% endif %}
                 {{ cipher_suite.name }}</a></li>

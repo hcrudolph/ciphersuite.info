@@ -13,9 +13,8 @@
                     <li><a href="/search/?q={{ search_term }}">All</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="/search/?q={{ search_term }}&f=secure">Secure</a></li>
-                    <li><a href="/search/?q={{ search_term }}&f=information">Information</a></li>
-                    <li><a href="/search/?q={{ search_term }}&f=insecure">Insecure</a></li>
                     <li><a href="/search/?q={{ search_term }}&f=weak">Weak</a></li>
+                    <li><a href="/search/?q={{ search_term }}&f=insecure">Insecure</a></li>
                 </ul>
             </div><!-- end button group -->
         </h2>
@@ -47,7 +46,6 @@
                 <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
                     {% if element.high_severity %}<span class="label label-fixed-width label-danger">Insecure</span>
                     {% elif element.med_severity %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% elif element.low_severity %}<span class="label label-fixed-width label-info">Information</span>
                     {% elif element.no_severity %}<span class="label label-fixed-width label-success">Secure</span>
                     {% endif %}
                 {{ element.name }}</a></li>
