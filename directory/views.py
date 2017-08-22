@@ -7,6 +7,19 @@ from django.db.models import Q
 from .models import *
 from .forms import *
 
+def paginate(result_list, page, elements_per_page):
+    """Generic function for paginating result lists."""
+    paginator = Paginator(result_list, elements_per_page)
+    try:
+        result = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        result = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        result = paginator.page(paginator.num_pages)
+    return result
+
 
 def index(request):
     """Site-wide index accessed when visiting the web root."""
@@ -33,74 +46,56 @@ def about(request):
     return render(request, 'directory/static_page.html', context)
 
 
-def news(request):
-    """Static page with project information."""
-
-    news_page = get_object_or_404(StaticPage, pk='news')
-
-    context = {
-        'navbar_context': news_page.title,
-        'search_form': NavbarSearchForm(),
-        'static_page': news_page,
-    }
-
-    return render(request, 'directory/static_page.html', context)
-
-
 def index_cs(request):
-    """CipherSuite overview, listing all instances in ascending order by hexcode."""
+    """CipherSuite overview, listing all instances stored in the database."""
 
+    def get_cipher_suites(filter):
+        """Returns a (filtered) list of CipherSuite instances."""
+        if filter=='insecure':
+            return CipherSuite.vulnerabilities.insecure()
+        elif filter=='weak':
+            return CipherSuite.vulnerabilities.weak()
+        elif filter=='secure':
+            return CipherSuite.vulnerabilities.secure()
+        else:
+            return CipherSuite.objects.all()
+
+    def sort_cipher_suites(cs, order):
+        """Sorts the given list of CipherSuite instances in a specific order."""
+        if order=='name-asc':
+            return cs.order_by('name')
+        elif order=='name-desc':
+            return cs.order_by('-name')
+        elif order=='kex-asc':
+            return cs.order_by('kex_algorithm')
+        elif order=='kex-desc':
+            return cs.order_by('-kex_algorithm')
+        elif order=='auth-asc':
+            return cs.order_by('auth_algorithm')
+        elif order=='auth-desc':
+            return cs.order_by('-auth_algorithm')
+        elif order=='enc-asc':
+            return cs.order_by('enc_algorithm')
+        elif order=='enc-desc':
+            return cs.order_by('-enc_algorithm')
+        elif order=='hash-asc':
+            return cs.order_by('hash_algorithm')
+        elif order=='hash-desc':
+            return cs.order_by('-hash_algorithm')
+            
     # parse GET parameters
     sorting = request.GET.get('s', 'name-asc')
-    filtering = request.GET.get('f', '')
+    filter = request.GET.get('f', '')
     page = request.GET.get('p', 1)
 
-    if filtering=='insecure':
-        cipher_suite_list = CipherSuite.vulnerabilities.insecure()
-    elif filtering=='weak':
-        cipher_suite_list = CipherSuite.vulnerabilities.weak()
-    elif filtering=='secure':
-        cipher_suite_list = CipherSuite.vulnerabilities.secure()
-    else:
-        cipher_suite_list = CipherSuite.objects.all()
-
-    if sorting=='name-asc':
-        cipher_suite_list = cipher_suite_list.order_by('name')
-    elif sorting=='name-desc':
-        cipher_suite_list = cipher_suite_list.order_by('-name')
-    elif sorting=='kex-asc':
-        cipher_suite_list = cipher_suite_list.order_by('kex_algorithm')
-    elif sorting=='kex-desc':
-        cipher_suite_list = cipher_suite_list.order_by('-kex_algorithm')
-    elif sorting=='auth-asc':
-        cipher_suite_list = cipher_suite_list.order_by('auth_algorithm')
-    elif sorting=='auth-desc':
-        cipher_suite_list = cipher_suite_list.order_by('-auth_algorithm')
-    elif sorting=='enc-asc':
-        cipher_suite_list = cipher_suite_list.order_by('enc_algorithm')
-    elif sorting=='enc-desc':
-        cipher_suite_list = cipher_suite_list.order_by('-enc_algorithm')
-    elif sorting=='hash-asc':
-        cipher_suite_list = cipher_suite_list.order_by('hash_algorithm')
-    elif sorting=='hash-desc':
-        cipher_suite_list = cipher_suite_list.order_by('-hash_algorithm')
-
-    paginator = Paginator(cipher_suite_list, 15)
-
-    try:
-        cipher_suites = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        cipher_suites = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        cipher_suites = paginator.page(paginator.num_pages)
+    cipher_suite_list = sort_cipher_suites(get_cipher_suites(filter), sorting)
+    cipher_suites_paginated = paginate(cipher_suite_list, page, 15)
 
     context = {
-        'cipher_suites': cipher_suites,
-        'filtering': filtering,
+        'cipher_suites': cipher_suites_paginated,
+        'filtering': filter,
         'navbar_context': 'cs',
-        'page_number_range': range(1, cipher_suites.paginator.num_pages + 1),
+        'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
         'search_form': NavbarSearchForm(),
     }
 
@@ -108,31 +103,26 @@ def index_cs(request):
 
 
 def index_rfc(request):
-    """Rfc overview, listing all instances in ascending order by number."""
+    """Rfc overview, listing all instances stored in the database."""
+
+    def sort_rfcs(rfcs, order):
+        """Sorts the given list of Rfc instances in a specific order."""
+        if order=='number-asc':
+            return rfcs.order_by('number')
+        elif order=='number-desc':
+            return rfcs.order_by('-number')
+        elif order=='title-asc':
+            return rfcs.order_by('title')
+        elif order=='title-desc':
+            return rfcs.order_by('-title')
+
 
     # parse GET parameters
     sorting = request.GET.get('s', 'number-asc')
     page = request.GET.get('p', 1)
 
-    if sorting=='number-asc':
-        rfc_list = Rfc.objects.order_by('number')
-    elif sorting=='number-desc':
-        rfc_list = Rfc.objects.order_by('-number')
-    elif sorting=='title-asc':
-        rfc_list = Rfc.objects.order_by('title')
-    elif sorting=='title-desc':
-        rfc_list = Rfc.objects.order_by('-title')
-
-    paginator = Paginator(rfc_list, 15)
-
-    try:
-        rfc_list_paginated = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        rfc_list_paginated = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        rfc_list_paginated = paginator.page(paginator.num_pages)
+    rfc_list = sort_rfcs(Rfc.objects.all(), sorting)
+    rfc_list_paginated = paginate(rfc_list, page, 15)
 
     context = {
         'navbar_context': 'rfc',
@@ -205,96 +195,102 @@ def detail_rfc(request, rfc_number):
 
 
 def search(request):
-    """Search result page."""
+    """Search functionality and result page for Rfc and CipherSuite instances."""
+
+    def search_rfcs(search_term):
+        """Returns a QuerySet of all Rfc instances,
+         whose title or number contains the given search term"""
+        return Rfc.objects.filter(
+            Q(title__icontains=search_term)|
+            Q(number__icontains=search_term)
+        )
+
+    def search_cipher_suites(search_term):
+        """Returns a QuerySet of all CipherSuite instances, whose name, 
+        algorithms or their vulnerabilities contain the given search term"""
+        return CipherSuite.objects.filter(
+            Q(name__icontains=search_term)|
+            Q(auth_algorithm__long_name__icontains=search_term)|
+            Q(enc_algorithm__long_name__icontains=search_term)|
+            Q(kex_algorithm__long_name__icontains=search_term)|
+            Q(hash_algorithm__long_name__icontains=search_term)|
+            Q(protocol_version__long_name__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(hash_algorithm__vulnerabilities__name__icontains=search_term)
+        )
+
+    def filter_cipher_suites(cipher_suite_list, filter):
+        """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
+        if filter=='insecure':
+            return cipher_suite_list.filter(
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')
+            )
+        elif filter=='weak':
+            return cipher_suite_list.filter(
+                Q(protocol_version__vulnerabilities__severity='MED')|
+                Q(kex_algorithm__vulnerabilities__severity='MED')|
+                Q(enc_algorithm__vulnerabilities__severity='MED')|
+                Q(auth_algorithm__vulnerabilities__severity='MED')|
+                Q(hash_algorithm__vulnerabilities__severity='MED')
+            ).exclude(
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')
+            )
+        elif filter=='secure':
+            return cipher_suite_list.exclude(
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='MED')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='MED')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='MED')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='MED')|
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(protocol_version__vulnerabilities__severity='MED')
+            )
+        else:
+            return cipher_suite_list
 
     # parse GET parameters
     search_term = request.GET.get('q', '')
-    filtering = request.GET.get('f', '')
+    filter = request.GET.get('f', '')
     category = request.GET.get('c', 'cs')
     page = request.GET.get('p', 1)
 
-    results_cs = CipherSuite.objects.filter(
-        Q(name__icontains=search_term)|
-        Q(auth_algorithm__long_name__icontains=search_term)|
-        Q(enc_algorithm__long_name__icontains=search_term)|
-        Q(kex_algorithm__long_name__icontains=search_term)|
-        Q(hash_algorithm__long_name__icontains=search_term)|
-        Q(protocol_version__long_name__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(hash_algorithm__vulnerabilities__name__icontains=search_term)
-    )
-
-    if filtering=='insecure':
-        results_cs = results_cs.filter(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
-    elif filtering=='weak':
-        results_cs = results_cs.filter(
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
-        ).exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
-    elif filtering=='secure':
-        results_cs = results_cs.exclude(
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')
-        )
-
-    results_rfc = Rfc.objects.filter(
-        Q(title__icontains=search_term)|
-        Q(number__icontains=search_term)
-    )
+    result_list_cs = filter_cipher_suites(search_cipher_suites(search_term), filter)
+    result_list_rfc = search_rfcs(search_term)
 
     if category=='cs':
         active_tab = 'cs'
-        results = results_cs
+        result_list = result_list_cs
     else:
         active_tab = 'rfc'
-        results = results_rfc
+        result_list = result_list_rfc
 
-    paginator = Paginator(results, 15)
-    try:
-        results_paginated = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        results_paginated = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range, deliver last page of results.
-        results_paginated = paginator.page(paginator.num_pages)
+    result_list_paginated = paginate(result_list, page, 15)
 
     context = {
         'active_tab': active_tab,
         'category': category,
-        'filtering': filtering,
+        'filtering': filter,
         'full_path' : request.get_full_path(),
-        'page_number_range': range(1, results_paginated.paginator.num_pages+1),
-        'result_count_cs': len(results_cs),
-        'result_count_rfc': len(results_rfc),
+        'page_number_range': range(1, result_list_paginated.paginator.num_pages+1),
+        'result_count_cs': len(result_list_cs),
+        'result_count_rfc': len(result_list_rfc),
         'search_form': NavbarSearchForm(),
-        'search_result_list': results_paginated,
+        'search_result_list': result_list_paginated,
         'search_term': search_term,
     }
 
     return render(request, 'directory/search.html', context)
+
