@@ -7,11 +7,11 @@ from django.db.models import Q
 from .models import *
 from .forms import *
 
-def paginate(result_list, page, elements_per_page):
+def paginate(result_list, current_page, elements_per_page):
     """Generic function for paginating result lists."""
     paginator = Paginator(result_list, elements_per_page)
     try:
-        result = paginator.page(page)
+        result = paginator.page(current_page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
         result = paginator.page(1)
@@ -50,7 +50,7 @@ def index_cs(request):
     """CipherSuite overview, listing all instances stored in the database."""
 
     def get_cipher_suites(filter):
-        """Returns a (filtered) list of CipherSuite instances."""
+        """Returns a (filtered) list of CipherSuite instances."""  
         if filter=='insecure':
             return CipherSuite.vulnerabilities.insecure()
         elif filter=='weak':
@@ -93,7 +93,7 @@ def index_cs(request):
 
     context = {
         'cipher_suites': cipher_suites_paginated,
-        'filtering': filter,
+        'filter': filter,
         'navbar_context': 'cs',
         'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
         'search_form': NavbarSearchForm(),
@@ -270,6 +270,7 @@ def search(request):
     result_list_cs = filter_cipher_suites(search_cipher_suites(search_term), filter)
     result_list_rfc = search_rfcs(search_term)
 
+    # distinguish results to display by category
     if category=='cs':
         active_tab = 'cs'
         result_list = result_list_cs
@@ -282,7 +283,7 @@ def search(request):
     context = {
         'active_tab': active_tab,
         'category': category,
-        'filtering': filter,
+        'filter': filter,
         'full_path' : request.get_full_path(),
         'page_number_range': range(1, result_list_paginated.paginator.num_pages+1),
         'result_count_cs': len(result_list_cs),

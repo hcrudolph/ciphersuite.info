@@ -68,10 +68,10 @@
 
                         <!-- First and previous links -->
                         {% if cipher_suites.has_previous %}
-                        <li class="first"><a href="?p=1&f={{ filtering }}">
+                        <li class="first"><a href="?p=1&f={{ filter }}">
                                 <span aria-hidden="true">&laquo;</span>
                             </a></li>
-                            <li class="previous"><a href="?p={{ cipher_suites.previous_page_number }}&f={{ filtering }}">
+                            <li class="previous"><a href="?p={{ cipher_suites.previous_page_number }}&f={{ filter }}">
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a></li>
                         {% else %}
@@ -87,20 +87,20 @@
                         {% for page in page_number_range %}
                             <!-- active case -->
                             {% if page == cipher_suites.number %}
-                                <li class="active"><a href="?p={{ page }}&f={{ filtering }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                                <li class="active"><a href="?p={{ page }}&f={{ filter }}">{{ page }} <span class="sr-only">(current)</span></a></li>
                             {% elif page > 5 and page > cipher_suites.number|add:"+2" %}
                             {% elif page < cipher_suites.paginator.num_pages|add:"-4" and page < cipher_suites.number|add:"-2" %}
                             {% else %}
-                                <li><a href="?p={{ page }}&f={{ filtering }}">{{ page }} </a></li>
+                                <li><a href="?p={{ page }}&f={{ filter }}">{{ page }} </a></li>
                             {% endif %}
                         {% endfor %}
 
                         <!-- Next and last links -->
                         {% if cipher_suites.has_next %}
-                            <li class="next"><a href="?p={{ cipher_suites.next_page_number }}&f={{ filtering }}">
+                            <li class="next"><a href="?p={{ cipher_suites.next_page_number }}&f={{ filter }}">
                                 <span aria-hidden="true">&rsaquo;</span>
                             </a></li>
-                            <li class="last"><a href="?p={{ cipher_suites.paginator.num_pages }}&f={{ filtering }}">
+                            <li class="last"><a href="?p={{ cipher_suites.paginator.num_pages }}&f={{ filter }}">
                                 <span aria-hidden="true">&raquo;</span>
                             </a></li>
                         {% else %}
