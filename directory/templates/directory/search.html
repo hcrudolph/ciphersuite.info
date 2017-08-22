@@ -44,9 +44,9 @@
             {% for element in search_result_list %}
             {% if active_tab == "cs" %}
                 <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
-                    {% if element.high_severity %}<span class="label label-fixed-width label-danger">Insecure</span>
-                    {% elif element.med_severity %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% elif element.no_severity %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% if element.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
+                    {% elif element.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% else %}<span class="label label-fixed-width label-success">Secure</span>
                     {% endif %}
                 {{ element.name }}</a></li>
             {% elif active_tab == "rfc" %}
