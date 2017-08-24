@@ -1,0 +1,40 @@
+{% extends "directory/base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>{{ post.title }}</h1>
+        <p class="small">
+            posted by <a href="/blog/authors/{{ post.author }}">{{ post.author }}</a> 
+            in <a href="/blog/category/{{ post.category.slug }}">{{ post.category }}</a> 
+            published {{ post.first_published|date:"Y-m-d" }}
+            {% if post.last_edited != post.first_published %} last_edited {{ post.last_edited|date:"Y-m-d" }}{% endif %}
+        </p>
+    </div><!-- end column -->
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <p class="post-intro">{{ post.intro }}</p>
+    </div><!-- end column -->
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">        
+        <p>{{ post.text }}</p>
+    </div><!-- end column -->
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <p>Tags</p>
+        <p>
+            <ul>
+                {% for tag in post.tags.all %}
+                <li><a href="/blog/tags/{{ tag.slug }}">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
+        </p>
+    </div><!-- end column -->
+</div>
+
+{% endblock content %}

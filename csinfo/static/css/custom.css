@@ -45,6 +45,15 @@ a:hover {
     font-weight: bold;
 }
 
+.small {
+    font-size: .8em;
+}
+
+.post-intro {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 .title-heading {
     font-size: 4em;
     margin-top: 20%;

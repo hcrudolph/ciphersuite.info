@@ -26,6 +26,11 @@
                             <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RFCs
                         </a>
                     </li>
+                    <li {% if navbar_context == "blog" %}class="active"{% endif %}>
+                        <a href="/blog/">
+                            <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Blog
+                        </a>
+                    </li>
                     {% for page in static_pages %}
                         <li {% if navbar_context == page.title %}class="active"{% endif %}>
                             <a href="/{{ page|lower }}/">
