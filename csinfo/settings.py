@@ -36,14 +36,14 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'markdown_deux',
-    'blog.apps.BlogConfig',
-    'directory.apps.DirectoryConfig',
     'django.contrib.postgres',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'blog.apps.BlogConfig',
+    'directory.apps.DirectoryConfig',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 ]
