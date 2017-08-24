@@ -1,14 +1,16 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import get_object_or_404, render
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
+from django.template import loader
+from django.shortcuts import get_object_or_404, render
 
 from .models import *
 from .forms import *
-
+ 
 def paginate(result_list, current_page, elements_per_page):
     """Generic function for paginating result lists."""
+
     paginator = Paginator(result_list, elements_per_page)
     try:
         result = paginator.page(current_page)
@@ -279,6 +281,31 @@ def search(request):
         result_list = result_list_rfc
 
     result_list_paginated = paginate(result_list, page, 15)
+
+    # search RFCs for title
+    results_rfc_title = Rfc.objects.filter(title__icontains=search_term)
+    # search RFCs for number
+    results_rfc_number = Rfc.objects.filter(number__contains=search_term)
+    # combine results from title and number lookup
+    results_rfc = results_rfc_title.union(results_rfc_number)
+
+    if category=='cs':
+        active_tab = 'cs'
+        results = results_cs
+    elif category=='rfc':
+        active_tab = 'rfc'
+        results = results_rfc
+
+    paginator = Paginator(results, 15)
+
+    try:
+        results_paginated = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        results_paginated = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        results_paginated = paginator.page(paginator.num_pages)
 
     context = {
         'active_tab': active_tab,

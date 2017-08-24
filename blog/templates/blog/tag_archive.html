@@ -1,0 +1,22 @@
+{% extends "directory/base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>{{ tag_list|length }} {% if tag_list|length == 1 %}Tag{% else %}Tags{% endif %}</h1>
+    </div><!-- end column -->
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <ul>
+        {% for tag in tag_list %}
+        <li>
+            <a href="/blog/tags/{{ tag.slug }}">{{ tag }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+    </div><!-- end column -->
+</div>
+
+{% endblock content %}

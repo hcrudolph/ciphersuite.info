@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'markdown_deux',
+    'blog.apps.BlogConfig',
     'directory.apps.DirectoryConfig',
     'django.contrib.postgres',
     'django.contrib.admin',
