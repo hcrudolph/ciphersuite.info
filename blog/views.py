@@ -91,10 +91,10 @@ def category_archive(request):
     return render(request, 'blog/category_archive.html', context)
 
 def author_archive(request):
-    usernames = []
-    for uid in Post.objects.all().values_list('author', flat=True).distinct():
+    usernames = set()
+    for uid in Post.objects.all().values_list('author', flat=True):
         user = User.objects.get(pk=uid)
-        usernames.append(user.username)
+        usernames.add(user.username)
 
     context = {
         'navbar_context': 'blog',
