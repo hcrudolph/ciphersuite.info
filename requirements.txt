@@ -7,7 +7,7 @@ cffi==1.10.0
 coverage==4.4
 cssselect==1.0.1
 dj-database-url==0.4.2
-Django==1.11.1
+Django==1.11.4
 django-markdown-deux==1.0.5
 gunicorn==19.7.1
 idna==2.5
@@ -23,5 +23,6 @@ pytz==2017.2
 PyYAML==3.12
 requests==2.14.2
 six==1.10.0
+sqlparse==0.2.3
 w3lib==1.17.0
 whitenoise==3.3.0
