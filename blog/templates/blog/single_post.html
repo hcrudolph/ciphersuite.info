@@ -7,7 +7,7 @@
         <p class="small">
             posted by <a href="/blog/authors/{{ post.author }}">{{ post.author }}</a> 
             in <a href="/blog/categories/{{ post.category.slug }}">{{ post.category }}</a> 
-            published {{ post.first_published|date:"Y-m-d" }}
+            : published {{ post.first_published|date:"Y-m-d" }}
             {% if post.last_edited != post.first_published %} last_edited {{ post.last_edited|date:"Y-m-d" }}{% endif %}
         </p>
     </div><!-- end column -->
@@ -20,17 +20,17 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">        
-        <p>{{ post.text }}</p>
+    <div class="col-md-8 col-md-offset-2">
+        <p class="post-content">{{ post.text|linebreaks }}</p>
     </div><!-- end column -->
 </div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <p>Tags</p>
         <p>
-            <ul>
+        <p class="tags-label">Tags:</p>
+            <ul class="tag-list">
                 {% for tag in post.tags.all %}
-                <li><a href="/blog/tags/{{ tag.slug }}">{{ tag }}</a></li>
+                <li><a href="/blog/tags/{{ tag.slug }}"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ tag }}</a></li>
                 {% endfor %}
             </ul>
         </p>

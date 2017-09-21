@@ -50,7 +50,9 @@ a:hover {
 }
 
 .post-intro {
-    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.3em;
     font-weight: bold;
 }
 
@@ -290,4 +292,31 @@ fieldset[disabled] .btn-custom.active {
 .label-fixed-width {
     display: inline-block;
     min-width: 65px;
+}
+
+p.tags-label {
+    margin: 0px 10px 0px 0px;
+    padding: 0;
+    float: left;
+    display: inline-block;
+}
+
+ul.tag-list {
+    margin: 0;
+    padding: 0;
+    float: left;
+    display: inline-block;
+}
+
+ul.tag-list li {
+    margin: 0px 10px 0px 0px;
+    padding: 0 0;
+    list-style-type: none;
+    float: left;
+}
+
+ul.tag-list li a {
+    display: inline-block;
+    text-decoration: none;
+    float: left;
 }
