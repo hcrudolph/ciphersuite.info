@@ -49,6 +49,14 @@ a:hover {
     font-size: .8em;
 }
 
+.light {
+    filter: brightness(120%);
+}
+
+.dark {
+    filter: brightness(80%);
+}
+
 .post-intro {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -319,4 +327,39 @@ ul.tag-list li a {
     display: inline-block;
     text-decoration: none;
     float: left;
+}
+
+ul.recent-post-list {
+    margin: 0px;
+    padding: 0px;
+}
+
+ul.recent-post-list li {
+    list-style-type: none;
+    margin: 10px 0px 30px 0px;
+}
+
+ul.recent-post-list li a {
+    display: block;
+    text-decoration: none;
+    border: 1px solid #eee;
+}
+
+ul.recent-post-list li a:hover {
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px #eee;
+}
+
+ul.recent-post-list p.recent-post-title {
+    display: block;
+    background: #eee;
+    padding: 10px 20px 10px 20px;
+    font-size: 1.3em;
+}
+
+ul.recent-post-list p.post-intro-preview {
+    display: block;
+    padding: 5px 20px 10px 20px;
+    background: #fff;
+    margin: 5px 0px;
 }

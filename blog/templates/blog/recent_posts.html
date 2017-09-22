@@ -6,10 +6,12 @@
         <h1>Recent Posts</h1>
     </div><!-- end column -->
     <div class="col-md-8 col-md-offset-2">
-        <ul>
+        <ul class="recent-post-list">
         {% for post in posts %}
-            <li><a href="/blog/{{ post.first_published|date:"Y" }}/{{ post.first_published|date:"m" }}/{{ post.first_published|date:"d" }}/{{ post.slug }}">
-                {{ post.first_published|date:"Y-m-d" }}: {{ post }}</a></li>            
+        <li><a href="/blog/{{ post.first_published|date:"Y" }}/{{ post.first_published|date:"m" }}/{{ post.first_published|date:"d" }}/{{ post.slug }}">
+                    <p class="recent-post-title"><span class="small light">{{ post.first_published|date:"Y-m-d" }}</span> <span class="bold">{{ post }}</span></p>
+                    <p class="post-intro-preview">{{ post.intro }}</p>
+                </a></li>
         {% endfor %}
         </ul>
     </div><!-- end column -->
