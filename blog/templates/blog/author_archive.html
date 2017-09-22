@@ -1,0 +1,22 @@
+{% extends "directory/base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>{{ author_list|length }} {% if author_list|length == 1 %}Author{% else %}Authors{% endif %}</h1>
+    </div><!-- end column -->
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <ul>
+        {% for author in author_list %}
+        <li>
+            <a href="/blog/authors/{{ author }}">{{ author }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+    </div><!-- end column -->
+</div>
+
+{% endblock content %}

@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.db.models import Q
 
 # general python imports
 from lxml import html
@@ -13,6 +14,45 @@ import re
 #####################
 # Model definitions #
 #####################
+
+class CipherSuiteQuerySet(models.QuerySet):
+    def secure(self):
+        return self.all().exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        )
+
+    def weak(self):
+        return self.filter(
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        ).exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
+
+    def insecure(self):
+        return self.filter(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
 
 
 class CipherSuite(models.Model):
@@ -65,6 +105,50 @@ class CipherSuite(models.Model):
         verbose_name=_('hash algorithm'),
         editable=False,
     )
+
+    def __get_vulnerabilities(self):
+        return set().union(
+            self.protocol_version.vulnerabilities.all().values_list('severity', flat=True),
+            self.enc_algorithm.vulnerabilities.all().values_list('severity', flat=True),
+            self.kex_algorithm.vulnerabilities.all().values_list('severity', flat=True),
+            self.auth_algorithm.vulnerabilities.all().values_list('severity', flat=True),
+            self.hash_algorithm.vulnerabilities.all().values_list('severity', flat=True)
+        )
+
+    @property
+    def no_vulnerability(self):
+        vulnerabilities = self.__get_vulnerabilities()
+        if not any(vulnerabilities):
+            return True
+        else:
+            return False
+
+    @property
+    def low_vulnerability(self):
+        vulnerabilities = self.__get_vulnerabilities()
+        if any([v for v in vulnerabilities if v=='LOW']):
+            return True
+        else:
+            return False
+
+    @property
+    def medium_vulnerability(self):
+        vulnerabilities = self.__get_vulnerabilities()
+        if any([v for v in vulnerabilities if v=='MED']):
+            return True
+        else:
+            return False
+
+    @property
+    def high_vulnerability(self):
+        vulnerabilities = self.__get_vulnerabilities()
+        if any([v for v in vulnerabilities if v=='HIG']):
+            return True
+        else:
+            return False
+
+    objects = models.Manager()
+    vulnerabilities = CipherSuiteQuerySet.as_manager()
 
     def __str__(self):
         return self.name

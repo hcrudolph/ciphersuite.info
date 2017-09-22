@@ -4,7 +4,20 @@
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h2>Search results for "{{ search_term }}"</h2>
+        <h2>Search results for "{{ search_term }}"
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/search/?q={{ search_term }}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/search/?q={{ search_term }}&f=secure">Secure</a></li>
+                    <li><a href="/search/?q={{ search_term }}&f=weak">Weak</a></li>
+                    <li><a href="/search/?q={{ search_term }}&f=insecure">Insecure</a></li>
+                </ul>
+            </div><!-- end button group -->
+        </h2>
     </div>
 </div>
 
@@ -30,7 +43,12 @@
         <ul class="prettylist">
             {% for element in search_result_list %}
             {% if active_tab == "cs" %}
-                <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; {{ element.name }} </a></li>
+                <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
+                    {% if element.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
+                    {% elif element.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% else %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% endif %}
+                {{ element.name }}</a></li>
             {% elif active_tab == "rfc" %}
                 <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
             {% endif %}
@@ -51,10 +69,10 @@
                 <!-- First and previous button -->
                 <ul class="pagination">
                 {% if search_result_list.has_previous %}
-                    <li class="first"><a href="?q={{ search_term }}&c={{ category }}&p=1">
+                    <li class="first"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p=1">
                         <span aria-hidden="true">&laquo;</span>
                     </a></li>
-                    <li class="previous"><a href="?q={{ search_term }}&c={{ category }}&p={{ search_result_list.previous_page_number }}">
+                    <li class="previous"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.previous_page_number }}">
                         <span aria-hidden="true">&lsaquo;</span>
                     </a></li>
                 {% else %}
@@ -70,21 +88,21 @@
                 {% for page in page_number_range %}
                     <!-- active case -->
                     {% if page == search_result_list.number %}
-                        <li class="active"><a href="?q={{ search_term }}&c={{ category }}&p={{ page }}">{{ page }}<span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ page }}">{{ page }}<span class="sr-only">(current)</span></a></li>
                     {% elif page > 5 and page > search_result_list.number|add:"+2" %}
                     {% elif page < search_result_list.paginator.num_pages|add:"-4" and page < search_result_list.number|add:"-2" %}
                     {% else %}
-                        <li><a href="?q={{ search_term }}&c={{ category }}&p={{ page }}">{{ page }}</a></li>
+                    <li><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ page }}">{{ page }}</a></li>
                     {% endif %}
                 {% endfor %}
 
 
                 <!-- Next and last button -->
                 {% if search_result_list.has_next %}
-                    <li class="next"><a href="?q={{ search_term }}&c={{ category }}&p={{ search_result_list.next_page_number }}">
+                    <li class="next"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.next_page_number }}">
                         <span aria-hidden="true">&rsaquo;</span>
                     </a></li>
-                    <li class="last"><a href="?q={{ search_term }}&c={{ category }}&p={{ search_result_list.paginator.num_pages }}">
+                    <li class="last"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.paginator.num_pages }}">
                         <span aria-hidden="true">&raquo;</span>
                     </a></li>
                 {% else %}

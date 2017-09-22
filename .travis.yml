@@ -15,15 +15,7 @@ install:
 
 before_script:
   - psql -c "CREATE DATABASE travisci;" -U postgres
-  - python manage.py migrate --run-syncdb
+  - python manage.py migrate
 
 script:
   - python manage.py test
-
-notifications:
-    webhooks:
-        urls:
-            - "https://scalar.vector.im/api/neb/services/hooks/dHJhdmlzLWNpLyU0MGhjcnVkb2xwaCUzQW1hdHJpeC5uZ2Muem9uZS8lMjFpQlNsSml3c213WmFrZERSVkIlM0FtYXRyaXgubmdjLnpvbmU"
-        on_success: change
-        on_failure: always
-        on_start: never
