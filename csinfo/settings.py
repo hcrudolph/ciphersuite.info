@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if 'PRODUCTION' in os.environ:
-    DEBUG = False
-else:
+if 'DEVELOPMENT' in os.environ:
     DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -36,13 +36,14 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'markdown_deux',
-    'directory.apps.DirectoryConfig',
-    'django.contrib.postgres',
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.postgres',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'blog.apps.BlogConfig',
+    'directory.apps.DirectoryConfig',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 ]
