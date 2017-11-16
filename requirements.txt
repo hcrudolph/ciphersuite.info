@@ -7,7 +7,7 @@ cffi==1.10.0
 coverage==4.4
 cssselect==1.0.1
 dj-database-url==0.4.2
-Django==1.11.5
+Django==1.11.7
 django-markdown-deux==1.0.5
 gunicorn==19.7.1
 idna==2.5
@@ -16,7 +16,7 @@ markdown2==2.3.4
 multidict==2.1.5
 packaging==16.8
 parsel==1.2.0
-psycopg2==2.7.1
+psycopg2==2.7.3.1
 pycparser==2.17
 pyparsing==2.2.0
 pytz==2017.2
