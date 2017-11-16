@@ -10,17 +10,16 @@
                     Sort by <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="?s=name-asc">Name ascending</a></li>
-                    <li><a href="?s=name-desc">Name descending</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="?s=kex-asc">Key Exchange ascending</a></li>
-                    <li><a href="?s=kex-desc">Key Exchange descending</a></li>
-                    <li><a href="?s=auth-asc">Authentication ascending</a></li>
-                    <li><a href="?s=auth-desc">Authentication descending</a></li>
-                    <li><a href="?s=enc-asc">Encryption ascending</a></li>
-                    <li><a href="?s=enc-desc">Encryption descending</a></li>
-                    <li><a href="?s=hash-asc">Hash ascending</a></li>
-                    <li><a href="?s=hash-desc">Hash descending</a></li>
+                    <li><a {% if sorting == 'name-asc' or sorting == '' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=name-asc">Name ascending</a></li>
+                    <li><a {% if sorting == 'name-desc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=name-desc">Name descending</a></li>
+                    <li><a {% if sorting == 'kex-asc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=kex-asc">Key Exchange ascending</a></li>
+                    <li><a {% if sorting == 'kex-desc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=kex-desc">Key Exchange descending</a></li>
+                    <li><a {% if sorting == 'auth-asc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=auth-asc">Authentication ascending</a></li>
+                    <li><a {% if sorting == 'auth-desc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=auth-desc">Authentication descending</a></li>
+                    <li><a {% if sorting == 'enc-asc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=enc-asc">Encryption ascending</a></li>
+                    <li><a {% if sorting == 'enc-desc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=enc-desc">Encryption descending</a></li>
+                    <li><a {% if sorting == 'hash-asc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=hash-asc">Hash ascending</a></li>
+                    <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="?{% if filter %}f={{ filter }}&{% endif %}s=hash-desc">Hash descending</a></li>
                 </ul>
             </div><!-- end button group -->
 
@@ -29,11 +28,11 @@
                     Filter <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="?f=all">All</a></li>
+                    <li><a {% if filter == '' %}class="active"{% endif %} href="?f=all{% if sorting %}&s={{ sorting }}{% endif %}">All</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="?f=secure">Secure</a></li>
-                    <li><a href="?f=weak">Weak</a></li>
-                    <li><a href="?f=insecure">Insecure</a></li>
+                    <li><a {% if filter == 'secure' %}class="active"{% endif %} href="?f=secure{% if sorting %}&s={{ sorting }}{% endif %}">Secure</a></li>
+                    <li><a {% if filter == 'weak' %}class="active"{% endif %} href="?f=weak{% if sorting %}&s={{ sorting }}{% endif %}">Weak</a></li>
+                    <li><a {% if filter == 'insecure' %}class="active"{% endif %} href="?f=insecure{% if sorting %}&s={{ sorting }}{% endif %}">Insecure</a></li>
                 </ul>
             </div><!-- end button group -->
             </h1>

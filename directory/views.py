@@ -64,9 +64,7 @@ def index_cs(request):
 
     def sort_cipher_suites(cs, order):
         """Sorts the given list of CipherSuite instances in a specific order."""
-        if order=='name-asc':
-            return cs.order_by('name')
-        elif order=='name-desc':
+        if order=='name-desc':
             return cs.order_by('-name')
         elif order=='kex-asc':
             return cs.order_by('kex_algorithm')
@@ -84,9 +82,11 @@ def index_cs(request):
             return cs.order_by('hash_algorithm')
         elif order=='hash-desc':
             return cs.order_by('-hash_algorithm')
-            
+        else:
+            return cs.order_by('name')
+
     # parse GET parameters
-    sorting = request.GET.get('s', 'name-asc')
+    sorting = request.GET.get('s', '')
     filter = request.GET.get('f', '')
     page = request.GET.get('p', 1)
 
@@ -96,6 +96,7 @@ def index_cs(request):
     context = {
         'cipher_suites': cipher_suites_paginated,
         'filter': filter,
+        'sorting': sorting,
         'navbar_context': 'cs',
         'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
         'search_form': NavbarSearchForm(),
