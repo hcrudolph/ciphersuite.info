@@ -65,12 +65,12 @@
 - model: directory.AuthAlgorithm
   pk: 'SHA DSS'
   fields:
-    long_name: 'Secure Hash Algorithm 1 w/ Digital Signature Standard'
+    long_name: 'Secure Hash Algorithm 1 with Digital Signature Standard'
     vulnerabilities: ['Secure Hash Algorithm 1']
 - model: directory.AuthAlgorithm
   pk: 'SHA RSA'
   fields:
-    long_name: 'Secure Hash Algorithm 1 w/ Rivest Shamir Adleman algorithm'
+    long_name: 'Secure Hash Algorithm 1 with Rivest Shamir Adleman algorithm'
     vulnerabilities: ['Secure Hash Algorithm 1']
 
 ###########################
@@ -175,72 +175,72 @@
 - model: directory.EncAlgorithm
   pk: 'AES 128'
   fields:
-    long_name: 'Advanced Encryption Standard w/ 128Bit'
+    long_name: 'Advanced Encryption Standard with 128Bit'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'AES 128 CBC'
   fields:
-    long_name: 'Advanced Encryption Standard w/ 128Bit in Cipher Block Chaining mode'
+    long_name: 'Advanced Encryption Standard with 128Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'AES 128 GCM'
   fields:
-    long_name: 'Advanced Encryption Standard w/ 128Bit in Galois/Counter mode'
+    long_name: 'Advanced Encryption Standard with 128Bit in Galois/Counter mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'AES 256'
   fields:
-    long_name: 'Advanced Encryption Standard w/ 256Bit'
+    long_name: 'Advanced Encryption Standard with 256Bit'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'AES 256 CBC'
   fields:
-    long_name: 'Advanced Encryption Standard w/ 256Bit in Cipher Block Chaining mode'
+    long_name: 'Advanced Encryption Standard with 256Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'AES 256 GCM'
   fields:
-    long_name: 'Advanced Encryption Standard w/ 256Bit in Galois/Counter mode'
+    long_name: 'Advanced Encryption Standard with 256Bit in Galois/Counter mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'ARIA 128 CBC'
   fields:
-    long_name: 'ARIA w/ 128Bit in Cipher Block Chaining mode'
+    long_name: 'ARIA with 128Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'ARIA 128 GCM'
   fields:
-    long_name: 'ARIA w/ 128Bit in Galois/Counter mode'
+    long_name: 'ARIA with 128Bit in Galois/Counter mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'ARIA 256 CBC'
   fields:
-    long_name: 'ARIA w/ 256Bit in Cipher Block Chaining mode'
+    long_name: 'ARIA with 256Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'ARIA 256 GCM'
   fields:
-    long_name: 'ARIA w/ 256Bit in Galois/Counter mode'
+    long_name: 'ARIA with 256Bit in Galois/Counter mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'CAMELLIA 128 CBC'
   fields:
-    long_name: 'CAMELLIA w/ 128Bit in Cipher Block Chaining mode'
+    long_name: 'CAMELLIA with 128Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'CAMELLIA 128 GCM'
   fields:
-    long_name: 'CAMELLIA w/ 128Bit in Galois/Counter mode'
+    long_name: 'CAMELLIA with 128Bit in Galois/Counter mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'CAMELLIA 256 CBC'
   fields:
-    long_name: 'CAMELLIA w/ 256Bit in Cipher Block Chaining mode'
+    long_name: 'CAMELLIA with 256Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'CAMELLIA 256 GCM'
   fields:
-    long_name: 'CAMELLIA w/ 256Bit in Galois/Counter mode'
+    long_name: 'CAMELLIA with 256Bit in Galois/Counter mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'CHACHA20 POLY1305'
@@ -250,12 +250,12 @@
 - model: directory.EncAlgorithm
   pk: 'DES40 CBC'
   fields:
-    long_name: 'Data Encryption Standard w/ 40Bit in Cipher Block Chaining mode'
+    long_name: 'Data Encryption Standard with 40Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'DES CBC'
   fields:
-    long_name: 'Data Encryption Standard w/ 56Bit in Cipher Block Chaining mode'
+    long_name: 'Data Encryption Standard with 56Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'DES CBC 40'
@@ -275,17 +275,17 @@
 - model: directory.EncAlgorithm
   pk: 'RC2 CBC 40'
   fields:
-    long_name: 'Rivest Cipher 2 w/ 40Bit in Cipher Block Chaining mode'
+    long_name: 'Rivest Cipher 2 with 40Bit in Cipher Block Chaining mode'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'RC4 40'
   fields:
-    long_name: 'Rivest Cipher 4 w/ 40Bit'
+    long_name: 'Rivest Cipher 4 with 40Bit'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'RC4 128'
   fields:
-    long_name: 'Rivest Cipher 4 w/ 128Bit'
+    long_name: 'Rivest Cipher 4 with 128Bit'
     vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'SEED CBC'
