@@ -6,7 +6,7 @@
 {% with params=request.GET.urlencode %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1>Cipher Suites
+            <h1>{{ count }} Cipher Suites
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort by <span class="caret"></span>
@@ -27,14 +27,36 @@
 
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filter <span class="caret"></span>
+                    Security <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a {% if filter == '' %}class="active"{% endif %} href="?f=all{% if sorting %}&s={{ sorting }}{% endif %}">All</a></li>
+                    <li><a {% if sec_level == "" or sec_level == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'sec_level' params %}">All</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a {% if filter == 'secure' %}class="active"{% endif %} href="?f=secure{% if sorting %}&s={{ sorting }}{% endif %}">Secure</a></li>
-                    <li><a {% if filter == 'weak' %}class="active"{% endif %} href="?f=weak{% if sorting %}&s={{ sorting }}{% endif %}">Weak</a></li>
-                    <li><a {% if filter == 'insecure' %}class="active"{% endif %} href="?f=insecure{% if sorting %}&s={{ sorting }}{% endif %}">Insecure</a></li>
+                    <li><a {% if sec_level == "secure" %}class="active"{% endif %} href="{% relative_url 'secure' 'sec_level' params %}">Secure</a></li>
+                    <li><a {% if sec_level == "weak" %}class="active"{% endif %} href="{% relative_url 'weak' 'sec_level' params %}">Weak</a></li>
+                    <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'sec_level' params %}">Insecure</a></li>
+                </ul>
+            </div>
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    TLS Version <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a {% if tls_version == "" or tls_version == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'tls_version' params %}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls_version' params %}">TLS1.0/TLS1.1</a></li>
+                    <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls_version' params %}">TLS1.2</a></li>
+                </ul>
+            </div>
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Software<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a {% if software == "" or software == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'software' params %}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a {% if software == 'openssl' %}class="active"{% endif %} href="{% relative_url 'openssl' 'software' params %}">OpenSSL</a></li>
+                    <li><a {% if software == 'gnutls' %}class="active"{% endif %} href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
                 </ul>
             </div><!-- end button group -->
             </h1>
@@ -49,6 +71,7 @@
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
                     {% if cipher_suite.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
                     {% elif cipher_suite.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% elif cipher_suite.low_vulnerability %}<span class="label label-fixed-width label-info">Info</span>
                     {% else %}<span class="label label-fixed-width label-success">Secure</span>
                     {% endif %}
                 {{ cipher_suite.name }}</a></li>

@@ -51,55 +51,81 @@ def about(request):
 def index_cs(request):
     """CipherSuite overview, listing all instances stored in the database."""
 
-    def get_cipher_suites(filter):
-        """Returns a (filtered) list of CipherSuite instances."""  
-        if filter=='insecure':
-            return CipherSuite.vulnerabilities.insecure()
-        elif filter=='weak':
-            return CipherSuite.vulnerabilities.weak()
-        elif filter=='secure':
-            return CipherSuite.vulnerabilities.secure()
+    def get_cs_by_security_level(sec_level):
+        if sec_level == 'secure':
+            return CipherSuite.custom_filters.secure()
+        elif sec_level == 'weak':
+            return CipherSuite.custom_filters.weak()
+        elif sec_level == 'insecure':
+            return CipherSuite.custom_filters.insecure()
         else:
             return CipherSuite.objects.all()
 
-    def sort_cipher_suites(cs, order):
-        """Sorts the given list of CipherSuite instances in a specific order."""
-        if order=='name-desc':
-            return cs.order_by('-name')
-        elif order=='kex-asc':
-            return cs.order_by('kex_algorithm')
-        elif order=='kex-desc':
-            return cs.order_by('-kex_algorithm')
-        elif order=='auth-asc':
-            return cs.order_by('auth_algorithm')
-        elif order=='auth-desc':
-            return cs.order_by('-auth_algorithm')
-        elif order=='enc-asc':
-            return cs.order_by('enc_algorithm')
-        elif order=='enc-desc':
-            return cs.order_by('-enc_algorithm')
-        elif order=='hash-asc':
-            return cs.order_by('hash_algorithm')
-        elif order=='hash-desc':
-            return cs.order_by('-hash_algorithm')
+    def filter_cs_by_tls_version(cipher_suites, version):
+        if tls_version == "tls10":
+            return cipher_suites.filter(tls_version__icontains='tls1.0')
+        elif tls_version == "tls12":
+            return cipher_suites.filter(tls_version__icontains='tls1.2')
         else:
-            return cs.order_by('name')
+            return cipher_suites
+
+    def filter_cs_by_software(cipher_suites, software):
+        if software == "gnutls":
+            return cipher_suites.exclude(gnutls_name__iexact='')
+        elif software == "openssl":
+            return cipher_suites.exclude(openssl_name__iexact='')
+        else:
+            return cipher_suites
+
+    def sort_cipher_suites(cipher_suites, order):
+        """Sorts the given list of CipherSuite instances in a specific order."""
+
+        # mapps GET sorting parameter to django ordering
+        order_variants = {
+            'auth-asc': 'auth_algorithm',
+            'auth-desc': '-auth_algorithm',
+            'enc-asc': 'enc_algorithm',
+            'enc-desc': '-enc_algorithm',
+            'hash-asc': 'hash_algorithm',
+            'hash-desc': '-hash_algorithm',
+            'kex-asc': 'kex_algorithm',
+            'kex-desc': '-kex_algorithm',
+            'name-asc': 'name',
+            'name-desc': '-name',
+        }
+
+        try:
+            csorder = order_variants[order]
+        except KeyError:
+            csorder = 'name' # default ordering
+
+        return cipher_suites.order_by(csorder)
 
     # parse GET parameters
-    sorting = request.GET.get('s', '')
-    filter = request.GET.get('f', '')
-    page = request.GET.get('p', 1)
+    sorting = request.GET.get('sorting', 'name-asc').strip()
+    sec_level = request.GET.get('sec_level', 'all').strip()
+    tls_version = request.GET.get('tls_version', 'all').strip()
+    software = request.GET.get('software', 'all').strip()
+    page = request.GET.get('page', 1)
 
-    cipher_suite_list = sort_cipher_suites(get_cipher_suites(filter), sorting)
-    cipher_suites_paginated = paginate(cipher_suite_list, page, 15)
+    cipher_suites = filter_cs_by_software(
+                        filter_cs_by_tls_version(
+                            get_cs_by_security_level(sec_level), tls_version
+                        ), software
+                    )
+    sorted_cipher_suites = sort_cipher_suites(cipher_suites, sorting)
+    cipher_suites_paginated = paginate(sorted_cipher_suites, page, 15)
 
     context = {
         'cipher_suites': cipher_suites_paginated,
-        'filter': filter,
-        'sorting': sorting,
+        'count': len(sorted_cipher_suites),
         'navbar_context': 'cs',
         'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
         'search_form': NavbarSearchForm(),
+        'sec_level': sec_level,
+        'software': software,
+        'sorting': sorting,
+        'tls_version': tls_version,
     }
 
     return render(request, 'directory/index_cs.html', context)
@@ -110,19 +136,26 @@ def index_rfc(request):
 
     def sort_rfcs(rfcs, order):
         """Sorts the given list of Rfc instances in a specific order."""
-        if order=='number-asc':
-            return rfcs.order_by('number')
-        elif order=='number-desc':
-            return rfcs.order_by('-number')
-        elif order=='title-asc':
-            return rfcs.order_by('title')
-        elif order=='title-desc':
-            return rfcs.order_by('-title')
+
+        # mapps GET sorting parameter to django ordering
+        order_variants = {
+            'number-asc': 'number',
+            'number-desc': '-number',
+            'title-asc': 'title',
+            'title-desc': '-title',
+        }
+
+        try:
+            rfcorder = order_variants[order]
+        except KeyError:
+            rfcorder = 'number' # default ordering
+
+        return rfcs.order_by(rfcorder)
 
 
     # parse GET parameters
-    sorting = request.GET.get('s', 'number-asc')
-    page = request.GET.get('p', 1)
+    sorting = request.GET.get('sorting', 'number-asc')
+    page = request.GET.get('page', 1)
 
     rfc_list = sort_rfcs(Rfc.objects.all(), sorting)
     rfc_list_paginated = paginate(rfc_list, page, 15)
@@ -213,6 +246,8 @@ def search(request):
         algorithms or their vulnerabilities contain the given search term"""
         return CipherSuite.objects.filter(
             Q(name__icontains=search_term)|
+            Q(openssl_name__icontains=search_term)|
+            Q(gnutls_name__icontains=search_term)|
             Q(auth_algorithm__long_name__icontains=search_term)|
             Q(enc_algorithm__long_name__icontains=search_term)|
             Q(kex_algorithm__long_name__icontains=search_term)|
@@ -265,7 +300,7 @@ def search(request):
             return cipher_suite_list
 
     # parse GET parameters
-    search_term = request.GET.get('q', '')
+    search_term = request.GET.get('q', '').strip()
     filter = request.GET.get('f', '')
     category = request.GET.get('c', 'cs')
     page = request.GET.get('p', 1)
