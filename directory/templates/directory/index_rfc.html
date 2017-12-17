@@ -1,7 +1,9 @@
 {% extends "directory/base.html" %}
+{% load add_get_parameter %}
 {% block content %}
 
 <div class="container">
+{% with params=request.GET.urlencode %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h1>RFCs
@@ -10,11 +12,11 @@
                     Sort by <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="?s=number-asc">Number ascending</a></li>
-                    <li><a href="?s=number-desc">Number descending</a></li>
+                    <li><a href="{% relative_url 'number-asc' 'sorting' params %}">Number ascending</a></li>
+                    <li><a href="{% relative_url 'number-desc' 'sorting' params %}">Number descending</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="?s=title-asc">Title ascending</a></li>
-                    <li><a href="?s=title-desc">Title descending</a></li>
+                    <li><a href="{% relative_url 'title-asc' 'sorting' params %}">Title ascending</a></li>
+                    <li><a href="{% relative_url 'title-desc' 'sorting' params %}">Title descending</a></li>
                 </ul>
             </div> <!-- end button group --> 
             </h1>
@@ -44,14 +46,14 @@
 
                         <!-- First and previous links -->
                         {% if rfc_list_paginated.has_previous %}
-                            <li class="first"><a href="?p=1">
+                            <li class="first"><a href="{% relative_url '1' 'page' params %}">
                                 <span aria-hidden="true">&laquo;</span>
                             </a></li>
-                            <li class="previous"><a href="?p={{ rfc_list_paginated.previous_page_number }}">
+                            <li class="previous"><a href="{% relative_url rfc_list_paginated.previous_page_number 'page' params %}">
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a></li>
                         {% else %}
-                            <li class="first disabled"><a href="?p=1">
+                            <li class="first disabled"><a href="#">
                                 <span aria-hidden="true">&laquo;</span>
                             </a></li>
                             <li class="previous disabled"><a href="#" aria-label="Previous">
@@ -63,20 +65,20 @@
                         {% for page in page_number_range %}
                             <!-- active case -->
                             {% if page == rfc_list_paginated.number %}
-                                <li class="active"><a href="?p={{ page }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                                <li class="active"><a href="{% relative_url page 'page' params %}">{{ page }} <span class="sr-only">(current)</span></a></li>
                             {% elif page > 5 and page > rfc_list_paginated.number|add:"+2" %}
                             {% elif page < rfc_list_paginated.paginator.num_pages|add:"-4" and page < rfc_list_paginated.number|add:"-2" %}
                             {% else %}
-                                <li><a href="?p={{ page }}">{{ page }} </a></li>
+                                <li><a href="{% relative_url page 'page' params %}">{{ page }} </a></li>
                             {% endif %}
                         {% endfor %}
 
                         <!-- Next and last links -->
                         {% if rfc_list_paginated.has_next %}
-                            <li class="next"><a href="?p={{ rfc_list_paginated.next_page_number }}">
+                        <li class="next"><a href="{% relative_url rfc_list_paginated.next_page_number 'page' params %}">
                                 <span aria-hidden="true">&rsaquo;</span>
                             </a></li>
-                            <li class="last"><a href="?p={{ rfc_list_paginated.paginator.num_pages }}">
+                            <li class="last"><a href="{% relative_url rfc_list_paginated.paginator.num_pages 'page' params %}">
                                 <span aria-hidden="true">&raquo;</span>
                             </a></li>
                         {% else %}
@@ -93,6 +95,7 @@
             </div><!-- end pagination -->
         </div><!-- end column -->
     </div><!-- end row -->
+{% endwith %}
 </div><!-- end container -->
 
 {% endblock content %}
