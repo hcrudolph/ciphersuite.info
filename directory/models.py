@@ -1,4 +1,5 @@
 # django imports
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import pre_save
@@ -55,6 +56,42 @@ class CipherSuiteQuerySet(models.QuerySet):
         )
 
 
+class CipherImplementation(models.Model):
+    class Meta:
+        abstract=True
+        ordering=['name']
+        # hex bytes identifiy cipher suite uniquely
+        unique_together=(('hex_byte_1', 'hex_byte_2'),)
+
+    name = models.CharField(
+        primary_key=True,
+        max_length=200,
+    )
+    hex_byte_1 = models.CharField(
+        max_length=4,
+    )
+    hex_byte_2 = models.CharField(
+        max_length=4,
+    )
+    min_tls_version = models.CharField(
+        max_length=20,
+        blank=True,
+        default='',
+    )
+
+
+class GnutlsCipher(CipherImplementation):
+    class Meta(CipherImplementation.Meta):
+        verbose_name=_('gnutls cipher')
+        verbose_name_plural=_('gnutls ciphers')
+
+
+class OpensslCipher(CipherImplementation):
+    class Meta(CipherImplementation.Meta):
+        verbose_name=_('openssl cipher')
+        verbose_name_plural=_('openssl ciphers')
+
+
 class CipherSuite(models.Model):
     class Meta:
         ordering=['name']
@@ -67,6 +104,21 @@ class CipherSuite(models.Model):
     name = models.CharField(
         primary_key=True,
         max_length=200,
+    )
+    gnutls_name = models.CharField(
+        max_length=200,
+        blank=True,
+        default='',
+    )
+    openssl_name = models.CharField(
+        max_length=200,
+        blank=True,
+        default='',
+    )
+    tls_version = models.CharField(
+        max_length=50,
+        blank=True,
+        default='',
     )
     # hex bytes stored as string 0x00-0xFF
     hex_byte_1 = models.CharField(
@@ -105,6 +157,7 @@ class CipherSuite(models.Model):
         verbose_name=_('hash algorithm'),
         editable=False,
     )
+
 
     def __get_vulnerabilities(self):
         return set().union(
@@ -148,7 +201,7 @@ class CipherSuite(models.Model):
             return False
 
     objects = models.Manager()
-    vulnerabilities = CipherSuiteQuerySet.as_manager()
+    custom_filters = CipherSuiteQuerySet.as_manager()
 
     def __str__(self):
         return self.name
@@ -236,7 +289,6 @@ class Technology(models.Model):
         'Vulnerability',
         blank=True,
     )
-
 
     def __str__(self):
         return self.short_name
@@ -444,6 +496,22 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
             short_name=aut.strip()
         )
     else:
-        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
-            short_name=kex.strip()
-        )
+        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create( short_name=kex.strip())
+
+
+@receiver(pre_save, sender=CipherSuite)
+def complete_cs_names(sender, instance, *args, **kwargs):
+    try:
+        related_gnutls = GnutlsCipher.objects.get(hex_byte_1__iexact=instance.hex_byte_1,
+                                                  hex_byte_2__iexact=instance.hex_byte_2)
+        instance.gnutls_name = related_gnutls.name
+    except ObjectDoesNotExist:
+        pass
+
+    try:
+        related_openssl = OpensslCipher.objects.get(hex_byte_1__iexact=instance.hex_byte_1,
+                                                    hex_byte_2__iexact=instance.hex_byte_2)
+        instance.openssl_name = related_openssl.name
+    except ObjectDoesNotExist:
+        pass
+
