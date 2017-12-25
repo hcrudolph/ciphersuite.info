@@ -132,30 +132,35 @@ class CipherSuite(models.Model):
         'ProtocolVersion',
         verbose_name=_('protocol version'),
         editable=False,
+        on_delete=models.CASCADE,
     )
     # key exchange algorithm
     kex_algorithm = models.ForeignKey(
         'KexAlgorithm',
         verbose_name=_('key exchange algorithm'),
         editable=False,
+        on_delete=models.CASCADE,
     )
     # authentication algorithm
     auth_algorithm = models.ForeignKey(
         'AuthAlgorithm',
         verbose_name=_('authentication algorithm'),
         editable=False,
+        on_delete=models.CASCADE,
     )
     # encryption algorithm
     enc_algorithm = models.ForeignKey(
         'EncAlgorithm',
         verbose_name=_('encryption algorithm'),
         editable=False,
+        on_delete=models.CASCADE,
     )
     # hash algorithm
     hash_algorithm = models.ForeignKey(
         'HashAlgorithm',
         verbose_name=_('hash algorithm'),
         editable=False,
+        on_delete=models.CASCADE,
     )
 
 

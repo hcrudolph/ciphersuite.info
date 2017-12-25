@@ -32,6 +32,7 @@ class Post(models.Model):
         User,
         blank=True,
         null=True,
+        on_delete=models.CASCADE,
     )
     intro = models.TextField(
         max_length = 500,
@@ -40,6 +41,7 @@ class Post(models.Model):
     text = models.TextField()
     category = models.ForeignKey(
         'Category',
+        on_delete=models.CASCADE,
     )
     tags = models.ManyToManyField(
         'Tag',
