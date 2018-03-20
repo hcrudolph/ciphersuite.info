@@ -363,3 +363,6 @@ ul.post-list p.post-intro-preview {
     background: #fff;
     margin: 5px 0px;
 }
+ul.dropdown-menu li a.active {
+    background: #c9d5e1;
+}

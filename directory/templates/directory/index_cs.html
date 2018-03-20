@@ -1,39 +1,62 @@
 {% extends "directory/base.html" %}
+{% load add_get_parameter %}
 {% block content %}
 
 <div class="container">
+{% with params=request.GET.urlencode %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1>Cipher Suites
+            <h1>{{ count }} Cipher Suites
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort by <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="?s=name-asc">Name ascending</a></li>
-                    <li><a href="?s=name-desc">Name descending</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="?s=kex-asc">Key Exchange ascending</a></li>
-                    <li><a href="?s=kex-desc">Key Exchange descending</a></li>
-                    <li><a href="?s=auth-asc">Authentication ascending</a></li>
-                    <li><a href="?s=auth-desc">Authentication descending</a></li>
-                    <li><a href="?s=enc-asc">Encryption ascending</a></li>
-                    <li><a href="?s=enc-desc">Encryption descending</a></li>
-                    <li><a href="?s=hash-asc">Hash ascending</a></li>
-                    <li><a href="?s=hash-desc">Hash descending</a></li>
+                    <li><a {% if sorting == 'name-asc' or sorting == '' %}class="active"{% endif %} href="{% relative_url 'all' 'sorting' params %}">Name ascending</a></li>
+                    <li><a {% if sorting == 'name-desc' %}class="active"{% endif %} href="{% relative_url 'name-desc' 'sorting' params %}">Name descending</a></li>
+                    <li><a {% if sorting == 'kex-asc' %}class="active"{% endif %} href="{% relative_url 'kex-asc' 'sorting' params %}">Key Exchange ascending</a></li>
+                    <li><a {% if sorting == 'kex-desc' %}class="active"{% endif %} href="{% relative_url 'kex-desc' 'sorting' params %}">Key Exchange descending</a></li>
+                    <li><a {% if sorting == 'auth-asc' %}class="active"{% endif %} href="{% relative_url 'auth-asc' 'sorting' params %}">Authentication ascending</a></li>
+                    <li><a {% if sorting == 'auth-desc' %}class="active"{% endif %} href="{% relative_url 'auth-desc' 'sorting' params %}">Authentication descending</a></li>
+                    <li><a {% if sorting == 'enc-asc' %}class="active"{% endif %} href="{% relative_url 'enc-asc' 'sorting' params %}">Encryption ascending</a></li>
+                    <li><a {% if sorting == 'enc-desc' %}class="active"{% endif %} href="{% relative_url 'enc-desc' 'sorting' params %}">Encryption descending</a></li>
+                    <li><a {% if sorting == 'hash-asc' %}class="active"{% endif %} href="{% relative_url 'hash-asc' 'sorting' params %}">Hash ascending</a></li>
+                    <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="{% relative_url 'hash-desc' 'sorting' params %}">Hash descending</a></li>
                 </ul>
             </div><!-- end button group -->
 
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filter <span class="caret"></span>
+                    Security <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="?f=all">All</a></li>
+                    <li><a {% if sec_level == "" or sec_level == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'sec_level' params %}">All</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="?f=secure">Secure</a></li>
-                    <li><a href="?f=weak">Weak</a></li>
-                    <li><a href="?f=insecure">Insecure</a></li>
+                    <li><a {% if sec_level == "secure" %}class="active"{% endif %} href="{% relative_url 'secure' 'sec_level' params %}">Secure</a></li>
+                    <li><a {% if sec_level == "weak" %}class="active"{% endif %} href="{% relative_url 'weak' 'sec_level' params %}">Weak</a></li>
+                    <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'sec_level' params %}">Insecure</a></li>
+                </ul>
+            </div>
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    TLS Version <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a {% if tls_version == "" or tls_version == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'tls_version' params %}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls_version' params %}">TLS1.0/TLS1.1</a></li>
+                    <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls_version' params %}">TLS1.2</a></li>
+                </ul>
+            </div>
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Software<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a {% if software == "" or software == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'software' params %}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a {% if software == 'openssl' %}class="active"{% endif %} href="{% relative_url 'openssl' 'software' params %}">OpenSSL</a></li>
+                    <li><a {% if software == 'gnutls' %}class="active"{% endif %} href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
                 </ul>
             </div><!-- end button group -->
             </h1>
@@ -48,6 +71,7 @@
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
                     {% if cipher_suite.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
                     {% elif cipher_suite.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% elif cipher_suite.low_vulnerability %}<span class="label label-fixed-width label-info">Info</span>
                     {% else %}<span class="label label-fixed-width label-success">Secure</span>
                     {% endif %}
                 {{ cipher_suite.name }}</a></li>
@@ -68,10 +92,10 @@
 
                         <!-- First and previous links -->
                         {% if cipher_suites.has_previous %}
-                        <li class="first"><a href="?p=1&f={{ filter }}">
+                        <li class="first"><a href="{% relative_url '1' 'page' params %}">
                                 <span aria-hidden="true">&laquo;</span>
                             </a></li>
-                            <li class="previous"><a href="?p={{ cipher_suites.previous_page_number }}&f={{ filter }}">
+                            <li class="previous"><a href="{% relative_url cipher_suites.previous_page_number 'page' params %}">
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a></li>
                         {% else %}
@@ -87,20 +111,20 @@
                         {% for page in page_number_range %}
                             <!-- active case -->
                             {% if page == cipher_suites.number %}
-                                <li class="active"><a href="?p={{ page }}&f={{ filter }}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                                <li class="active"><a href="{% relative_url page 'page' params %}">{{ page }} <span class="sr-only">(current)</span></a></li>
                             {% elif page > 5 and page > cipher_suites.number|add:"+2" %}
                             {% elif page < cipher_suites.paginator.num_pages|add:"-4" and page < cipher_suites.number|add:"-2" %}
                             {% else %}
-                                <li><a href="?p={{ page }}&f={{ filter }}">{{ page }} </a></li>
+                                <li><a href="{% relative_url page 'page' params %}">{{ page }} </a></li>
                             {% endif %}
                         {% endfor %}
 
                         <!-- Next and last links -->
                         {% if cipher_suites.has_next %}
-                            <li class="next"><a href="?p={{ cipher_suites.next_page_number }}&f={{ filter }}">
+                            <li class="next"><a href="{% relative_url cipher_suites.next_page_number 'page' params %}">
                                 <span aria-hidden="true">&rsaquo;</span>
                             </a></li>
-                            <li class="last"><a href="?p={{ cipher_suites.paginator.num_pages }}&f={{ filter }}">
+                            <li class="last"><a href="{% relative_url cipher_suites.paginator.num_pages 'page' params %}">
                                 <span aria-hidden="true">&raquo;</span>
                             </a></li>
                         {% else %}
@@ -118,6 +142,7 @@
             </div><!-- end pagination -->
         </div><!-- end column -->
     </div><!-- end row -->
+{% endwith %}
 </div><!-- end container -->
 
 {% endblock content %}

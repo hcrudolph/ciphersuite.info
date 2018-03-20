@@ -1,0 +1,948 @@
+- model: directory.OpensslCipher
+  pk: 'ADH-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xA6'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ADH-AES128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x34'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'ADH-AES128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x6C'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ADH-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xA7'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ADH-AES256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x3A'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'ADH-AES256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x6D'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ADH-CAMELLIA128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x46'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'ADH-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xBF'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ADH-CAMELLIA256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x89'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'ADH-CAMELLIA256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xC5'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ADH-DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x1B'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'ADH-SEED-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x9B'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'AECDH-AES128-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x18'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'AECDH-AES256-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x19'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'AECDH-DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x17'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'AECDH-NULL-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x15'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'AES128-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x9C'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES128-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA0'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x9C'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x2F'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'AES128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x3C'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES256-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x9D'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES256-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA1'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x9D'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'AES256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x35'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'AES256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x3D'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'CAMELLIA128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x41'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xBA'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'CAMELLIA256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x84'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'CAMELLIA256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xC0'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x0A'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xA2'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-AES128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x32'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-AES128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x40'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xA3'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-AES256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x38'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-AES256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x6A'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-CAMELLIA128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x44'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xBD'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-CAMELLIA256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x87'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-CAMELLIA256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xC3'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x13'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-DSS-SEED-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x99'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x8F'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES128-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x90'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES128-CBC-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB2'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES128-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA6'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES128-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xAA'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xAA'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES256-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x91'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES256-CBC-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB3'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES256-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA7'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES256-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xAB'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xAB'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x96'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-CAMELLIA256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x97'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xAD'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-NULL-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x2D'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-NULL-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB4'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'DHE-PSK-NULL-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB5'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES128-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x9E'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES128-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA2'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x9E'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x33'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x67'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES256-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x9F'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES256-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA3'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x9F'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x39'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-AES256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x6B'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-CAMELLIA128-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x45'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xBE'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-CAMELLIA256-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x88'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-CAMELLIA256-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xC4'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xAA'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x16'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'DHE-RSA-SEED-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x9A'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES128-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xAC'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES128-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xAE'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x2B'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES128-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x09'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x23'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES256-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xAD'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES256-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xAF'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x2C'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES256-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x0A'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-AES256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x24'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x72'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-CAMELLIA256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x73'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xA9'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x08'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-ECDSA-NULL-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x06'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x34'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-AES128-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x35'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-AES128-CBC-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x37'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-AES256-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x36'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-AES256-CBC-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x38'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x9A'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-CAMELLIA256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x9B'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xAC'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-NULL-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x39'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-NULL-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x3A'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-PSK-NULL-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x3B'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x2F'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-AES128-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x13'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-AES128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x27'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x30'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-AES256-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x14'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-AES256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x28'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x76'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-CAMELLIA256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x77'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xA8'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-DES-CBC3-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x12'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'ECDHE-RSA-NULL-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x10'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'IDEA-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x07'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'NULL-MD5'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x01'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'NULL-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x02'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'NULL-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x3B'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x8B'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES128-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x8C'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES128-CBC-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xAE'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES128-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA4'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES128-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA8'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xA8'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES256-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x8D'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES256-CBC-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xAF'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES256-CCM'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA5'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES256-CCM8'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0xA9'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xA9'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x94'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'PSK-CAMELLIA256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x95'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'PSK-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xAB'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'PSK-NULL-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x2C'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'PSK-NULL-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB0'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'PSK-NULL-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB1'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x93'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-AES128-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x94'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-AES128-CBC-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB6'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-AES128-GCM-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xAC'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-AES256-CBC-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x95'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-AES256-CBC-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB7'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-AES256-GCM-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xAD'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-CAMELLIA128-SHA256'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x98'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-CAMELLIA256-SHA384'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x99'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-CHACHA20-POLY1305'
+  fields:
+    hex_byte_1: '0xCC'
+    hex_byte_2: '0xAE'
+    min_tls_version: 'TLS1.2'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-NULL-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x2E'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-NULL-SHA256'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB8'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'RSA-PSK-NULL-SHA384'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0xB9'
+    min_tls_version: 'TLS1'
+- model: directory.OpensslCipher
+  pk: 'SEED-SHA'
+  fields:
+    hex_byte_1: '0x00'
+    hex_byte_2: '0x96'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x1A'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-AES-128-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x1D'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-AES-256-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x20'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-DSS-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x1C'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-DSS-AES-128-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x1F'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-DSS-AES-256-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x22'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-RSA-3DES-EDE-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x1B'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-RSA-AES-128-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x1E'
+    min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'SRP-RSA-AES-256-CBC-SHA'
+  fields:
+    hex_byte_1: '0xC0'
+    hex_byte_2: '0x21'
+    min_tls_version: 'SSL3'
