@@ -48,6 +48,20 @@ def about(request):
     return render(request, 'directory/static_page.html', context)
 
 
+def contact(request):
+    """Static page with project information."""
+
+    contact_page = get_object_or_404(StaticPage, pk='contact')
+
+    context = {
+        'navbar_context': contact_page.title,
+        'search_form': NavbarSearchForm(),
+        'static_page': contact_page,
+    }
+
+    return render(request, 'directory/static_page.html', context)
+
+
 def index_cs(request):
     """CipherSuite overview, listing all instances stored in the database."""
 
