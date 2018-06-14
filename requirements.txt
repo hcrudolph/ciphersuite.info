@@ -7,7 +7,7 @@ cffi==1.10.0
 coverage==4.4
 cssselect==1.0.1
 dj-database-url==0.4.2
-Django==2.0.3
+Django==2.0.6
 django-appconf==1.0.2
 django-compressor==2.2
 django-markdown-deux==1.0.5
