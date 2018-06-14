@@ -1,5 +1,4 @@
 stages:
-  - build
   - test
   - deploy
 
@@ -12,15 +11,9 @@ variables:
   POSTGRES_PASSWORD: "start123"
 
 before_script:
+  - pip install -r requirements.txt
 
-job 1:
-  stage: build
-  script:
-    - pip install -r requirements.txt
-
-
-job 2:
+test-job:
   stage: test
   script:
-    - pip install -r requirements.txt
     - python manage.py test
