@@ -315,6 +315,7 @@ def search(request):
 
     # parse GET parameters
     search_term = request.GET.get('q', '').strip()
+    search_type = 'openssl' if '-' in search_term else 'iana'
     filter = request.GET.get('f', '')
     category = request.GET.get('c', 'cs')
     page = request.GET.get('p', 1)
@@ -343,6 +344,7 @@ def search(request):
         'search_form': NavbarSearchForm(),
         'search_result_list': result_list_paginated,
         'search_term': search_term,
+        'search_type': search_type
     }
 
     return render(request, 'directory/search.html', context)

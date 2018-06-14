@@ -48,7 +48,8 @@
                     {% elif element.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
                     {% else %}<span class="label label-fixed-width label-success">Secure</span>
                     {% endif %}
-                {{ element.name }}</a></li>
+                    {% if search_type == "iana" %} {{ element.name }} {% else %} {{ element.openssl_name }} {% endif %}
+                </a></li>
             {% elif active_tab == "rfc" %}
                 <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
             {% endif %}
