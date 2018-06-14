@@ -27,8 +27,6 @@ staging:
   environment:
     name: Ciphersuite Nightly
     url: https://csi-dev.hcrudolph.com
-  only:
-    - development
   script:
     - python manage.py compilescss
     - python manage.py loaddata directory/fixtures/*
