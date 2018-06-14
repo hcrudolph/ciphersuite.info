@@ -2,18 +2,32 @@ stages:
   - test
   - deploy
 
-services:
-  - postgres:latest
-
-variables:
-  POSTGRES_DB: ciphersuite
-  POSTGRES_USER: django
-  POSTGRES_PASSWORD: "start123"
-
 before_script:
   - pip install -r requirements.txt
 
-test-job:
+test:
   stage: test
+  services:
+    - postgres:latest
+  variables:
+    POSTGRES_DB: ciphersuite
+    POSTGRES_USER: django
+    POSTGRES_PASSWORD: "start123"
+  script:
+    - python manage.py test
+
+staging:
+  stage: deploy
+  services:
+    - postgres:latest
+  variables:
+    POSTGRES_DB: ciphersuite
+    POSTGRES_USER: django
+    POSTGRES_PASSWORD: "start123"
+  environment:
+    name: Ciphersuite Nightly
+    url: https://csi-dev.hcrudolph.com
+  only:
+    - development
   script:
     - python manage.py test
