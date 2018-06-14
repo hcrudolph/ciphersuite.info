@@ -39,9 +39,9 @@
 <!-- Result list --> 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
+    <ul class="prettylist">
     {% if search_result_list %}
-        <ul class="prettylist">
-            {% for element in search_result_list %}
+        {% for element in search_result_list %}
             {% if active_tab == "cs" %}
                 <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
                     {% if element.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
@@ -53,11 +53,11 @@
             {% elif active_tab == "rfc" %}
                 <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
             {% endif %}
-            {% endfor %}
-        </ul>
+        {% endfor %}
     {% else %}
-        <p>No matching Cipher Suites found.</p>
+            <p>No matching {% if active_tab == "cs" %}Cipher Suites{% elif active_tab == "rfc" %}RFCs{% endif %} found.</p>
     {% endif %}
+        </ul>
     </div>
 </div>
 
