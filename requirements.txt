@@ -8,9 +8,13 @@ coverage==4.4
 cssselect==1.0.1
 dj-database-url==0.4.2
 Django==2.0.3
+django-appconf==1.0.2
+django-compressor==2.2
 django-markdown-deux==1.0.5
+django-sass-processor==0.5.7
 gunicorn==19.7.1
 idna==2.5
+libsass==0.13.4
 lxml==3.7.3
 markdown2==2.3.4
 multidict==2.1.5
@@ -21,7 +25,9 @@ pycparser==2.17
 pyparsing==2.2.0
 pytz==2017.2
 PyYAML==3.12
+rcssmin==1.0.6
 requests==2.14.2
+rjsmin==1.0.12
 six==1.10.0
 sqlparse==0.2.3
 w3lib==1.17.0
