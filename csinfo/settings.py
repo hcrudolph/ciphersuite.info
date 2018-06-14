@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'blog.apps.BlogConfig',
+    'sass_processor',
     'directory.apps.DirectoryConfig',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',

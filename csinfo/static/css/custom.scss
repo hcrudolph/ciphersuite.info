@@ -1,5 +1,18 @@
+@import 'mixins';
+
+$default-font:      'Open Sans Regular', sans-serif;
+$heading-bold:      'Roboto Bold', sans-serif;
+$heading-semibold:  'Roboto Medium', sans-serif;
+$primary-color:     #34495e;
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
-    font-family: 'Open Sans Regular', sans-serif;
+    font-family: $default-font;
+    margin-bottom: 50px;
 }
 
 body > .container {
@@ -10,24 +23,25 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: 'Roboto Bold', sans-serif;
+    font-family: $heading-bold;
 }
 
 a {
-    color: #34495e;
+    color: $primary-color;
 }
 
 a:hover {
-    color: #46637f;
+    color: $primary-color;
+    @include brightness(120%);
 }
 
 ::selection {
-    background: #34495e;
+    background: $primary-color;
     color: #ffffff;
 }
 
 ::-moz-selection {
-    background: #34495e;
+    background: $primary-color;
     color: #ffffff;
 }
 
@@ -49,11 +63,11 @@ a:hover {
 }
 
 .light {
-    filter: brightness(120%);
+    @include brightness(120%);
 }
 
 .dark {
-    filter: brightness(80%);
+    @include brightness(80%);
 }
 
 .post-intro {
@@ -76,9 +90,7 @@ a:hover {
 }
 
 * {
-    -webkit-border-radius: 0 !important;
-       -moz-border-radius: 0 !important;
-            border-radius: 0 !important;
+    @include border-radius(0px !important);
 }
 
 .rfclist {
@@ -135,7 +147,7 @@ a:hover {
 
 dt {
     text-align: left !important;
-    font-family: 'Roboto Medium', sans-serif;
+    font-family: $heading-semibold;
 }
 
 dt,
@@ -145,16 +157,6 @@ dd {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 50px;
-}
 
 .footer {
   position: absolute;
@@ -180,7 +182,7 @@ code {
 /* Navbar customization
 -------------------------------------------------- */
 
-.navbar-inverse { background-color: #34495E}
+.navbar-inverse { background-color: $primary-color}
 .navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #4F6F8F}
 .navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #2C3E50}
 .dropdown-menu { background-color: #ECF0F1}
