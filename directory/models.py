@@ -376,6 +376,7 @@ class StaticPage(models.Model):
     )
     glyphicon = models.CharField(
         max_length=50,
+        help_text="For reference, see https://getbootstrap.com/docs/3.3/components"
     )
 
     def __str__(self):
