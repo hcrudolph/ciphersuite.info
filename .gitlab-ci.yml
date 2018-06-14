@@ -15,9 +15,12 @@ before_script:
 
 job 1:
   stage: build
-  script: pip install -r requirements.txt
+  script:
+    - pip install -r requirements.txt
 
 
 job 2:
   stage: test
-  script: python manage.py test
+  script:
+    - pip install -r requirements.txt
+    - python manage.py test
