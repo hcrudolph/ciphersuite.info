@@ -29,6 +29,7 @@ staging:
     url: https://csi-dev.hcrudolph.com
   script:
     - python manage.py compilescss
+    - python manage.py migrate
     - python manage.py loaddata directory/fixtures/*
     - python manage.py scrapeiana
     - python manage.py runserver 8080
