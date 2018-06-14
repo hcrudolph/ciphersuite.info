@@ -32,4 +32,5 @@ staging:
     - python manage.py migrate
     - python manage.py loaddata directory/fixtures/*
     - python manage.py scrapeiana
-    - python manage.py runserver 8080
+    - echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$CSI_ADMIN', 'root@hcrudolph.com', '$CSI_ADMIN_PASS')" | python manage.py shell
+    - gunicorn --bind=:8080 --daemon csinfo.wsgi
