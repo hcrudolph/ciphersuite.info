@@ -33,7 +33,7 @@
                     </li>
                     {% for page in static_pages %}
                         <li {% if navbar_context == page.title %}class="active"{% endif %}>
-                            <a href="/{{ page|lower }}/">
+                            <a href="/static/{{ page|lower }}/">
                                 {% if page.glyphicon %}<span class="glyphicon {{ page.glyphicon }}" aria-hidden="true"></span>{% endif %}
                                 {{ page|title }}
                             </a>

@@ -34,29 +34,14 @@ def index(request):
     return render(request, 'directory/index.html', context)
 
 
-def about(request):
-    """Static page with project information."""
+def static_page(request, sp_name):
+    """Generic static page, to be created in admin interface."""
 
-    about_page = get_object_or_404(StaticPage, pk='about')
-
+    page = get_object_or_404(StaticPage, pk=sp_name)
     context = {
-        'navbar_context': about_page.title,
+        'navbar_context': page.title,
         'search_form': NavbarSearchForm(),
-        'static_page': about_page,
-    }
-
-    return render(request, 'directory/static_page.html', context)
-
-
-def contact(request):
-    """Static page with project information."""
-
-    contact_page = get_object_or_404(StaticPage, pk='contact')
-
-    context = {
-        'navbar_context': contact_page.title,
-        'search_form': NavbarSearchForm(),
-        'static_page': contact_page,
+        'static_page': page,
     }
 
     return render(request, 'directory/static_page.html', context)
