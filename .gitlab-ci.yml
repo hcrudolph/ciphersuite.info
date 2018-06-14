@@ -12,7 +12,6 @@ variables:
   POSTGRES_PASSWORD: "start123"
 
 before_script:
-  - apk add python3
 
 job 1:
   stage: build
