@@ -18,19 +18,10 @@ test:
 
 staging:
   stage: deploy
-  services:
-    - postgres:latest
-  variables:
-    POSTGRES_DB: ciphersuite
-    POSTGRES_USER: django
-    POSTGRES_PASSWORD: "start123"
+  image: ruby:latest
   environment:
-    name: Ciphersuite Nightly
-    url: https://csi-dev.hcrudolph.com
+    name: Ciphersuite Devel
+    url: https://ciphersuite-info.herokuapp.com
   script:
-    - python manage.py compilescss
-    - python manage.py migrate
-    - python manage.py loaddata directory/fixtures/*
-    - python manage.py scrapeiana
-    - echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$CSI_ADMIN', 'root@hcrudolph.com', '$CSI_ADMIN_PASS')" | python manage.py shell
-    - gunicorn --bind=:8080 csinfo.wsgi
+    - gem install dpl
+    - dpl --provider=heroku --app=ciphersuite-info --api-key=$HEROKU_API_KEY
