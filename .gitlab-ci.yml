@@ -22,7 +22,7 @@ staging:
     name: Ciphersuite Devel
     url: https://ciphersuite-info.herokuapp.com
   before_script:
-    - apt-get update -y && apt-get install -y ruby-dev curl gnupg2
+    - apt-get update -y && apt-get install -y ruby-dev git curl gnupg2
     - gem install dpl
     - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
