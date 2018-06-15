@@ -28,7 +28,7 @@ staging:
   script:
     - dpl --provider=heroku --app=ciphersuite-info --api-key=$HEROKU_API_KEY
     - heroku run --app=ciphersuite-info 'python manage.py compilescss && \
-        python manage.py collectstatic && \
+        python manage.py collectstatic --noinput && \
         python manage.py migrate && \
         python manage.py loaddata directory/fixtures/* && \
         python manage.py scrapeiana' \
