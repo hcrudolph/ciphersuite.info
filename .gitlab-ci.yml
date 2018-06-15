@@ -27,8 +27,8 @@ staging:
     - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
   script:
     - dpl --provider=heroku --app=ciphersuite-info --api-key=$HEROKU_API_KEY
-    - heroku run --app=ciphersuite-info "python manage.py compilescss && \
-        python manage.py collectstatic --noinput && \
-        python manage.py migrate && \
-        python manage.py loaddata directory/fixtures/* && \
-        python manage.py scrapeiana" \
+    - heroku run --app=ciphersuite-info "python manage.py compilescss"
+    - heroku run --app=ciphersuite-info "python manage.py collectstatic --noinput"
+    - heroku run --app=ciphersuite-info "python manage.py migrate"
+    - heroku run --app=ciphersuite-info "python manage.py loaddata directory/fixtures/*"
+    - heroku run --app=ciphersuite-info "python manage.py scrapeiana"
