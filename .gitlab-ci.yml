@@ -2,9 +2,6 @@ stages:
   - test
   - deploy
 
-before_script:
-  - pip install -r requirements.txt
-
 test:
   stage: test
   services:
@@ -13,6 +10,8 @@ test:
     POSTGRES_DB: ciphersuite
     POSTGRES_USER: django
     POSTGRES_PASSWORD: "start123"
+  before_script:
+    - pip install -r requirements.txt
   script:
     - python manage.py test
 
@@ -22,6 +21,12 @@ staging:
   environment:
     name: Ciphersuite Devel
     url: https://ciphersuite-info.herokuapp.com
-  script:
+  before_script:
     - gem install dpl
-    - dpl --provider=heroku --app=ciphersuite-info --api-key=$HEROKU_API_KEY
+  script:
+    - dpl --provider=heroku --app=ciphersuite-info --api-key=$HEROKU_API_KEY \
+      --run 'python manage.py compilescss' \
+      --run 'python manage.py collectstatic' \
+      --run 'python manage.py migrate' \
+      --run 'python manage.py loaddata directory/fixtures/*' \
+      --run 'python manage.py scrapeiana'
