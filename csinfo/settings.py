@@ -132,6 +132,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(PROJECT_ROOT, 'static', 'css')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
