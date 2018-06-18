@@ -24,6 +24,7 @@ if 'DEVELOPMENT' in os.environ and os.environ.get('DEVELOPMENT', '0') == '1':
     DEBUG = True
 else:
     DEBUG = False
+    SASS_PROCESSOR_ENABLED = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -131,7 +132,6 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
-SASS_PROCESSOR_ENABLED = True
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
