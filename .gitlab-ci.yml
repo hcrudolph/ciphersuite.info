@@ -32,3 +32,4 @@ staging:
     - heroku run --app=ciphersuite-info "python manage.py migrate"
     - heroku run --app=ciphersuite-info "python manage.py loaddata directory/fixtures/*"
     - heroku run --app=ciphersuite-info "python manage.py scrapeiana"
+    - heroku run --app=ciphersuite-info "python manage.py filltlsversion"
