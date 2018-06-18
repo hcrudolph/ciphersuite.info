@@ -27,6 +27,7 @@ else:
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
+    '0.0.0.0',
     'localhost',
     'ciphersuite.info',
     'ciphersuite-info.herokuapp.com',
@@ -135,3 +136,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
