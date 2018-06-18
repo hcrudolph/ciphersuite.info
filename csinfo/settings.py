@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if 'DEVELOPMENT' in os.environ and os.environ.get('DEVELOPMENT') == 1:
+if 'DEVELOPMENT' in os.environ and os.environ.get('DEVELOPMENT', '0') == '1':
     DEBUG = True
 else:
     DEBUG = False
@@ -84,6 +84,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'csinfo.wsgi.application'
 
 # Whitenoise storage
+# https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Database
@@ -113,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Europe/Berlin'
@@ -131,6 +131,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+SASS_PROCESSOR_ENABLED = True
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
