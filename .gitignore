@@ -1,6 +1,6 @@
 # Custom rules
 custom.css
-
+staticfiles/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
