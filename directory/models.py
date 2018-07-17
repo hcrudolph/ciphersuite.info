@@ -131,36 +131,41 @@ class CipherSuite(models.Model):
     protocol_version = models.ForeignKey(
         'ProtocolVersion',
         verbose_name=_('protocol version'),
-        editable=False,
         on_delete=models.CASCADE,
+        blank=True,
+        default='',
     )
     # key exchange algorithm
     kex_algorithm = models.ForeignKey(
         'KexAlgorithm',
         verbose_name=_('key exchange algorithm'),
-        editable=False,
         on_delete=models.CASCADE,
+        blank=True,
+        default='',
     )
     # authentication algorithm
     auth_algorithm = models.ForeignKey(
         'AuthAlgorithm',
         verbose_name=_('authentication algorithm'),
-        editable=False,
         on_delete=models.CASCADE,
+        blank=True,
+        default='',
     )
     # encryption algorithm
     enc_algorithm = models.ForeignKey(
         'EncAlgorithm',
         verbose_name=_('encryption algorithm'),
-        editable=False,
         on_delete=models.CASCADE,
+        blank=True,
+        default='',
     )
     # hash algorithm
     hash_algorithm = models.ForeignKey(
         'HashAlgorithm',
         verbose_name=_('hash algorithm'),
-        editable=False,
         on_delete=models.CASCADE,
+        blank=True,
+        default='',
     )
 
 
@@ -483,26 +488,52 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         hsh = ccm + " " + hsh
 
     # connect foreign keys from other models
-    instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
-        short_name=prt.strip()
-    )
-    instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
-        short_name=kex.strip()
-    )
-    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-        short_name=enc.strip()
-    )
-    instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
-        short_name=hsh.strip()
-    )
+    if instance.protocol_version == '':
+        instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
+            short_name=prt.strip()
+        )
+    else:
+        instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
+            short_name=instance.protocol_version
+        )
+    if instance.kex_algorithm == '':
+        instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
+            short_name=kex.strip()
+        )
+    else:
+        instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
+            short_name=instance.kex_algorithm
+        )
+    if instance.enc_algorithm == '':
+        instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
+            short_name=enc.strip()
+        )
+    else:
+        instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
+            short_name=instance.enc_algorithm
+        )
+    if instance.hash_algorithm == '':
+        instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
+            short_name=hsh.strip()
+        )
+    else:
+        instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
+            short_name=instance.hash_algorithm
+        )
 
     # if aut is not excplicitly defined, set it equal to kex
-    if aut:
+    if instance.auth_algorithm == '' and aut != '':
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
         )
+    elif instance.auth_algorithm == '' and aut == '':
+        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
+            short_name=kex.strip()
+        )
     else:
-        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create( short_name=kex.strip())
+        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
+            short_name=instance.auth_algorithm
+        )
 
 
 @receiver(pre_save, sender=CipherSuite)
