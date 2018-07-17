@@ -20,7 +20,7 @@ markdown2
 multidict
 packaging
 parsel
-psycopg2
+psycopg2-binary
 pycparser
 pyparsing
 pytz
