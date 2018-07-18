@@ -2,7 +2,7 @@
   pk: 'Export-grade cipher suite'
   fields:
     severity: 'HIG'
-    description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted.'
+    description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted. ([FREAK Attack](https://freakattack.com/))'
 - model: directory.Vulnerability
   pk: 'Secure Hash Algorithm 1'
   fields:
@@ -42,4 +42,24 @@
   pk: 'Triple-DES'
   fields:
     severity: 'MED'
-    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it has been proven to suffer from several vulnerabilities in the past (cf. [openssl.org](https://www.openssl.org/blog/blog/2016/08/24/sweet32/)).'
+    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it has been proven to suffer from several vulnerabilities in the past (cf. [Sweet32](https://sweet32.info)).'
+- model: directory.Vulnerability
+  pk: 'Diffie-Hellman'
+  fields:
+    severity: 'MED'
+    description: 'Normal Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers can\'t decrypt the whole communication stream. However Diffie-Hellman Ephemeral supports PFS.'
+- model: directory.Vulnerability
+  pk: 'Elliptic Curve Diffie-Hellman'
+  fields:
+    severity: 'MED'
+    description: 'Normal Elliptic Curve Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers can\'t decrypt the whole communication stream. However Elliptic Curve Diffie-Hellman Ephemeral supports PFS.'
+- model: directory.Vulnerability
+  pk: 'CBC'
+  fields:
+    severity: 'LOW'
+    description: 'The CBC mode is vulnerable to plain-text attacks with TLS 1.0, SSL 3.0 and lower. However a real fix is implemented with TLS 1.2 in which the GCM mode was introduced and which is not vulnerable to the BEAST attack. GCM should be preferred over CBC. (cf. [BEAST](https://bug665814.bmoattachments.org/attachment.cgi?id=540839))'
+- model: directory.Vulnerability
+  pk: 'RC2'
+  fields:
+    severity: 'HIG'
+    description: 'There exists a related-key attack found in 1997. With this attack, RC2 can be broken. [cf. RC2 related-key analysis](https://www.schneier.com/academic/paperfiles/paper-relatedkey.pdf)'
