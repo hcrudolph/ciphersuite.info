@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from directory.models import CipherSuite, Rfc, Technology
 
 
 def paginate(result_list, current_page, elements_per_page):
