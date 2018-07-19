@@ -36,7 +36,7 @@ def index_cs(request):
     sec_level = request.GET.get('sec_level', 'all').strip()
     tls_version = request.GET.get('tls_version', 'all').strip()
     software = request.GET.get('software', 'all').strip()
-    page = request.GET.get('page', 1).strip()
+    page = request.GET.get('page', 1)
 
     # filter result list
     cipher_suites = filter_cs_by_software(
@@ -68,7 +68,7 @@ def index_rfc(request):
 
     # parse GET parameters
     sorting = request.GET.get('sorting', 'number-asc').strip()
-    page = request.GET.get('page', 1).strip()
+    page = request.GET.get('page', 1)
 
     # sort result list
     rfc_list = sort_rfcs(Rfc.objects.all(), sorting)
