@@ -1,6 +1,7 @@
+image: python:3.6
+
 stages:
   - test
-  - deploy
 
 test:
   stage: test
@@ -14,22 +15,3 @@ test:
     - pip install -r requirements.txt
   script:
     - python manage.py test
-
-staging:
-  stage: deploy
-  image: ubuntu:latest
-  environment:
-    name: Ciphersuite Devel
-    url: https://ciphersuite-info.herokuapp.com
-  before_script:
-    - apt-get update -y && apt-get install -y ruby-dev git curl gnupg2
-    - gem install dpl
-    - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-  script:
-    - dpl --provider=heroku --app=ciphersuite-info --api-key=$HEROKU_API_KEY
-    - heroku run --app=ciphersuite-info "python manage.py compilescss"
-    - heroku run --app=ciphersuite-info "python manage.py collectstatic --noinput"
-    - heroku run --app=ciphersuite-info "python manage.py migrate"
-    - heroku run --app=ciphersuite-info "python manage.py loaddata directory/fixtures/*"
-    - heroku run --app=ciphersuite-info "python manage.py scrapeiana"
-    - heroku run --app=ciphersuite-info "python manage.py filltlsversion"
