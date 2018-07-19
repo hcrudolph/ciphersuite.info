@@ -4,8 +4,13 @@ from django.db.models import Q
 
 
 class CipherSuiteQuerySet(models.QuerySet):
+    def recommended(self):
+        return self.secure().filter(
+            Q(kex_algorithm__short_name__icontains='DHE')
+        )
+
     def secure(self):
-        return self.all().exclude(
+        return self.exclude(
             Q(protocol_version__vulnerabilities__severity='HIG')|
             Q(protocol_version__vulnerabilities__severity='MED')|
             Q(kex_algorithm__vulnerabilities__severity='HIG')|
@@ -166,9 +171,17 @@ class CipherSuite(models.Model):
         )
 
     @property
+    def recommended(self):
+        vulnerabilities = self.__get_vulnerabilities()
+        if not any(vulnerabilities) and ("DHE" in self.kex_algorithm.short_name):
+            return True
+        else:
+            return False
+
+    @property
     def no_vulnerability(self):
         vulnerabilities = self.__get_vulnerabilities()
-        if not any(vulnerabilities):
+        if not any(vulnerabilities) and not ("DHE" in self.kex_algorithm.short_name):
             return True
         else:
             return False

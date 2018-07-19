@@ -32,6 +32,7 @@
                 <ul class="dropdown-menu">
                     <li><a {% if sec_level == "" or sec_level == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'sec_level' params %}">All</a></li>
                     <li role="separator" class="divider"></li>
+                    <li><a {% if sec_level == "recommended" %}class="active"{% endif %} href="{% relative_url 'recommended' 'sec_level' params %}">Recommended</a></li>
                     <li><a {% if sec_level == "secure" %}class="active"{% endif %} href="{% relative_url 'secure' 'sec_level' params %}">Secure</a></li>
                     <li><a {% if sec_level == "weak" %}class="active"{% endif %} href="{% relative_url 'weak' 'sec_level' params %}">Weak</a></li>
                     <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'sec_level' params %}">Insecure</a></li>
@@ -72,7 +73,8 @@
                     {% if cipher_suite.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
                     {% elif cipher_suite.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
                     {% elif cipher_suite.low_vulnerability %}<span class="label label-fixed-width label-info">Info</span>
-                    {% else %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% elif cipher_suite.no_vulnerability %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% elif cipher_suite.recommended  %}<span class="label label-fixed-width label-recommended">Recommended</span>
                     {% endif %}
                 {{ cipher_suite.name }}</a></li>
                 {% endfor %}

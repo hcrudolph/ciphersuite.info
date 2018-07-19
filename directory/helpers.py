@@ -18,7 +18,9 @@ def paginate(result_list, current_page, elements_per_page):
     return result
 
 def get_cs_by_security_level(sec_level):
-    if sec_level == 'secure':
+    if sec_level == 'recommended':
+        return CipherSuite.custom_filters.recommended()
+    elif sec_level == 'secure':
         return CipherSuite.custom_filters.secure()
     elif sec_level == 'weak':
         return CipherSuite.custom_filters.weak()
@@ -28,9 +30,9 @@ def get_cs_by_security_level(sec_level):
         return CipherSuite.objects.all()
 
 def filter_cs_by_tls_version(cipher_suites, version):
-    if tls_version == "tls10":
+    if version == "tls10":
         return cipher_suites.filter(tls_version__icontains='tls1.0')
-    elif tls_version == "tls12":
+    elif version == "tls12":
         return cipher_suites.filter(tls_version__icontains='tls1.2')
     else:
         return cipher_suites
