@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from .models import *
+from directory.models import *
 from lxml import html
 import requests
 import re
@@ -97,58 +97,33 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
 
     # split enc again if we only got a number for hsh
     # specifically needed for 'CCM 8' hash algorithm
-    if re.match('\d+', hsh.strip()):
+    if re.match(r'\d+', hsh.strip()):
         (enc,_,ccm) = enc.rpartition(" ")
         hsh = ccm + " " + hsh
 
     # connect foreign keys from other models
-    if instance.protocol_version == '':
-        instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
-            short_name=prt.strip()
-        )
-    else:
-        instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
-            short_name=instance.protocol_version
-        )
-    if instance.kex_algorithm == '':
-        instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
+    instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
+        short_name=prt.strip()
+    )
+    instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
+        short_name=kex.strip()
+    )
+    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
+        short_name=enc.strip()
+    )
+    instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
+        short_name=hsh.strip()
+    )
+
+    # if aut is not excplicitly defined, set it equal to kex
+    if not aut:
+        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=kex.strip()
         )
     else:
-        instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
-            short_name=instance.kex_algorithm
-        )
-    if instance.enc_algorithm == '':
-        instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-            short_name=enc.strip()
-        )
-    else:
-        instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-            short_name=instance.enc_algorithm
-        )
-    if instance.hash_algorithm == '':
-        instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
-            short_name=hsh.strip()
-        )
-    else:
-        instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
-            short_name=instance.hash_algorithm
-        )
-
-    # if aut is not excplicitly defined, set it equal to kex
-    if instance.auth_algorithm == '' and aut != '':
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
         )
-    elif instance.auth_algorithm == '' and aut == '':
-        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
-            short_name=kex.strip()
-        )
-    else:
-        instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
-            short_name=instance.auth_algorithm
-        )
-
 
 @receiver(pre_save, sender=CipherSuite)
 def complete_cs_names(sender, instance, *args, **kwargs):
