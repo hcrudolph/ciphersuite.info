@@ -88,7 +88,7 @@ def detail_cs(request, cs_name):
     """Detailed view of a CipherSuite instance."""
 
     # parse GET parameters
-    prev_page = request.GET.get('prev', None).strip()
+    prev_page = request.GET.get('prev', None)
 
     # query result
     cipher_suite = get_object_or_404(CipherSuite, pk=cs_name)
@@ -115,7 +115,7 @@ def detail_rfc(request, rfc_number):
     """Detailed view of an Rfc instance."""
 
     # parse GET parameters
-    prev_page = request.GET.get('prev', None).strip()
+    prev_page = request.GET.get('prev', None)
 
     # query result
     rfc = get_object_or_404(Rfc, pk=rfc_number)
@@ -151,7 +151,7 @@ def search(request):
     search_term = request.GET.get('q', '').strip()
     sec_level = request.GET.get('f', 'all').strip()
     category = request.GET.get('c', 'cs').strip()
-    page = request.GET.get('p', 1).strip()
+    page = request.GET.get('page', 1)
     
     # display CS name format according to search term
     search_type = 'openssl' if '-' in search_term else 'iana'
