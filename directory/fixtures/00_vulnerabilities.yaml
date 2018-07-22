@@ -47,12 +47,12 @@
   pk: 'Diffie-Hellman'
   fields:
     severity: 'MED'
-    description: 'Normal Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers can\'t decrypt the whole communication stream. However Diffie-Hellman Ephemeral supports PFS.'
+    description: 'Normal Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers cannot decrypt the whole communication stream. However Diffie-Hellman Ephemeral supports PFS.'
 - model: directory.Vulnerability
   pk: 'Elliptic Curve Diffie-Hellman'
   fields:
     severity: 'MED'
-    description: 'Normal Elliptic Curve Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers can\'t decrypt the whole communication stream. However Elliptic Curve Diffie-Hellman Ephemeral supports PFS.'
+    description: 'Normal Elliptic Curve Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers cannot decrypt the whole communication stream. However Elliptic Curve Diffie-Hellman Ephemeral supports PFS.'
 - model: directory.Vulnerability
   pk: 'CBC'
   fields:
