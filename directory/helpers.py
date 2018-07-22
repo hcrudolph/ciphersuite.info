@@ -108,11 +108,17 @@ def search_cipher_suites(search_term):
         Q(enc_algorithm__long_name__icontains=search_term)|
         Q(kex_algorithm__long_name__icontains=search_term)|
         Q(hash_algorithm__long_name__icontains=search_term)|
-        Q(protocol_version__long_name__icontains=search_term)|
+        Q(protocol_version__vulnerabilities__name__icontains=search_term)|
+        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
         Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
         Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
         Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(hash_algorithm__vulnerabilities__name__icontains=search_term)
+        Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
+        Q(protocol_version__vulnerabilities__description__icontains=search_term)|
+        Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
+        Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
+        Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
+        Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
     )
 
 def filter_cipher_suites(cipher_suite_list, filter):
