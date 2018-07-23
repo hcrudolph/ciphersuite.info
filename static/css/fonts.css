@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Open Sans Regular';
+    src: url('/static/fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Medium';
+    src: url('/static/fonts/Roboto/Roboto-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Bold';
+    src: url('/static/fonts/Roboto/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('/static/fonts/Glyphicons/glyphicons-halflings-regular.ttf');
+    src: url('/static/fonts/Glyphicons/glyphicons-halflings-regular.eot');
+    src: url('/static/fonts/Glyphicons/glyphicons-halflings-regular.svg');
+    src: url('/static/fonts/Glyphicons/glyphicons-halflings-regular.woff');
+    src: url('/static/fonts/Glyphicons/glyphicons-halflings-regular.woff2');
+}

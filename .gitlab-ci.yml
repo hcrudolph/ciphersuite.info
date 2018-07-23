@@ -1,0 +1,17 @@
+image: python:3.6
+
+stages:
+  - test
+
+test:
+  stage: test
+  services:
+    - postgres:latest
+  variables:
+    POSTGRES_DB: ciphersuite
+    POSTGRES_USER: django
+    POSTGRES_PASSWORD: "start123"
+  before_script:
+    - pip install -r requirements.txt
+  script:
+    - python manage.py test

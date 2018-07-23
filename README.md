@@ -1,4 +1,4 @@
-# ciphersuite.info ![Travis CI build status](https://travis-ci.org/hcrudolph/ciphersuite.info.svg?branch=master)
+# ciphersuite.info - a directory of TLS cipher suites
 
 ## What is this project?
 

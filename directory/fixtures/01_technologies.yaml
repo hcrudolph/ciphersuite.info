@@ -281,12 +281,12 @@
   pk: 'RC4 40'
   fields:
     long_name: 'Rivest Cipher 4 with 40bit key'
-    vulnerabilities: []
+    vulnerabilities: ['Rivest Cipher 4']
 - model: directory.EncAlgorithm
   pk: 'RC4 128'
   fields:
     long_name: 'Rivest Cipher 4 with 128bit key'
-    vulnerabilities: []
+    vulnerabilities: ['Rivest Cipher 4']
 - model: directory.EncAlgorithm
   pk: 'SEED CBC'
   fields:
