@@ -1,9 +1,11 @@
 from django.core.management.base import BaseCommand, CommandError
 from directory.models import CipherSuite, Rfc
-
 from os import linesep
 from requests import get
 import re
+
+class FailedDownloadException(Exception):
+    pass
 
 class Command(BaseCommand):
     help = 'Scrapes TLS cipher suites from iana.org'
@@ -19,7 +21,6 @@ class Command(BaseCommand):
         # inherit everything else from BaseCommand
         super().__init__()
 
-
     def get_csv(self, url='https://www.iana.org/assignments/tls-parameters/tls-parameters-4.csv'):
         """Tries to download the content at the specified URL,
         returning the response in plain text format. If status code
@@ -29,43 +30,50 @@ class Command(BaseCommand):
         if response.status_code == 200:
             return response.text
         else:
-            raise FailedDownloadException(
-                "Failed to download resource from the given URL."
-            )
-
+            raise FailedDownloadException()
 
     def split_line(self, line):
         result = dict()
         info = line.split(',')
 
-        result['hex1'] = re.search('0x[0123456789ABCDEF]{2}', info[0]).group(0)
-        result['hex2'] = re.search('0x[0123456789ABCDEF]{2}', info[1]).group(0)
+        result['hex1'] = re.search(r'0x[0-9A-F]{2}', info[0]).group(0)
+        result['hex2'] = re.search(r'0x[0-9A-F]{2}', info[1]).group(0)
         result['name'] = info[2]
-        # info[3] is DTLS
-        result['rfcs'] = re.search('\[(RFC.+?)\]', info[4]).groups()
+        # info[3] = DTLS-OK
+        # info[4] = Recommended
+        result['rfcs'] = re.search(r'\[(RFC.+?)\]', info[5]).groups()
 
         return result
 
     def handle(self, *args, **options):
         """Main function to be run when command is executed."""
 
+        verbosity = int(options['verbosity'])
         # try downloading csv file
         try:
             csv_file = self.get_csv()
-        except FailedDownloadException as e:
-            self.stdout.write(self.style.ERROR(e.message))
+        except:
+            raise CommandError("Failed to download resource from the given URL.")
 
         # counter for successfully inserted or found ciphers
-        cs_new, cs_old, rfc_new = 0, 0, 0
+        cs_new = cs_old = rfc_new = 0
         for line in csv_file.split(linesep):
-            # try splitting line its separate components or continue
+            # try splitting line its separate components or skip it
             try:
                 d = self.split_line(line)
             except:
+                if verbosity > 1:
+                    self.stdout.write(
+                        self.style.NOTICE("Failed to split line. Skipping.")
+                    )
                 continue
 
-            # if any of our filters don't match, skip current cipher suite
+            # if any filters don't match, skip current cipher suite
             if not all(re.search(f[1], d[f[0]]) for f in self.filters):
+                if verbosity > 1:
+                    self.stdout.write(
+                        self.style.NOTICE("Failed to parse line. Skipping.")
+                    )
                 continue
 
             # create model instances in DB
@@ -76,8 +84,8 @@ class Command(BaseCommand):
             )
 
             for rfc in d['rfcs']:
-                regular_rfc = re.match('RFC(\d+)', rfc)
-                draft_rfc   = re.match('RFC-ietf-tls-rfc(\d+).+', rfc)
+                regular_rfc = re.match(r'RFC(\d+)', rfc)
+                draft_rfc   = re.match(r'RFC-ietf-tls-rfc(\d+).+', rfc)
 
                 if regular_rfc is not None:
                     rfc_nr = regular_rfc.group(1)
@@ -94,19 +102,26 @@ class Command(BaseCommand):
 
                 if rstat:
                     rfc_new += 1
+                    if verbosity > 2:
+                        self.stdout.write(
+                            self.style.SUCCESS(
+                                f"Successfully created RFC '{r.number}'."
+                            )
+                        )
 
             if cstat:
                 cs_new += 1
+                if verbosity > 2:
+                    self.stdout.write(
+                            self.style.SUCCESS(
+                                f"Successfully created Ciphersuite '{c.name}'."
+                            )
+                        )
             else:
                 cs_old += 1
 
         self.stdout.write(
             self.style.SUCCESS(
-                f"Successfully created {cs_new} cipher suites and {rfc_new} RFCs. " +
-                f"{cs_old} cipher suites already in the database."
+                f"Successfully created {cs_new} ({cs_old}) cipher suites and {rfc_new} RFCs."
             )
         )
-
-
-class FailedDownloadException(Exception):
-    pass
