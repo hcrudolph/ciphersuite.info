@@ -5,8 +5,19 @@ from django.db.models import Q
 
 class CipherSuiteQuerySet(models.QuerySet):
     def recommended(self):
-        return self.secure().filter(
-            Q(kex_algorithm__short_name__icontains='DHE')
+        return self.exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')
+        ).filter(
+            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
         )
 
     def secure(self):
@@ -21,6 +32,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(auth_algorithm__vulnerabilities__severity='MED')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='MED')
+        ).exclude(
+            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
         )
 
     def weak(self):
