@@ -60,6 +60,36 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(hash_algorithm__vulnerabilities__severity='HIG')
         )
 
+    def search(self, search_term):
+        return self.filter(
+            Q(name__icontains=search_term)|
+            Q(openssl_name__icontains=search_term)|
+            Q(gnutls_name__icontains=search_term)|
+            Q(auth_algorithm__long_name__icontains=search_term)|
+            Q(enc_algorithm__long_name__icontains=search_term)|
+            Q(kex_algorithm__long_name__icontains=search_term)|
+            Q(hash_algorithm__long_name__icontains=search_term)|
+            Q(protocol_version__vulnerabilities__name__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(protocol_version__vulnerabilities__description__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
+            Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
+            Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
+            Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
+        )
+
+
+class RfcQuerySet(models.QuerySet):
+    def search(self, search_term):
+        return self.filter(
+            Q(title__icontains=search_term)|
+            Q(number__icontains=search_term)
+        )
+
 
 class CipherImplementation(models.Model):
     class Meta:
@@ -213,6 +243,34 @@ class CipherSuite(models.Model):
         else:
             return False
 
+    @property
+    def gnutls_cipher(self):
+        if self.gnutls_name:
+            return True
+        else:
+            return False
+
+    @property
+    def openssl_cipher(self):
+        if self.openssl_name:
+            return True
+        else:
+            return False
+
+    @property
+    def tls10_cipher(self):
+        if 'tls1.0' in self.tls_version.lower():
+            return True
+        else:
+            return False
+
+    @property
+    def tls12_cipher(self):
+        if 'tls1.2' in self.tls_version.lower():
+            return True
+        else:
+            return False
+
 
     objects = models.Manager()
     custom_filters = CipherSuiteQuerySet.as_manager()
@@ -279,6 +337,9 @@ class Rfc(models.Model):
         verbose_name=_('related RFCs'),
         blank=True,
     )
+
+    objects = models.Manager()
+    custom_filters = RfcQuerySet.as_manager()
 
     def __str__(self):
         if self.is_draft:

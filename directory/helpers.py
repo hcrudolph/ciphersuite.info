@@ -1,6 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
-from directory.models import CipherSuite, Rfc, Technology
+from directory.models import CipherSuite, Rfc
 
 
 def paginate(result_list, current_page, elements_per_page):
@@ -35,9 +34,9 @@ def filter_cs_by_tls_version(cipher_suites, version):
     """Returns a list of CipherSuite instances filtered by their TLS version."""
 
     if version == "tls10":
-        return cipher_suites.filter(tls_version__icontains='tls1.0')
+        return [cs for cs in cipher_suites if cs.tls10_cipher]
     elif version == "tls12":
-        return cipher_suites.filter(tls_version__icontains='tls1.2')
+        return [cs for cs in cipher_suites if cs.tls12_cipher]
     else:
         return cipher_suites
 
@@ -45,9 +44,9 @@ def filter_cs_by_software(cipher_suites, software):
     """Returns a list of CipherSuite instances filtered by their available implementations."""
 
     if software == "gnutls":
-        return cipher_suites.exclude(gnutls_name__iexact='')
+        return [cs for cs in cipher_suites if cs.gnutls_cipher]
     elif software == "openssl":
-        return cipher_suites.exclude(openssl_name__iexact='')
+        return [cs for cs in cipher_suites if cs.openssl_cipher]
     else:
         return cipher_suites
 
@@ -111,32 +110,10 @@ def search_rfcs(search_term):
     """Returns a QuerySet of all Rfc instances,
         whose title or number contains the given search term"""
 
-    return Rfc.objects.filter(
-        Q(title__icontains=search_term)|
-        Q(number__icontains=search_term)
-    )
+    return Rfc.custom_filters.search(search_term)
 
 def search_cipher_suites(search_term):
     """Returns a QuerySet of all CipherSuite instances, whose name, 
     algorithms or their vulnerabilities contain the given search term"""
 
-    return CipherSuite.objects.filter(
-        Q(name__icontains=search_term)|
-        Q(openssl_name__icontains=search_term)|
-        Q(gnutls_name__icontains=search_term)|
-        Q(auth_algorithm__long_name__icontains=search_term)|
-        Q(enc_algorithm__long_name__icontains=search_term)|
-        Q(kex_algorithm__long_name__icontains=search_term)|
-        Q(hash_algorithm__long_name__icontains=search_term)|
-        Q(protocol_version__vulnerabilities__name__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(protocol_version__vulnerabilities__description__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
-        Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
-        Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
-        Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
-    )
+    return CipherSuite.custom_filters.search(search_term)
