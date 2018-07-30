@@ -20,7 +20,9 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(auth_algorithm__vulnerabilities__severity='HIG')|
             Q(auth_algorithm__vulnerabilities__severity='MED')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
+            Q(hash_algorithm__vulnerabilities__severity='MED')|
+        ).exclude(
+            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
         )
 
     def weak(self):
