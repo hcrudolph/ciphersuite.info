@@ -157,8 +157,8 @@ def search(request):
     category = request.GET.get('c', 'cs').strip()
     page = request.GET.get('page', 1)
     
-    # display CS name format according to search term
-    search_type = 'openssl' if '-' in search_term else 'iana'
+    # display CS name format according to search query
+    search_type = 'openssl' if ('-' in search_term) or (software == 'openssl') else 'iana'
 
     # filter result list
     result_list_cs = filter_cipher_suites(search_cipher_suites(search_term), sec_level)
