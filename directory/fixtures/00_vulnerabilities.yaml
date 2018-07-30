@@ -54,12 +54,12 @@
     severity: 'MED'
     description: 'Normal Elliptic Curve Diffie-Hellman key exchange does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers cannot decrypt the whole communication stream. However Elliptic Curve Diffie-Hellman Ephemeral supports PFS.'
 - model: directory.Vulnerability
-  pk: 'CBC'
+  pk: 'Cipher Block Chaining'
   fields:
     severity: 'LOW'
     description: 'The CBC mode is vulnerable to plain-text attacks with TLS 1.0, SSL 3.0 and lower. However a real fix is implemented with TLS 1.2 in which the GCM mode was introduced and which is not vulnerable to the BEAST attack. GCM should be preferred over CBC. (cf. [BEAST](https://bug665814.bmoattachments.org/attachment.cgi?id=540839))'
 - model: directory.Vulnerability
-  pk: 'RC2'
+  pk: 'Rivest Cipher 2'
   fields:
     severity: 'HIG'
     description: 'There exists a related-key attack found in 1997. With this attack, RC2 can be broken. [cf. RC2 related-key analysis](https://www.schneier.com/academic/paperfiles/paper-relatedkey.pdf)'
