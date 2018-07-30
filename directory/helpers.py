@@ -125,12 +125,12 @@ def filter_cipher_suites(cipher_suite_list, filter):
     """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
 
     if filter=='insecure':
-        return [cs for cs in cipher_suite_list if cs.insecure()]
+        return [cs for cs in cipher_suite_list if cs.insecure]
     elif filter=='weak':
-        return [cs for cs in cipher_suite_list if cs.weak()]
+        return [cs for cs in cipher_suite_list if cs.weak]
     elif filter=='secure':
-        return [cs for cs in cipher_suite_list if cs.secure()]
+        return [cs for cs in cipher_suite_list if cs.secure]
     elif filter=='recommended':
-        return [cs for cs in cipher_suite_list if cs.recommended()]
+        return [cs for cs in cipher_suite_list if cs.recommended]
     else:
         return cipher_suite_list

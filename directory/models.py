@@ -181,23 +181,21 @@ class CipherSuite(models.Model):
     @property
     def weak(self):
         vulnerabilities = self.__get_vulnerabilities()
-        if any([v for v in vulnerabilities if v=='MED']) and not self.insecure():
+        if any([v for v in vulnerabilities if v=='MED']) and not self.insecure:
             return True
         else:
             return False
 
     @property
     def secure(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if not self.insecure() and not self.weak() and not ("DHE" in self.kex_algorithm.short_name):
+        if not self.insecure and not self.weak and not ("DHE" in self.kex_algorithm.short_name):
             return True
         else:
             return False
 
     @property
     def recommended(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if self.secure() and ("DHE" in self.kex_algorithm.short_name):
+        if self.secure and ("DHE" in self.kex_algorithm.short_name):
             return True
         else:
             return False
