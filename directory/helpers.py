@@ -18,6 +18,8 @@ def paginate(result_list, current_page, elements_per_page):
     return result
 
 def get_cs_by_security_level(sec_level):
+    """Returns all CipherSuites of a certain security level."""
+
     if sec_level == 'recommended':
         return CipherSuite.custom_filters.recommended()
     elif sec_level == 'secure':
@@ -30,6 +32,8 @@ def get_cs_by_security_level(sec_level):
         return CipherSuite.objects.all()
 
 def filter_cs_by_tls_version(cipher_suites, version):
+    """Returns a list of CipherSuite instances filtered by their TLS version."""
+
     if version == "tls10":
         return cipher_suites.filter(tls_version__icontains='tls1.0')
     elif version == "tls12":
@@ -38,10 +42,26 @@ def filter_cs_by_tls_version(cipher_suites, version):
         return cipher_suites
 
 def filter_cs_by_software(cipher_suites, software):
+    """Returns a list of CipherSuite instances filtered by their available implementations."""
+
     if software == "gnutls":
         return cipher_suites.exclude(gnutls_name__iexact='')
     elif software == "openssl":
         return cipher_suites.exclude(openssl_name__iexact='')
+    else:
+        return cipher_suites
+
+def filter_cs_by_sec_level(cipher_suites, sec_level):
+    """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
+
+    if sec_level == 'insecure':
+        return [cs for cs in cipher_suites if cs.insecure]
+    elif sec_level == 'weak':
+        return [cs for cs in cipher_suites if cs.weak]
+    elif sec_level == 'secure':
+        return [cs for cs in cipher_suites if cs.secure]
+    elif sec_level == 'recommended':
+        return [cs for cs in cipher_suites if cs.recommended]
     else:
         return cipher_suites
 
@@ -120,17 +140,3 @@ def search_cipher_suites(search_term):
         Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
         Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
     )
-
-def filter_cipher_suites(cipher_suite_list, filter):
-    """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
-
-    if filter=='insecure':
-        return [cs for cs in cipher_suite_list if cs.insecure]
-    elif filter=='weak':
-        return [cs for cs in cipher_suite_list if cs.weak]
-    elif filter=='secure':
-        return [cs for cs in cipher_suite_list if cs.secure]
-    elif filter=='recommended':
-        return [cs for cs in cipher_suite_list if cs.recommended]
-    else:
-        return cipher_suite_list
