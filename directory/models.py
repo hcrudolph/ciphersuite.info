@@ -208,7 +208,7 @@ class CipherSuite(models.Model):
 
     @property
     def recommended(self):
-        if self.secure and ("DHE" in self.kex_algorithm.short_name):
+        if not self.insecure and not self.weak and ("DHE" in self.kex_algorithm.short_name):
             return True
         else:
             return False
