@@ -12,7 +12,7 @@
                 <ul class="dropdown-menu">
                     <li><a {% if filter == 'all' or filter == '' %}class="active"{% endif %} href="/search/?q={{ search_term }}">All</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a {% if filter == 'recommended' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=recommended">Secure</a></li>
+                    <li><a {% if filter == 'recommended' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=recommended">Recommended</a></li>
                     <li><a {% if filter == 'secure' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=secure">Secure</a></li>
                     <li><a {% if filter == 'weak' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=weak">Weak</a></li>
                     <li><a {% if filter == 'insecure' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=insecure">Insecure</a></li>
@@ -45,9 +45,10 @@
         {% for element in search_result_list %}
             {% if active_tab == "cs" %}
                 <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
-                    {% if element.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
-                    {% elif element.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% else %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
+                    {% elif element.weak %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
                     {% endif %}
                     {% if search_type == "iana" %} {{ element.name }} {% else %} {{ element.openssl_name }} {% endif %}
                 </a></li>

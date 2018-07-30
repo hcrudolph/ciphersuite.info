@@ -125,39 +125,12 @@ def filter_cipher_suites(cipher_suite_list, filter):
     """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
 
     if filter=='insecure':
-        return cipher_suite_list.filter(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
+        return [cs for cs in cipher_suite_list if cs.insecure()]
     elif filter=='weak':
-        return cipher_suite_list.filter(
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
-        ).exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
+        return [cs for cs in cipher_suite_list if cs.weak()]
     elif filter=='secure':
-        return cipher_suite_list.exclude(
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')
-        )
+        return [cs for cs in cipher_suite_list if cs.secure()]
+    elif filter=='recommended':
+        return [cs for cs in cipher_suite_list if cs.recommended()]
     else:
         return cipher_suite_list

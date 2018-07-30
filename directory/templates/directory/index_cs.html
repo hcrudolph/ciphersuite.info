@@ -70,11 +70,10 @@
             <ul class="prettylist">
                 {% for cipher_suite in cipher_suites %}
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
-                    {% if cipher_suite.high_vulnerability %}<span class="label label-fixed-width label-danger">Insecure</span>
-                    {% elif cipher_suite.medium_vulnerability %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% elif cipher_suite.low_vulnerability %}<span class="label label-fixed-width label-info">Info</span>
-                    {% elif cipher_suite.no_vulnerability %}<span class="label label-fixed-width label-success">Secure</span>
-                    {% elif cipher_suite.recommended  %}<span class="label label-fixed-width label-recommended">Recommended</span>
+                    {% if cipher_suite.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
+                    {% elif cipher_suite.weak %}<span class="label label-fixed-width label-warning">Weak</span>
+                    {% elif cipher_suite.secure %}<span class="label label-fixed-width label-success">Secure</span>
+                    {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
                     {% endif %}
                 {{ cipher_suite.name }}</a></li>
                 {% endfor %}
