@@ -48,7 +48,7 @@ def index_cs(request):
     sorted_cipher_suites = sort_cipher_suites(cipher_suites, sorting)
     # paginate result list
     cipher_suites_paginated = paginate(sorted_cipher_suites, page, 15)
-    
+
     # display CS name format according to search query
     search_type = 'openssl' if software == 'openssl' else 'iana'
     
@@ -153,7 +153,9 @@ def search(request):
 
     # parse GET parameters
     search_term = request.GET.get('q', '').strip()
-    sec_level = request.GET.get('f', 'all').strip()
+    sec_level = request.GET.get('sec_level', 'all').strip()
+    tls_version = request.GET.get('tls_version', 'all').strip()
+    software = request.GET.get('software', 'all').strip()
     category = request.GET.get('c', 'cs').strip()
     page = request.GET.get('page', 1)
     
@@ -161,7 +163,13 @@ def search(request):
     search_type = 'openssl' if ('-' in search_term) or (software == 'openssl') else 'iana'
 
     # filter result list
-    result_list_cs = filter_cipher_suites(search_cipher_suites(search_term), sec_level)
+    result_list_cs = filter_cs_by_software(
+                        filter_cs_by_tls_version(
+                            filter_cs_by_sec_level(
+                                search_cipher_suites(search_term),
+                            sec_level),
+                        tls_version),
+                    software)
     result_list_rfc = search_rfcs(search_term)
 
     # distinguish results to display by category
@@ -187,5 +195,8 @@ def search(request):
         'search_result_list': result_list_paginated,
         'search_term': search_term,
         'search_type': search_type,
+        'sec_level': sec_level,
+        'software': software,
+        'tls_version': tls_version,
     }
     return render(request, 'directory/search.html', context)

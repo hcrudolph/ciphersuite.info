@@ -1,127 +1,152 @@
 {% extends "directory/base.html" %}
-
+{% load add_get_parameter %}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>Search results for "{{ search_term }}"
+<div class="container">
+{% with params=request.GET.urlencode %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Search results for "{{ search_term }}"
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filter <span class="caret"></span>
+                    Security <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a {% if filter == 'all' or filter == '' %}class="active"{% endif %} href="/search/?q={{ search_term }}">All</a></li>
+                    <li><a {% if sec_level == "" or sec_level == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'sec_level' params %}">All</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a {% if filter == 'recommended' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=recommended">Recommended</a></li>
-                    <li><a {% if filter == 'secure' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=secure">Secure</a></li>
-                    <li><a {% if filter == 'weak' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=weak">Weak</a></li>
-                    <li><a {% if filter == 'insecure' %}class="active"{% endif %} href="/search/?q={{ search_term }}&f=insecure">Insecure</a></li>
+                    <li><a {% if sec_level == "recommended" %}class="active"{% endif %} href="{% relative_url 'recommended' 'sec_level' params %}">Recommended</a></li>
+                    <li><a {% if sec_level == "secure" %}class="active"{% endif %} href="{% relative_url 'secure' 'sec_level' params %}">Secure</a></li>
+                    <li><a {% if sec_level == "weak" %}class="active"{% endif %} href="{% relative_url 'weak' 'sec_level' params %}">Weak</a></li>
+                    <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'sec_level' params %}">Insecure</a></li>
+                </ul>
+            </div>
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    TLS Version <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a {% if tls_version == "" or tls_version == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'tls_version' params %}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls_version' params %}">TLS1.0/TLS1.1</a></li>
+                    <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls_version' params %}">TLS1.2</a></li>
+                </ul>
+            </div>
+            <div class="btn-group inline-button">
+                <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Software<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a {% if software == "" or software == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'software' params %}">All</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a {% if software == 'openssl' %}class="active"{% endif %} href="{% relative_url 'openssl' 'software' params %}">OpenSSL</a></li>
+                    <li><a {% if software == 'gnutls' %}class="active"{% endif %} href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
                 </ul>
             </div><!-- end button group -->
-        </h2>
+            </h2>
+        </div>
     </div>
-</div>
 
-<!-- CS / RFC Tab Switch -->
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <ul class="nav nav-tabs nav-justified">
-        {% if active_tab == "cs" %}
-            <li class="active"><a href="#">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
-            <li><a href="/search/?q={{ search_term }}&c=rfc">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
-        {% elif active_tab == "rfc" %}
-            <li><a href="/search/?q={{ search_term }}&c=cs">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
-            <li class="active"><a href="#">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
-        {% endif %}
-        </ul>
-    </div>
-</div>
-
-<!-- Result list --> 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-    <ul class="prettylist">
-    {% if search_result_list %}
-        {% for element in search_result_list %}
+    <!-- CS / RFC Tab Switch -->
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <ul class="nav nav-tabs nav-justified">
             {% if active_tab == "cs" %}
-                <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
-                    {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
-                    {% elif element.weak %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
-                    {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
-                    {% endif %}
-                        {% if search_type == 'openssl' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
-                </a></li>
+                <li class="active"><a href="#">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
+                <li><a href="/search/?q={{ search_term }}&c=rfc">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
             {% elif active_tab == "rfc" %}
-                <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+                <li><a href="/search/?q={{ search_term }}&c=cs">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
+                <li class="active"><a href="#">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
             {% endif %}
-        {% endfor %}
-    {% else %}
-            <p>No matching {% if active_tab == "cs" %}Cipher Suites{% elif active_tab == "rfc" %}RFCs{% endif %} found.</p>
-    {% endif %}
-        </ul>
-    </div>
-</div>
-
-<!-- Pagination -->
-<div class="row">
-    <div class="col-md-8 col-md-offset-2" align="center">
-    <div class="pagination">
-        <span class="step-links">
-            <nav aria-label="Pagination">
-                <!-- First and previous button -->
-                <ul class="pagination">
-                {% if search_result_list.has_previous %}
-                    <li class="first"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p=1">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a></li>
-                    <li class="previous"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.previous_page_number }}">
-                        <span aria-hidden="true">&lsaquo;</span>
-                    </a></li>
-                {% else %}
-                    <li class="first disabled"><a href="#">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a></li>
-                    <li class="previous disabled"><a href="#">
-                        <span aria-hidden="true">&lsaquo;</span>
-                    </a></li>
-                {% endif %}
-
-                <!-- Current page numbers -->
-                {% for page in page_number_range %}
-                    <!-- active case -->
-                    {% if page == search_result_list.number %}
-                    <li class="active"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ page }}">{{ page }}<span class="sr-only">(current)</span></a></li>
-                    {% elif page > 5 and page > search_result_list.number|add:"+2" %}
-                    {% elif page < search_result_list.paginator.num_pages|add:"-4" and page < search_result_list.number|add:"-2" %}
-                    {% else %}
-                    <li><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ page }}">{{ page }}</a></li>
-                    {% endif %}
-                {% endfor %}
-
-
-                <!-- Next and last button -->
-                {% if search_result_list.has_next %}
-                    <li class="next"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.next_page_number }}">
-                        <span aria-hidden="true">&rsaquo;</span>
-                    </a></li>
-                    <li class="last"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.paginator.num_pages }}">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a></li>
-                {% else %}
-                    <li class="next disabled"><a href="#">
-                        <span aria-hidden="true">&rsaquo;</span>
-                    </a></li>
-                    <li class="last disabled"><a href="#">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a></li>
-                {% endif %}
             </ul>
-            </nav>
-        </span>
+        </div>
     </div>
-    </div>
-</div>
 
+    <!-- Result list --> 
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+        <ul class="prettylist">
+        {% if search_result_list %}
+            {% for element in search_result_list %}
+                {% if active_tab == "cs" %}
+                    <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
+                        {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
+                        {% elif element.weak %}<span class="label label-fixed-width label-warning">Weak</span>
+                        {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
+                        {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
+                        {% endif %}
+                        {% if search_type == 'openssl' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
+                    </a></li>
+                {% elif active_tab == "rfc" %}
+                    <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+                <p>No matching {% if active_tab == "cs" %}Cipher Suites{% elif active_tab == "rfc" %}RFCs{% endif %} found.</p>
+        {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" align="center">
+            <div class="pagination">
+                <span class="step-links">
+                    <nav aria-label="Pagination">
+                        <!-- First and previous button -->
+                        <ul class="pagination">
+                        {% if search_result_list.has_previous %}
+                            <li class="first"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p=1">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                            <li class="previous"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.previous_page_number }}">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a></li>
+                        {% else %}
+                            <li class="first disabled"><a href="#">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                            <li class="previous disabled"><a href="#">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a></li>
+                        {% endif %}
+
+                        <!-- Current page numbers -->
+                        {% for page in page_number_range %}
+                            <!-- active case -->
+                            {% if page == search_result_list.number %}
+                            <li class="active"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ page }}">{{ page }}<span class="sr-only">(current)</span></a></li>
+                            {% elif page > 5 and page > search_result_list.number|add:"+2" %}
+                            {% elif page < search_result_list.paginator.num_pages|add:"-4" and page < search_result_list.number|add:"-2" %}
+                            {% else %}
+                            <li><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ page }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+
+                        <!-- Next and last button -->
+                        {% if search_result_list.has_next %}
+                            <li class="next"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.next_page_number }}">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a></li>
+                            <li class="last"><a href="?q={{ search_term }}&c={{ category }}&f={{ filter }}&p={{ search_result_list.paginator.num_pages }}">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                        {% else %}
+                            <li class="next disabled"><a href="#">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a></li>
+                            <li class="last disabled"><a href="#">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                        {% endif %}
+                    </ul>
+                    </nav>
+                </span>
+            </div>
+        </div>
+    </div>
+{% endwith %}
+</div>
 {% endblock content %}
 
