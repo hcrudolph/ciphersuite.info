@@ -131,12 +131,12 @@
   pk: 'CCM'
   fields:
     long_name: 'Counter with CBC-MAC'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.HashAlgorithm
   pk: 'CCM8'
   fields:
     long_name: 'Counter with CBC-MAC 8'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.HashAlgorithm
   pk: 'MD5'
   fields:
@@ -171,7 +171,7 @@
   pk: '3DES EDE CBC'
   fields:
     long_name: 'Triple-DES (Encrypt Decrypt Encrypt) in Cipher Block Chaining mode'
-    vulnerabilities: ['Triple-DES','CBC']
+    vulnerabilities: ['Triple-DES','Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'AES 128'
   fields:
@@ -181,7 +181,7 @@
   pk: 'AES 128 CBC'
   fields:
     long_name: 'Advanced Encryption Standard with 128bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'AES 128 GCM'
   fields:
@@ -196,7 +196,7 @@
   pk: 'AES 256 CBC'
   fields:
     long_name: 'Advanced Encryption Standard with 256bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'AES 256 GCM'
   fields:
@@ -206,7 +206,7 @@
   pk: 'ARIA 128 CBC'
   fields:
     long_name: 'ARIA with 128bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'ARIA 128 GCM'
   fields:
@@ -216,7 +216,7 @@
   pk: 'ARIA 256 CBC'
   fields:
     long_name: 'ARIA with 256bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'ARIA 256 GCM'
   fields:
@@ -226,7 +226,7 @@
   pk: 'CAMELLIA 128 CBC'
   fields:
     long_name: 'CAMELLIA with 128bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'CAMELLIA 128 GCM'
   fields:
@@ -236,7 +236,7 @@
   pk: 'CAMELLIA 256 CBC'
   fields:
     long_name: 'CAMELLIA with 256bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'CAMELLIA 256 GCM'
   fields:
@@ -251,22 +251,22 @@
   pk: 'DES40 CBC'
   fields:
     long_name: 'Data Encryption Standard with 40bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'DES CBC'
   fields:
     long_name: 'Data Encryption Standard with 56bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'DES CBC 40'
   fields:
     long_name: 'Data Encryption Standard with 40bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'IDEA CBC'
   fields:
     long_name: 'IDEA in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'NULL'
   fields:
@@ -276,7 +276,7 @@
   pk: 'RC2 CBC 40'
   fields:
     long_name: 'Rivest Cipher 2 with 40bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['RC2','CBC']
+    vulnerabilities: ['Rivest Cipher 2','Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'RC4 40'
   fields:
@@ -291,4 +291,4 @@
   pk: 'SEED CBC'
   fields:
     long_name: 'SEED in Cipher Block Chaining mode'
-    vulnerabilities: ['CBC']
+    vulnerabilities: ['Cipher Block Chaining']
