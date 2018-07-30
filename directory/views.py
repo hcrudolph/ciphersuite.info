@@ -49,6 +49,9 @@ def index_cs(request):
     # paginate result list
     cipher_suites_paginated = paginate(sorted_cipher_suites, page, 15)
     
+    # display CS name format according to search query
+    search_type = 'openssl' if software == 'openssl' else 'iana'
+    
     context = {
         'cipher_suites': cipher_suites_paginated,
         'count': len(sorted_cipher_suites),
@@ -56,6 +59,7 @@ def index_cs(request):
         'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
         'search_form': NavbarSearchForm(),
         'sec_level': sec_level,
+        'search_type': search_type,
         'software': software,
         'sorting': sorting,
         'tls_version': tls_version,

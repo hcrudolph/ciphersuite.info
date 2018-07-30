@@ -75,7 +75,7 @@
                     {% elif cipher_suite.secure %}<span class="label label-fixed-width label-success">Secure</span>
                     {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
                     {% endif %}
-                {{ cipher_suite.name }}</a></li>
+                    {% if search_type == 'openssl' %} {{ cipher_suite.openssl_name }} {% else %} {{ cipher_suite.name }} {% endif %}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
