@@ -53,7 +53,7 @@ def index_cs(request):
     search_type = 'openssl' if software == 'openssl' else 'iana'
     
     context = {
-        'cipher_suites': cipher_suites_paginated,
+        'results': cipher_suites_paginated,
         'count': len(sorted_cipher_suites),
         'navbar_context': 'cs',
         'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
@@ -82,7 +82,7 @@ def index_rfc(request):
     context = {
         'navbar_context': 'rfc',
         'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
-        'rfc_list_paginated': rfc_list_paginated,
+        'results': rfc_list_paginated,
         'search_form': NavbarSearchForm(),
     }
     return render(request, 'directory/index_rfc.html', context)
@@ -194,7 +194,7 @@ def search(request):
         'result_count_cs': len(result_list_cs),
         'result_count_rfc': len(result_list_rfc),
         'search_form': NavbarSearchForm(),
-        'search_result_list': result_list_paginated,
+        'results': result_list_paginated,
         'search_term': search_term,
         'search_type': search_type,
         'sec_level': sec_level,

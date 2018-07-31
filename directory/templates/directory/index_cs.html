@@ -66,9 +66,9 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-        {% if cipher_suites %}
+        {% if results %}
             <ul class="prettylist">
-                {% for cipher_suite in cipher_suites %}
+                {% for cipher_suite in results %}
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
                     {% if cipher_suite.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
                     {% elif cipher_suite.weak %}<span class="label label-fixed-width label-warning">Weak</span>
@@ -84,65 +84,8 @@
         </div><!-- end column -->
     </div><!-- end row -->
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2" align="center">
-            <div class="pagination">
-                <span class="step-links">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-
-                        <!-- First and previous links -->
-                        {% if cipher_suites.has_previous %}
-                        <li class="first"><a href="{% relative_url '1' 'page' params %}">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a></li>
-                            <li class="previous"><a href="{% relative_url cipher_suites.previous_page_number 'page' params %}">
-                                <span aria-hidden="true">&lsaquo;</span>
-                            </a></li>
-                        {% else %}
-                            <li class="first disabled"><a href="#">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a></li>
-                            <li class="previous disabled"><a href="#" aria-label="Previous">
-                                <span aria-hidden="true">&lsaquo;</span>
-                            </a></li>
-                        {% endif %}
-
-                        <!-- Current page numbers -->
-                        {% for page in page_number_range %}
-                            <!-- active case -->
-                            {% if page == cipher_suites.number %}
-                                <li class="active"><a href="{% relative_url page 'page' params %}">{{ page }} <span class="sr-only">(current)</span></a></li>
-                            {% elif page > 5 and page > cipher_suites.number|add:"+2" %}
-                            {% elif page < cipher_suites.paginator.num_pages|add:"-4" and page < cipher_suites.number|add:"-2" %}
-                            {% else %}
-                                <li><a href="{% relative_url page 'page' params %}">{{ page }} </a></li>
-                            {% endif %}
-                        {% endfor %}
-
-                        <!-- Next and last links -->
-                        {% if cipher_suites.has_next %}
-                            <li class="next"><a href="{% relative_url cipher_suites.next_page_number 'page' params %}">
-                                <span aria-hidden="true">&rsaquo;</span>
-                            </a></li>
-                            <li class="last"><a href="{% relative_url cipher_suites.paginator.num_pages 'page' params %}">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a></li>
-                        {% else %}
-                            <li class="next disabled"><a href="#">
-                                <span aria-hidden="true">&rsaquo;</span>
-                            </a></li>
-                            <li class="last disabled"><a href="#">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a></li>
-                        {% endif %}
-
-                        </ul>
-                    </nav>
-                </span>
-            </div><!-- end pagination -->
-        </div><!-- end column -->
-    </div><!-- end row -->
+    {% include "directory/pagination.html" %}
+    
 {% endwith %}
 </div><!-- end container -->
 

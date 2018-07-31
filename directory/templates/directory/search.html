@@ -83,8 +83,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
         <ul class="prettylist">
-        {% if search_result_list %}
-            {% for element in search_result_list %}
+        {% if results %}
+            {% for element in results %}
                 {% if active_tab == "cs" %}
                     <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
                         {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
@@ -105,66 +105,8 @@
         </div>
     </div>
 
-    <!-- Pagination -->
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2" align="center">
-            <div class="pagination">
-                <span class="step-links">
-                    <nav aria-label="Pagination">
-                        <!-- First and previous button -->
-                        <ul class="pagination">
-                        {% if search_result_list.has_previous %}
-                            <li class="first"><a href="{% relative_url '1' 'page' params %}">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a></li>
-                            <li class="previous"><a href="{% relative_url search_result_list.previous_page_number 'sorting' params %}">
-                                <span aria-hidden="true">&lsaquo;</span>
-                            </a></li>
-                        {% else %}
-                            <li class="first disabled"><a href="#">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a></li>
-                            <li class="previous disabled"><a href="#">
-                                <span aria-hidden="true">&lsaquo;</span>
-                            </a></li>
-                        {% endif %}
+    {% include "directory/pagination.html" %}
 
-                        <!-- Current page numbers -->
-                        {% for page in page_number_range %}
-                            <!-- active case -->
-                            {% if page == search_result_list.number %}
-                            <li class="active"><a href="{% relative_url page 'page' params %}">{{ page }}<span class="sr-only">(current)</span></a></li>
-                            {% elif page > 5 and page > search_result_list.number|add:"+2" %}
-                            {% elif page < search_result_list.paginator.num_pages|add:"-4" and page < search_result_list.number|add:"-2" %}
-                            {% else %}
-                            <li><a href="{% relative_url page 'page' params %}">{{ page }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-
-
-                        <!-- Next and last button -->
-                        {% if search_result_list.has_next %}
-                            <li class="next"><a href="{% relative_url search_result_list.next_page_number 'page' params %}">
-                                <span aria-hidden="true">&rsaquo;</span>
-                            </a></li>
-                            <li class="last"><a href="{% relative_url search_result_list.paginator.num_pages 'page' params %}">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a></li>
-                        {% else %}
-                            <li class="next disabled"><a href="#">
-                                <span aria-hidden="true">&rsaquo;</span>
-                            </a></li>
-                            <li class="last disabled"><a href="#">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a></li>
-                        {% endif %}
-                    </ul>
-                    </nav>
-                </span>
-            </div>
-        </div>
-    </div>
 {% endwith %}
 </div>
 {% endblock content %}
-
