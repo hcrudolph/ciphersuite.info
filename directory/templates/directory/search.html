@@ -8,6 +8,23 @@
         <div class="col-md-8 col-md-offset-2">
             <h2>Search results for "{{ search_term }}"
             <div class="btn-group inline-button">
+                    <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort by <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a {% if sorting == 'name-asc' or sorting == '' %}class="active"{% endif %} href="{% relative_url 'all' 'sorting' params %}">Name ascending</a></li>
+                        <li><a {% if sorting == 'name-desc' %}class="active"{% endif %} href="{% relative_url 'name-desc' 'sorting' params %}">Name descending</a></li>
+                        <li><a {% if sorting == 'kex-asc' %}class="active"{% endif %} href="{% relative_url 'kex-asc' 'sorting' params %}">Key Exchange ascending</a></li>
+                        <li><a {% if sorting == 'kex-desc' %}class="active"{% endif %} href="{% relative_url 'kex-desc' 'sorting' params %}">Key Exchange descending</a></li>
+                        <li><a {% if sorting == 'auth-asc' %}class="active"{% endif %} href="{% relative_url 'auth-asc' 'sorting' params %}">Authentication ascending</a></li>
+                        <li><a {% if sorting == 'auth-desc' %}class="active"{% endif %} href="{% relative_url 'auth-desc' 'sorting' params %}">Authentication descending</a></li>
+                        <li><a {% if sorting == 'enc-asc' %}class="active"{% endif %} href="{% relative_url 'enc-asc' 'sorting' params %}">Encryption ascending</a></li>
+                        <li><a {% if sorting == 'enc-desc' %}class="active"{% endif %} href="{% relative_url 'enc-desc' 'sorting' params %}">Encryption descending</a></li>
+                        <li><a {% if sorting == 'hash-asc' %}class="active"{% endif %} href="{% relative_url 'hash-asc' 'sorting' params %}">Hash ascending</a></li>
+                        <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="{% relative_url 'hash-desc' 'sorting' params %}">Hash descending</a></li>
+                    </ul>
+                </div><!-- end button group -->
+            <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Security <span class="caret"></span>
                 </button>

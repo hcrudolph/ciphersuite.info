@@ -365,6 +365,9 @@ class Technology(models.Model):
         blank=True,
     )
 
+    def __lt__(self, other):
+        return True if self.short_name < other.short_name else False
+
     def __str__(self):
         return self.short_name
 

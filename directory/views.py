@@ -154,6 +154,7 @@ def search(request):
     # parse GET parameters
     search_term = request.GET.get('q', '').strip()
     sec_level = request.GET.get('sec_level', 'all').strip()
+    sorting = request.GET.get('sorting', 'name-asc').strip()
     tls_version = request.GET.get('tls_version', 'all').strip()
     software = request.GET.get('software', 'all').strip()
     category = request.GET.get('c', 'cs').strip()
@@ -163,13 +164,14 @@ def search(request):
     search_type = 'openssl' if ('-' in search_term) or (software == 'openssl') else 'iana'
 
     # filter result list
-    result_list_cs = filter_cs_by_software(
+    cipher_suites = filter_cs_by_software(
                         filter_cs_by_tls_version(
                             filter_cs_by_sec_level(
                                 search_cipher_suites(search_term),
                             sec_level),
                         tls_version),
                     software)
+    result_list_cs = sort_cipher_suites(cipher_suites, sorting)
     result_list_rfc = search_rfcs(search_term)
 
     # distinguish results to display by category
@@ -197,6 +199,7 @@ def search(request):
         'search_type': search_type,
         'sec_level': sec_level,
         'software': software,
+        'sorting': sorting,
         'tls_version': tls_version,
     }
     return render(request, 'directory/search.html', context)

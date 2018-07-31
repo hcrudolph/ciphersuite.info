@@ -64,47 +64,43 @@ def filter_cs_by_sec_level(cipher_suites, sec_level):
     else:
         return cipher_suites
 
-def sort_cipher_suites(cipher_suites, order):
+def sort_cipher_suites(cipher_suites, ordering):
     """Sorts the given list of CipherSuite instances in a specific order."""
 
-    # maps GET sorting parameter to django ordering
-    order_variants = {
-        'auth-asc': 'auth_algorithm',
-        'auth-desc': '-auth_algorithm',
-        'enc-asc': 'enc_algorithm',
-        'enc-desc': '-enc_algorithm',
-        'hash-asc': 'hash_algorithm',
-        'hash-desc': '-hash_algorithm',
-        'kex-asc': 'kex_algorithm',
-        'kex-desc': '-kex_algorithm',
-        'name-asc': 'name',
-        'name-desc': '-name',
-    }
+    if ordering == 'auth-asc':
+        return sorted(cipher_suites, key=lambda x: x.auth_algorithm)
+    elif ordering == '-auth-desc':
+        return sorted(cipher_suites, key=lambda x: x.auth_algorithm, reverse=True)
+    elif ordering == 'enc-asc':
+        return sorted(cipher_suites, key=lambda x: x.enc_algorithm)
+    elif ordering == 'enc-desc':
+        return sorted(cipher_suites, key=lambda x: x.enc_algorithm, reverse=True)
+    elif ordering == 'hash-asc':
+        return sorted(cipher_suites, key=lambda x: x.hash_algorithm)
+    elif ordering == 'hash-desc':
+        return sorted(cipher_suites, key=lambda x: x.hash_algorithm, reverse=True)
+    elif ordering == 'kex-asc':
+        return sorted(cipher_suites, key=lambda x: x.kex_algorithm)
+    elif ordering == 'kex-desc':
+        return sorted(cipher_suites, key=lambda x: x.kex_algorithm, reverse=True)
+    elif ordering == 'name-desc':
+        return sorted(cipher_suites, key=lambda x: x.name, reverse=True)
+    else:
+        return sorted(cipher_suites, key=lambda x: x.name)
 
-    try:
-        csorder = order_variants[order]
-    except KeyError:
-        csorder = 'name' # default ordering
 
-    return cipher_suites.order_by(csorder)
-
-def sort_rfcs(rfcs, order):
+def sort_rfcs(rfcs, ordering):
     """Sorts the given list of Rfc instances in a specific order."""
 
-    # maps GET sorting parameter to django ordering
-    order_variants = {
-        'number-asc': 'number',
-        'number-desc': '-number',
-        'title-asc': 'title',
-        'title-desc': '-title',
-    }
+    if ordering == 'number-asc':
+        return sorted(rfcs, key=lambda x: x.number)
+    elif ordering == 'number-desc':
+        return sorted(rfcs, key=lambda x: x.number, reverse=True)
+    elif ordering == 'title-desc':
+        return sorted(rfcs, key=lambda x: x.title, reverse=True)
+    else:
+        return sorted(rfcs, key=lambda x: x.title)
 
-    try:
-        rfcorder = order_variants[order]
-    except KeyError:
-        rfcorder = 'number' # default ordering
-
-    return rfcs.order_by(rfcorder)
 
 def search_rfcs(search_term):
     """Returns a QuerySet of all Rfc instances,
