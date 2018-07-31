@@ -16,6 +16,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(auth_algorithm__vulnerabilities__severity='MED')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='MED')
+            Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
+            Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
         ).filter(
             Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
         )
