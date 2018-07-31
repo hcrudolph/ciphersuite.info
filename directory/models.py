@@ -224,21 +224,27 @@ class CipherSuite(models.Model):
     @property
     def weak(self):
         vulnerabilities = self.__get_vulnerabilities()
-        if any([v for v in vulnerabilities if v=='MED']) and not self.insecure:
+        if not self.insecure and any([v for v in vulnerabilities if v=='MED']):
             return True
         else:
             return False
 
     @property
     def secure(self):
-        if not self.insecure and not self.weak and not ("DHE" in self.kex_algorithm.short_name):
+        if not self.insecure \
+        and not self.weak \
+        and not self.recommended:
             return True
         else:
             return False
 
     @property
     def recommended(self):
-        if not self.insecure and not self.weak and ("DHE" in self.kex_algorithm.short_name):
+        if not self.insecure \
+        and not self.weak \
+        and ("DHE" in self.kex_algorithm.short_name) \
+        and not ("CBC" in self.enc_algorithm.short_name) \
+        and not ("CCM" in self.hash_algorithm.short_name):
             return True
         else:
             return False
