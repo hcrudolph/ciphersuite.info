@@ -6,7 +6,8 @@
 {% with params=request.GET.urlencode %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1>{{ count }} Cipher Suites
+            <h1>{{ count }} Cipher Suites</h1>
+            <p>
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort by <span class="caret"></span>
@@ -24,7 +25,6 @@
                     <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="{% relative_url 'hash-desc' 'sorting' params %}">Hash descending</a></li>
                 </ul>
             </div><!-- end button group -->
-
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Security <span class="caret"></span>
@@ -60,7 +60,7 @@
                     <li><a {% if software == 'gnutls' %}class="active"{% endif %} href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
                 </ul>
             </div><!-- end button group -->
-            </h1>
+            </p>
         </div><!-- end column -->
     </div><!-- end row -->
 

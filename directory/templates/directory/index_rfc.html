@@ -6,7 +6,8 @@
 {% with params=request.GET.urlencode %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h1>RFCs
+            <h1>RFCs</h1>
+            <p>
             <div class="btn-group inline-button">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort by <span class="caret"></span>
@@ -19,7 +20,7 @@
                     <li><a href="{% relative_url 'title-desc' 'sorting' params %}">Title descending</a></li>
                 </ul>
             </div> <!-- end button group --> 
-            </h1>
+            </p>
         </div><!-- end column -->
     </div><!-- end row -->
 
