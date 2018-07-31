@@ -81,7 +81,7 @@
   pk: 'DH'
   fields:
     long_name: 'Diffie-Hellman'
-    vulnerabilities: ['Diffie-Hellman']
+    vulnerabilities: ['Non-ephemeral Diffie-Hellman']
 - model: directory.KexAlgorithm
   pk: 'DHE'
   fields:
@@ -91,7 +91,7 @@
   pk: 'ECDH'
   fields:
     long_name: 'Elliptic Curve Diffie-Hellman'
-    vulnerabilities: ['Elliptic Curve Diffie-Hellman']
+    vulnerabilities: ['Non-ephemeral Diffie-Hellman']
 - model: directory.KexAlgorithm
   pk: 'ECDHE'
   fields:
