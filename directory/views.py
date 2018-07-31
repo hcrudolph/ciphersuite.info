@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .helpers import *
 from .models import *
 from .forms import *
@@ -175,12 +175,16 @@ def search(request):
     result_list_rfc = search_rfcs(search_term)
 
     # distinguish results to display by category
-    if category=='cs':
+    if category=='cs' and len(result_list_cs) != 1:
         active_tab = 'cs'
         result_list = result_list_cs
-    else:
+    elif category=='cs':
+        return redirect('detail_cs', cs_name=result_list_cs[0].name)
+    elif category=='rfc' and len(result_list_rfc) != 1:
         active_tab = 'rfc'
         result_list = result_list_rfc
+    else:
+        return redirect('detail_rfc', rfc_number=result_list_cs[0].number)        
 
     # paginate result list
     result_list_paginated = paginate(result_list, page, 15)
