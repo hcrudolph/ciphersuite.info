@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .helpers import *
-from .models import *
-from .forms import *
+from directory.helpers import *
+from directory.models import *
+from directory.forms import *
 
 
 def index(request):

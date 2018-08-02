@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from directory.models import *
 
 admin.site.register(CipherSuite)
 admin.site.register(Rfc)
