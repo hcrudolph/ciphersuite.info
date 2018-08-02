@@ -5,8 +5,21 @@ from django.db.models import Q
 
 class CipherSuiteQuerySet(models.QuerySet):
     def recommended(self):
-        return self.secure().filter(
-            Q(kex_algorithm__short_name__icontains='DHE')
+        return self.exclude(
+            Q(protocol_version__vulnerabilities__severity='HIG')|
+            Q(protocol_version__vulnerabilities__severity='MED')|
+            Q(kex_algorithm__vulnerabilities__severity='HIG')|
+            Q(kex_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__vulnerabilities__severity='HIG')|
+            Q(enc_algorithm__vulnerabilities__severity='MED')|
+            Q(auth_algorithm__vulnerabilities__severity='HIG')|
+            Q(auth_algorithm__vulnerabilities__severity='MED')|
+            Q(hash_algorithm__vulnerabilities__severity='HIG')|
+            Q(hash_algorithm__vulnerabilities__severity='MED')|
+            Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
+            Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
+        ).filter(
+            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
         )
 
     def secure(self):
@@ -21,6 +34,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(auth_algorithm__vulnerabilities__severity='MED')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='MED')
+        ).exclude(
+            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
         )
 
     def weak(self):
@@ -45,6 +60,36 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(enc_algorithm__vulnerabilities__severity='HIG')|
             Q(auth_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='HIG')
+        )
+
+    def search(self, search_term):
+        return self.filter(
+            Q(name__icontains=search_term)|
+            Q(openssl_name__icontains=search_term)|
+            Q(gnutls_name__icontains=search_term)|
+            Q(auth_algorithm__long_name__icontains=search_term)|
+            Q(enc_algorithm__long_name__icontains=search_term)|
+            Q(kex_algorithm__long_name__icontains=search_term)|
+            Q(hash_algorithm__long_name__icontains=search_term)|
+            Q(protocol_version__vulnerabilities__name__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
+            Q(protocol_version__vulnerabilities__description__icontains=search_term)|
+            Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
+            Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
+            Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
+            Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
+        )
+
+
+class RfcQuerySet(models.QuerySet):
+    def search(self, search_term):
+        return self.filter(
+            Q(title__icontains=search_term)|
+            Q(number__icontains=search_term)
         )
 
 
@@ -171,44 +216,69 @@ class CipherSuite(models.Model):
         )
 
     @property
-    def recommended(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if not any(vulnerabilities) and ("DHE" in self.kex_algorithm.short_name):
-            return True
-        else:
-            return False
-
-    @property
-    def no_vulnerability(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if not any(vulnerabilities) and not ("DHE" in self.kex_algorithm.short_name):
-            return True
-        else:
-            return False
-
-    @property
-    def low_vulnerability(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if any([v for v in vulnerabilities if v=='LOW']):
-            return True
-        else:
-            return False
-
-    @property
-    def medium_vulnerability(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if any([v for v in vulnerabilities if v=='MED']):
-            return True
-        else:
-            return False
-
-    @property
-    def high_vulnerability(self):
+    def insecure(self):
         vulnerabilities = self.__get_vulnerabilities()
         if any([v for v in vulnerabilities if v=='HIG']):
             return True
         else:
             return False
+
+    @property
+    def weak(self):
+        vulnerabilities = self.__get_vulnerabilities()
+        if not self.insecure and any([v for v in vulnerabilities if v=='MED']):
+            return True
+        else:
+            return False
+
+    @property
+    def secure(self):
+        if not self.insecure \
+        and not self.weak \
+        and not self.recommended:
+            return True
+        else:
+            return False
+
+    @property
+    def recommended(self):
+        if not self.insecure \
+        and not self.weak \
+        and ("DHE" in self.kex_algorithm.short_name) \
+        and not ("CBC" in self.enc_algorithm.short_name) \
+        and not ("CCM" in self.hash_algorithm.short_name):
+            return True
+        else:
+            return False
+
+    @property
+    def gnutls_cipher(self):
+        if self.gnutls_name:
+            return True
+        else:
+            return False
+
+    @property
+    def openssl_cipher(self):
+        if self.openssl_name:
+            return True
+        else:
+            return False
+
+    @property
+    def tls10_cipher(self):
+        if 'tls1.0' in self.tls_version.lower():
+            return True
+        else:
+            return False
+
+    @property
+    def tls12_cipher(self):
+        if 'tls1.2' in self.tls_version.lower():
+            return True
+        else:
+            return False
+
 
     objects = models.Manager()
     custom_filters = CipherSuiteQuerySet.as_manager()
@@ -276,6 +346,9 @@ class Rfc(models.Model):
         blank=True,
     )
 
+    objects = models.Manager()
+    custom_filters = RfcQuerySet.as_manager()
+
     def __str__(self):
         if self.is_draft:
             return f"DRAFT RFC {self.number}"
@@ -299,6 +372,9 @@ class Technology(models.Model):
         'Vulnerability',
         blank=True,
     )
+
+    def __lt__(self, other):
+        return True if self.short_name < other.short_name else False
 
     def __str__(self):
         return self.short_name

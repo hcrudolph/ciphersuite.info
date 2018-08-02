@@ -1,6 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
-from directory.models import CipherSuite, Rfc, Technology
+from directory.models import CipherSuite, Rfc
 
 
 def paginate(result_list, current_page, elements_per_page):
@@ -18,6 +17,8 @@ def paginate(result_list, current_page, elements_per_page):
     return result
 
 def get_cs_by_security_level(sec_level):
+    """Returns all CipherSuites of a certain security level."""
+
     if sec_level == 'recommended':
         return CipherSuite.custom_filters.recommended()
     elif sec_level == 'secure':
@@ -30,134 +31,85 @@ def get_cs_by_security_level(sec_level):
         return CipherSuite.objects.all()
 
 def filter_cs_by_tls_version(cipher_suites, version):
+    """Returns a list of CipherSuite instances filtered by their TLS version."""
+
     if version == "tls10":
-        return cipher_suites.filter(tls_version__icontains='tls1.0')
+        return [cs for cs in cipher_suites if cs.tls10_cipher]
     elif version == "tls12":
-        return cipher_suites.filter(tls_version__icontains='tls1.2')
+        return [cs for cs in cipher_suites if cs.tls12_cipher]
     else:
         return cipher_suites
 
 def filter_cs_by_software(cipher_suites, software):
+    """Returns a list of CipherSuite instances filtered by their available implementations."""
+
     if software == "gnutls":
-        return cipher_suites.exclude(gnutls_name__iexact='')
+        return [cs for cs in cipher_suites if cs.gnutls_cipher]
     elif software == "openssl":
-        return cipher_suites.exclude(openssl_name__iexact='')
+        return [cs for cs in cipher_suites if cs.openssl_cipher]
     else:
         return cipher_suites
 
-def sort_cipher_suites(cipher_suites, order):
+def filter_cs_by_sec_level(cipher_suites, sec_level):
+    """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
+
+    if sec_level == 'insecure':
+        return [cs for cs in cipher_suites if cs.insecure]
+    elif sec_level == 'weak':
+        return [cs for cs in cipher_suites if cs.weak]
+    elif sec_level == 'secure':
+        return [cs for cs in cipher_suites if cs.secure]
+    elif sec_level == 'recommended':
+        return [cs for cs in cipher_suites if cs.recommended]
+    else:
+        return cipher_suites
+
+def sort_cipher_suites(cipher_suites, ordering):
     """Sorts the given list of CipherSuite instances in a specific order."""
 
-    # maps GET sorting parameter to django ordering
-    order_variants = {
-        'auth-asc': 'auth_algorithm',
-        'auth-desc': '-auth_algorithm',
-        'enc-asc': 'enc_algorithm',
-        'enc-desc': '-enc_algorithm',
-        'hash-asc': 'hash_algorithm',
-        'hash-desc': '-hash_algorithm',
-        'kex-asc': 'kex_algorithm',
-        'kex-desc': '-kex_algorithm',
-        'name-asc': 'name',
-        'name-desc': '-name',
-    }
+    if ordering == 'auth-asc':
+        return sorted(cipher_suites, key=lambda x: x.auth_algorithm)
+    elif ordering == '-auth-desc':
+        return sorted(cipher_suites, key=lambda x: x.auth_algorithm, reverse=True)
+    elif ordering == 'enc-asc':
+        return sorted(cipher_suites, key=lambda x: x.enc_algorithm)
+    elif ordering == 'enc-desc':
+        return sorted(cipher_suites, key=lambda x: x.enc_algorithm, reverse=True)
+    elif ordering == 'hash-asc':
+        return sorted(cipher_suites, key=lambda x: x.hash_algorithm)
+    elif ordering == 'hash-desc':
+        return sorted(cipher_suites, key=lambda x: x.hash_algorithm, reverse=True)
+    elif ordering == 'kex-asc':
+        return sorted(cipher_suites, key=lambda x: x.kex_algorithm)
+    elif ordering == 'kex-desc':
+        return sorted(cipher_suites, key=lambda x: x.kex_algorithm, reverse=True)
+    elif ordering == 'name-desc':
+        return sorted(cipher_suites, key=lambda x: x.name, reverse=True)
+    else:
+        return sorted(cipher_suites, key=lambda x: x.name)
 
-    try:
-        csorder = order_variants[order]
-    except KeyError:
-        csorder = 'name' # default ordering
 
-    return cipher_suites.order_by(csorder)
-
-def sort_rfcs(rfcs, order):
+def sort_rfcs(rfcs, ordering):
     """Sorts the given list of Rfc instances in a specific order."""
 
-    # maps GET sorting parameter to django ordering
-    order_variants = {
-        'number-asc': 'number',
-        'number-desc': '-number',
-        'title-asc': 'title',
-        'title-desc': '-title',
-    }
+    if ordering == 'number-asc':
+        return sorted(rfcs, key=lambda x: x.number)
+    elif ordering == 'number-desc':
+        return sorted(rfcs, key=lambda x: x.number, reverse=True)
+    elif ordering == 'title-desc':
+        return sorted(rfcs, key=lambda x: x.title, reverse=True)
+    else:
+        return sorted(rfcs, key=lambda x: x.title)
 
-    try:
-        rfcorder = order_variants[order]
-    except KeyError:
-        rfcorder = 'number' # default ordering
-
-    return rfcs.order_by(rfcorder)
 
 def search_rfcs(search_term):
     """Returns a QuerySet of all Rfc instances,
         whose title or number contains the given search term"""
 
-    return Rfc.objects.filter(
-        Q(title__icontains=search_term)|
-        Q(number__icontains=search_term)
-    )
+    return Rfc.custom_filters.search(search_term)
 
 def search_cipher_suites(search_term):
     """Returns a QuerySet of all CipherSuite instances, whose name, 
     algorithms or their vulnerabilities contain the given search term"""
 
-    return CipherSuite.objects.filter(
-        Q(name__icontains=search_term)|
-        Q(openssl_name__icontains=search_term)|
-        Q(gnutls_name__icontains=search_term)|
-        Q(auth_algorithm__long_name__icontains=search_term)|
-        Q(enc_algorithm__long_name__icontains=search_term)|
-        Q(kex_algorithm__long_name__icontains=search_term)|
-        Q(hash_algorithm__long_name__icontains=search_term)|
-        Q(protocol_version__vulnerabilities__name__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
-        Q(protocol_version__vulnerabilities__description__icontains=search_term)|
-        Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
-        Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
-        Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
-        Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
-    )
-
-def filter_cipher_suites(cipher_suite_list, filter):
-    """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
-
-    if filter=='insecure':
-        return cipher_suite_list.filter(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
-    elif filter=='weak':
-        return cipher_suite_list.filter(
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
-        ).exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
-        )
-    elif filter=='secure':
-        return cipher_suite_list.exclude(
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')
-        )
-    else:
-        return cipher_suite_list
+    return CipherSuite.custom_filters.search(search_term)
