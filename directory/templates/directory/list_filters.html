@@ -7,29 +7,29 @@
             Sort by <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a {% if sorting == 'name-asc' or sorting == '' %}class="active"{% endif %} href="{% relative_url 'all' 'sorting' params %}">Name ascending</a></li>
-            <li><a {% if sorting == 'name-desc' %}class="active"{% endif %} href="{% relative_url 'name-desc' 'sorting' params %}">Name descending</a></li>
-            <li><a {% if sorting == 'kex-asc' %}class="active"{% endif %} href="{% relative_url 'kex-asc' 'sorting' params %}">Key Exchange ascending</a></li>
-            <li><a {% if sorting == 'kex-desc' %}class="active"{% endif %} href="{% relative_url 'kex-desc' 'sorting' params %}">Key Exchange descending</a></li>
-            <li><a {% if sorting == 'auth-asc' %}class="active"{% endif %} href="{% relative_url 'auth-asc' 'sorting' params %}">Authentication ascending</a></li>
-            <li><a {% if sorting == 'auth-desc' %}class="active"{% endif %} href="{% relative_url 'auth-desc' 'sorting' params %}">Authentication descending</a></li>
-            <li><a {% if sorting == 'enc-asc' %}class="active"{% endif %} href="{% relative_url 'enc-asc' 'sorting' params %}">Encryption ascending</a></li>
-            <li><a {% if sorting == 'enc-desc' %}class="active"{% endif %} href="{% relative_url 'enc-desc' 'sorting' params %}">Encryption descending</a></li>
-            <li><a {% if sorting == 'hash-asc' %}class="active"{% endif %} href="{% relative_url 'hash-asc' 'sorting' params %}">Hash ascending</a></li>
-            <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="{% relative_url 'hash-desc' 'sorting' params %}">Hash descending</a></li>
+            <li><a {% if sorting == 'name-asc' or sorting == '' %}class="active"{% endif %} href="{% relative_url 'all' 'sort' params %}">Name ascending</a></li>
+            <li><a {% if sorting == 'name-desc' %}class="active"{% endif %} href="{% relative_url 'name-desc' 'sort' params %}">Name descending</a></li>
+            <li><a {% if sorting == 'kex-asc' %}class="active"{% endif %} href="{% relative_url 'kex-asc' 'sort' params %}">Key Exchange ascending</a></li>
+            <li><a {% if sorting == 'kex-desc' %}class="active"{% endif %} href="{% relative_url 'kex-desc' 'sort' params %}">Key Exchange descending</a></li>
+            <li><a {% if sorting == 'auth-asc' %}class="active"{% endif %} href="{% relative_url 'auth-asc' 'sort' params %}">Authentication ascending</a></li>
+            <li><a {% if sorting == 'auth-desc' %}class="active"{% endif %} href="{% relative_url 'auth-desc' 'sort' params %}">Authentication descending</a></li>
+            <li><a {% if sorting == 'enc-asc' %}class="active"{% endif %} href="{% relative_url 'enc-asc' 'sort' params %}">Encryption ascending</a></li>
+            <li><a {% if sorting == 'enc-desc' %}class="active"{% endif %} href="{% relative_url 'enc-desc' 'sort' params %}">Encryption descending</a></li>
+            <li><a {% if sorting == 'hash-asc' %}class="active"{% endif %} href="{% relative_url 'hash-asc' 'sort' params %}">Hash ascending</a></li>
+            <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="{% relative_url 'hash-desc' 'sort' params %}">Hash descending</a></li>
         </ul>
-    </div><!-- end button group -->
+    </div>
     <div class="btn-group inline-button">
         <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Security <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a {% if sec_level == "" or sec_level == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'sec_level' params %}">All</a></li>
+            <li><a {% if sec_level == "" or sec_level == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'security' params %}">All</a></li>
             <li role="separator" class="divider"></li>
-            <li><a {% if sec_level == "recommended" %}class="active"{% endif %} href="{% relative_url 'recommended' 'sec_level' params %}">Recommended</a></li>
-            <li><a {% if sec_level == "secure" %}class="active"{% endif %} href="{% relative_url 'secure' 'sec_level' params %}">Secure</a></li>
-            <li><a {% if sec_level == "weak" %}class="active"{% endif %} href="{% relative_url 'weak' 'sec_level' params %}">Weak</a></li>
-            <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'sec_level' params %}">Insecure</a></li>
+            <li><a {% if sec_level == "recommended" %}class="active"{% endif %} href="{% relative_url 'recommended' 'security' params %}">Recommended</a></li>
+            <li><a {% if sec_level == "secure" %}class="active"{% endif %} href="{% relative_url 'secure' 'security' params %}">Secure</a></li>
+            <li><a {% if sec_level == "weak" %}class="active"{% endif %} href="{% relative_url 'weak' 'security' params %}">Weak</a></li>
+            <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'security' params %}">Insecure</a></li>
         </ul>
     </div>
     <div class="btn-group inline-button">
@@ -37,15 +37,15 @@
             TLS Version <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a {% if tls_version == "" or tls_version == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'tls_version' params %}">All</a></li>
+            <li><a {% if tls_version == '' or tls_version == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'tls' params %}">All</a></li>
             <li role="separator" class="divider"></li>
-            <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls_version' params %}">TLS1.0/TLS1.1</a></li>
-            <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls_version' params %}">TLS1.2</a></li>
+            <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls' params %}">TLS1.0/TLS1.1</a></li>
+            <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls' params %}">TLS1.2</a></li>
         </ul>
     </div>
     <div class="btn-group inline-button">
         <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Software<span class="caret"></span>
+            Software <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             <li><a {% if software == "" or software == 'all' %}class="active"{% endif %} href="{% relative_url 'all' 'software' params %}">All</a></li>
@@ -53,6 +53,6 @@
             <li><a {% if software == 'openssl' %}class="active"{% endif %} href="{% relative_url 'openssl' 'software' params %}">OpenSSL</a></li>
             <li><a {% if software == 'gnutls' %}class="active"{% endif %} href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
         </ul>
-    </div><!-- end button group -->
+    </div>
 </p>
 {% endwith %}
