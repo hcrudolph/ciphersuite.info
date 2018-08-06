@@ -175,24 +175,23 @@ def search(request):
     result_list_rfc = search_rfcs(search_term)
 
     # distinguish results to display by category
-    if category=='cs' and len(result_list_cs) != 1:
-        active_tab = 'cs'
-        result_list = result_list_cs
-    elif category=='cs':
+    if category == 'cs' and len(result_list_cs) == 1:
         return redirect('detail_cs', cs_name=result_list_cs[0].name)
-    elif category=='rfc' and len(result_list_rfc) != 1:
-        active_tab = 'rfc'
-        result_list = result_list_rfc
+    elif category == 'cs':
+        cs_tab_active = True
+        result_list = result_list_cs
+    elif category != 'cs' and len(result_list_rfc) == 1:
+        return redirect('detail_rfc', rfc_number=result_list_cs[0].number)
     else:
-        return redirect('detail_rfc', rfc_number=result_list_cs[0].number)        
+        cs_tab_active = False
+        result_list = result_list_rfc
 
     # paginate result list
     result_list_paginated = paginate(result_list, page, 15)
 
     context = {
-        'active_tab': active_tab,
+        'cs_tab_active': cs_tab_active,
         'category': category,
-        'filter': sec_level,
         'full_path' : request.get_full_path(),
         'page_number_range': range(1, result_list_paginated.paginator.num_pages+1),
         'result_count_cs': len(result_list_cs),
