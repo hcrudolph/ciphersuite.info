@@ -16,10 +16,10 @@ def index(request):
 
 def static_page(request, sp_name):
     """Generic static page, to be created in admin interface."""
-    
+
     # query result
     page = get_object_or_404(StaticPage, pk=sp_name)
-    
+
     context = {
         'navbar_context': page.title,
         'search_form': NavbarSearchForm(),
@@ -32,18 +32,18 @@ def index_cs(request):
     """CipherSuite overview, listing all instances stored in the database."""
 
     # parse GET parameters
-    sorting = request.GET.get('sorting', 'name-asc').strip()
-    sec_level = request.GET.get('sec_level', 'all').strip()
-    tls_version = request.GET.get('tls_version', 'all').strip()
+    sorting = request.GET.get('sort', 'name-asc').strip()
+    sec_level = request.GET.get('security', 'all').strip()
+    tls_version = request.GET.get('tls', 'all').strip()
     software = request.GET.get('software', 'all').strip()
-    page = request.GET.get('page', 1)
+    page = request.GET.get('page', '1').strip()
 
     # filter result list
     cipher_suites = filter_cs_by_software(
                         filter_cs_by_tls_version(
-                            get_cs_by_security_level(sec_level), tls_version
-                        ), software
-                    )
+                            get_cs_by_security_level(sec_level),
+                        tls_version),
+                    software)
     # sort result list
     sorted_cipher_suites = sort_cipher_suites(cipher_suites, sorting)
     # paginate result list
@@ -51,7 +51,7 @@ def index_cs(request):
 
     # display CS name format according to search query
     search_type = 'openssl' if software == 'openssl' else 'iana'
-    
+
     context = {
         'results': cipher_suites_paginated,
         'count': len(sorted_cipher_suites),
@@ -72,13 +72,13 @@ def index_rfc(request):
 
     # parse GET parameters
     sorting = request.GET.get('sorting', 'number-asc').strip()
-    page = request.GET.get('page', 1)
+    page = request.GET.get('page', '1').strip()
 
     # sort result list
     rfc_list = sort_rfcs(Rfc.objects.all(), sorting)
     # paginate result list
     rfc_list_paginated = paginate(rfc_list, page, 15)
-    
+
     context = {
         'navbar_context': 'rfc',
         'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
@@ -104,7 +104,7 @@ def detail_cs(request, cs_name):
         cipher_suite.enc_algorithm,
         cipher_suite.hash_algorithm,
     ]
-    
+
     context = {
         'cipher_suite': cipher_suite,
         'prev_page': prev_page,
@@ -136,7 +136,7 @@ def detail_rfc(request, rfc_number):
     rfc_status_code = all_rfc_status_codes[rfc.status]
     defined_cipher_suites = rfc.defined_cipher_suites.all()
     related_docs = rfc.related_documents.all()
-    
+
     context = {
         'defined_cipher_suites': defined_cipher_suites,
         'prev_page': prev_page,
@@ -153,13 +153,13 @@ def search(request):
 
     # parse GET parameters
     search_term = request.GET.get('q', '').strip()
-    sec_level = request.GET.get('sec_level', 'all').strip()
-    sorting = request.GET.get('sorting', 'name-asc').strip()
-    tls_version = request.GET.get('tls_version', 'all').strip()
+    sec_level = request.GET.get('security', 'all').strip()
+    sorting = request.GET.get('sort', 'name-asc').strip()
+    tls_version = request.GET.get('tls', 'all').strip()
     software = request.GET.get('software', 'all').strip()
-    category = request.GET.get('c', 'cs').strip()
-    page = request.GET.get('page', 1)
-    
+    category = request.GET.get('cat', 'cs').strip()
+    page = request.GET.get('page', '1').strip()
+
     # display CS name format according to search query
     search_type = 'openssl' if ('-' in search_term) or (software == 'openssl') else 'iana'
 
