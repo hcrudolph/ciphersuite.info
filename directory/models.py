@@ -86,7 +86,7 @@ class CipherSuiteQuerySet(models.QuerySet):
         query = SearchQuery(search_term)
         return CipherSuite.objects.annotate(
             rank=SearchRank(vector, query)
-        ).order_by('-rank')[:45]
+        ).order_by('-rank')
 
 
 class RfcQuerySet(models.QuerySet):
