@@ -7,7 +7,8 @@
             Sort by <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a {% if sorting == 'name-asc' or sorting == '' %}class="active"{% endif %} href="{% relative_url 'all' 'sort' params %}">Name ascending</a></li>
+            {% block list_filters_search %}{% endblock list_filters_search %}
+            <li><a {% if sorting == 'name-asc' %}class="active"{% endif %} href="{% relative_url 'name-asc' 'sort' params %}">Name ascending</a></li>
             <li><a {% if sorting == 'name-desc' %}class="active"{% endif %} href="{% relative_url 'name-desc' 'sort' params %}">Name descending</a></li>
             <li><a {% if sorting == 'kex-asc' %}class="active"{% endif %} href="{% relative_url 'kex-asc' 'sort' params %}">Key Exchange ascending</a></li>
             <li><a {% if sorting == 'kex-desc' %}class="active"{% endif %} href="{% relative_url 'kex-desc' 'sort' params %}">Key Exchange descending</a></li>

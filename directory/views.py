@@ -154,7 +154,7 @@ def search(request):
     # parse GET parameters
     search_term = request.GET.get('q', '').strip()
     sec_level = request.GET.get('security', 'all').strip()
-    sorting = request.GET.get('sort', 'name-asc').strip()
+    sorting = request.GET.get('sort', 'rel').strip()
     tls_version = request.GET.get('tls', 'all').strip()
     software = request.GET.get('software', 'all').strip()
     category = request.GET.get('cat', 'cs').strip()
@@ -171,17 +171,15 @@ def search(request):
                             sec_level),
                         tls_version),
                     software)
+   
+    # Query list returned from db is already sorted by relevancy
     result_list_cs = sort_cipher_suites(cipher_suites, sorting)
     result_list_rfc = search_rfcs(search_term)
 
     # distinguish results to display by category
-    if category == 'cs' and len(result_list_cs) == 1:
-        return redirect('detail_cs', cs_name=result_list_cs[0].name)
-    elif category == 'cs':
+    if category == 'cs':
         cs_tab_active = True
         result_list = result_list_cs
-    elif category != 'cs' and len(result_list_rfc) == 1:
-        return redirect('detail_rfc', rfc_number=result_list_cs[0].number)
     else:
         cs_tab_active = False
         result_list = result_list_rfc
@@ -205,4 +203,5 @@ def search(request):
         'sorting': sorting,
         'tls_version': tls_version,
     }
+
     return render(request, 'directory/search.html', context)
