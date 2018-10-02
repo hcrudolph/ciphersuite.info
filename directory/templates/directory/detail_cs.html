@@ -3,6 +3,19 @@
 
 {% block content %}
     <div class="row">
+        <div class="col-md-8 col-md-offset-2 mb-25">
+            <h1>
+            {% if cipher_suite.insecure %}<span class="text-danger">Insecure</span>
+            {% elif cipher_suite.weak %}<span class="text-warning">Weak</span>
+            {% elif cipher_suite.secure %}<span class="text-success">Secure</span>
+            {% else %}<span class="text-recommended">Recommended</span>
+            {% endif %}
+            Cipher Suite
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <dl class="dl-horizontal">
                 <dt><b>IANA name:</b></dt> 
