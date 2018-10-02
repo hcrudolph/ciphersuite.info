@@ -64,6 +64,8 @@ class CipherSuiteQuerySet(models.QuerySet):
         )
 
     def search(self, search_term):
+        # create query and vector object needed for ranking results
+        query = SearchQuery(search_term)
         vector = SearchVector(
             'name',
             'openssl_name',
@@ -83,10 +85,32 @@ class CipherSuiteQuerySet(models.QuerySet):
             'kex_algorithm__vulnerabilities__description',
             'hash_algorithm__vulnerabilities__description'
         )
-        query = SearchQuery(search_term)
-        return CipherSuite.objects.annotate(
+        
+        # retrieve list of all results ordered by decreasing relevancy
+        ranked_results = CipherSuite.objects.annotate(
             rank=SearchRank(vector, query)
         ).order_by('-rank')
+
+        # exclude items that do not match query at all
+        return ranked_results.exclude(
+            ~Q(name__icontains=search_term)&
+            ~Q(openssl_name__icontains=search_term)&
+            ~Q(gnutls_name__icontains=search_term)&
+            ~Q(auth_algorithm__long_name__icontains=search_term)&
+            ~Q(enc_algorithm__long_name__icontains=search_term)&
+            ~Q(kex_algorithm__long_name__icontains=search_term)&
+            ~Q(hash_algorithm__long_name__icontains=search_term)&
+            ~Q(protocol_version__vulnerabilities__name__icontains=search_term)&
+            ~Q(auth_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(enc_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(kex_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(hash_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(protocol_version__vulnerabilities__description__icontains=search_term)&
+            ~Q(auth_algorithm__vulnerabilities__description__icontains=search_term)&
+            ~Q(enc_algorithm__vulnerabilities__description__icontains=search_term)&
+            ~Q(kex_algorithm__vulnerabilities__description__icontains=search_term)&
+            ~Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
+        )
 
 
 class RfcQuerySet(models.QuerySet):
