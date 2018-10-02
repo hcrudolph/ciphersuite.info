@@ -69,7 +69,7 @@ def sort_cipher_suites(cipher_suites, ordering):
 
     if ordering == 'auth-asc':
         return sorted(cipher_suites, key=lambda x: x.auth_algorithm)
-    elif ordering == '-auth-desc':
+    elif ordering == 'auth-desc':
         return sorted(cipher_suites, key=lambda x: x.auth_algorithm, reverse=True)
     elif ordering == 'enc-asc':
         return sorted(cipher_suites, key=lambda x: x.enc_algorithm)
@@ -83,10 +83,12 @@ def sort_cipher_suites(cipher_suites, ordering):
         return sorted(cipher_suites, key=lambda x: x.kex_algorithm)
     elif ordering == 'kex-desc':
         return sorted(cipher_suites, key=lambda x: x.kex_algorithm, reverse=True)
+    elif ordering == 'name-asc':
+        return sorted(cipher_suites, key=lambda x: x.name,)
     elif ordering == 'name-desc':
         return sorted(cipher_suites, key=lambda x: x.name, reverse=True)
     else:
-        return sorted(cipher_suites, key=lambda x: x.name)
+        return cipher_suites
 
 
 def sort_rfcs(rfcs, ordering):

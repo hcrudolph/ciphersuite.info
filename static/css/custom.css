@@ -154,6 +154,14 @@ dd {
   background: #009a00;
 }
 
+.text-recommended {
+  color: #009a00;
+}
+
+.mb-25 {
+  margin-bottom: 25px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 .footer {

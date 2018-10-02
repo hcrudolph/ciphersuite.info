@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db import models
 from django.db.models import Q
 
@@ -63,25 +64,52 @@ class CipherSuiteQuerySet(models.QuerySet):
         )
 
     def search(self, search_term):
-        return self.filter(
-            Q(name__icontains=search_term)|
-            Q(openssl_name__icontains=search_term)|
-            Q(gnutls_name__icontains=search_term)|
-            Q(auth_algorithm__long_name__icontains=search_term)|
-            Q(enc_algorithm__long_name__icontains=search_term)|
-            Q(kex_algorithm__long_name__icontains=search_term)|
-            Q(hash_algorithm__long_name__icontains=search_term)|
-            Q(protocol_version__vulnerabilities__name__icontains=search_term)|
-            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-            Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
-            Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
-            Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
-            Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
-            Q(protocol_version__vulnerabilities__description__icontains=search_term)|
-            Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
-            Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
-            Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
-            Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
+        # create query and vector object needed for ranking results
+        query = SearchQuery(search_term)
+        vector = SearchVector(
+            'name',
+            'openssl_name',
+            'gnutls_name',
+            'auth_algorithm__long_name',
+            'enc_algorithm__long_name',
+            'kex_algorithm__long_name',
+            'hash_algorithm__long_name',
+            'protocol_version__vulnerabilities__name',
+            'auth_algorithm__vulnerabilities__name',
+            'enc_algorithm__vulnerabilities__name',
+            'kex_algorithm__vulnerabilities__name',
+            'hash_algorithm__vulnerabilities__name',
+            'protocol_version__vulnerabilities__description',
+            'auth_algorithm__vulnerabilities__description',
+            'enc_algorithm__vulnerabilities__description',
+            'kex_algorithm__vulnerabilities__description',
+            'hash_algorithm__vulnerabilities__description'
+        )
+        
+        # retrieve list of all results ordered by decreasing relevancy
+        ranked_results = CipherSuite.objects.annotate(
+            rank=SearchRank(vector, query)
+        ).order_by('-rank')
+
+        # exclude items that do not match query at all
+        return ranked_results.exclude(
+            ~Q(name__icontains=search_term)&
+            ~Q(openssl_name__icontains=search_term)&
+            ~Q(gnutls_name__icontains=search_term)&
+            ~Q(auth_algorithm__long_name__icontains=search_term)&
+            ~Q(enc_algorithm__long_name__icontains=search_term)&
+            ~Q(kex_algorithm__long_name__icontains=search_term)&
+            ~Q(hash_algorithm__long_name__icontains=search_term)&
+            ~Q(protocol_version__vulnerabilities__name__icontains=search_term)&
+            ~Q(auth_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(enc_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(kex_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(hash_algorithm__vulnerabilities__name__icontains=search_term)&
+            ~Q(protocol_version__vulnerabilities__description__icontains=search_term)&
+            ~Q(auth_algorithm__vulnerabilities__description__icontains=search_term)&
+            ~Q(enc_algorithm__vulnerabilities__description__icontains=search_term)&
+            ~Q(kex_algorithm__vulnerabilities__description__icontains=search_term)&
+            ~Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
         )
 
 

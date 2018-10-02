@@ -2,15 +2,16 @@
 {% load markdown_deux_tags %}
 
 {% block content %}
-
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            {% if prev_page %}
-                <ul class="nav nav-pills">
-                    <li role="presentation"><a href="{{ prev_page }}">&lsaquo; Back to search results</a></li>
-                </ul>
+        <div class="col-md-8 col-md-offset-2 mb-25">
+            <h1>
+            {% if cipher_suite.insecure %}<span class="text-danger">Insecure</span>
+            {% elif cipher_suite.weak %}<span class="text-warning">Weak</span>
+            {% elif cipher_suite.secure %}<span class="text-success">Secure</span>
+            {% else %}<span class="text-recommended">Recommended</span>
             {% endif %}
-            <h1>Cipher Suite</h1>
+            Cipher Suite
+            </h1>
         </div>
     </div>
 

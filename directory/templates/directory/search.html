@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h2>Search results for "{{ search_term }}"</h2>
-            {% include "directory/list_filters.html" %}
+            {% include "directory/list_filters_search.html" %}
         </div>
     </div>
 
@@ -15,11 +15,11 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <ul class="nav nav-tabs nav-justified">
-            {% if active_tab == "cs" %}
+            {% if cs_tab_active %}
                 <li class="active"><a href="#">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
-                <li><a href="/search/?q={{ search_term }}&c=rfc">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
-            {% elif active_tab == "rfc" %}
-                <li><a href="/search/?q={{ search_term }}&c=cs">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
+                <li><a href="/search/?q={{ search_term }}&cat=rfc">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
+            {% else %}
+                <li><a href="/search/?q={{ search_term }}&cat=cs">Cipher Suites <span class="badge">{{ result_count_cs }}</span></a></li>
                 <li class="active"><a href="#">RFCs <span class="badge">{{ result_count_rfc }}</span></a></li>
             {% endif %}
             </ul>
@@ -29,25 +29,25 @@
     <!-- Result list --> 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-        <ul class="prettylist">
-        {% if results %}
-            {% for element in results %}
-                {% if active_tab == "cs" %}
-                    <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
-                        {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
-                        {% elif element.weak %}<span class="label label-fixed-width label-warning">Weak</span>
-                        {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
-                        {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
-                        {% endif %}
-                        {% if search_type == 'openssl' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
-                    </a></li>
-                {% elif active_tab == "rfc" %}
-                    <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-                <p>No matching {% if active_tab == "cs" %}Cipher Suites{% elif active_tab == "rfc" %}RFCs{% endif %} found.</p>
-        {% endif %}
+            <ul class="prettylist">
+            {% if results %}
+                {% for element in results %}
+                    {% if cs_tab_active %}
+                        <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
+                            {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
+                            {% elif element.weak %}<span class="label label-fixed-width label-warning">Weak</span>
+                            {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
+                            {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
+                            {% endif %}
+                            {% if search_type == 'openssl' and element.openssl_name != '' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
+                        </a></li>
+                    {% else %}
+                        <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                    <p>No matching {% if cs_tab_active %}Cipher Suites{% else %}RFCs{% endif %} found.</p>
+            {% endif %}
             </ul>
         </div>
     </div>

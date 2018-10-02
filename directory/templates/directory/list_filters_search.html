@@ -1,0 +1,10 @@
+{% extends "directory/list_filters.html" %}
+{% load add_get_parameter %}
+{% with params=request.GET.urlencode %}
+
+{% block list_filters_search %}
+<li><a {% if sorting == 'rel' or sorting == '' %}class="active"{% endif %} href="{% relative_url 'rel' 'sort' params %}">Relevancy</a></li>
+<li role="separator" class="divider"></li>
+{% endblock %}
+
+{% endwith %}
