@@ -20,8 +20,10 @@ class Post(models.Model):
         verbose_name=_('post')
         verbose_name_plural=_('posts')
 
-    title = models.CharField(
+    id = models.AutoField(
         primary_key=True,
+    )
+    title = models.CharField(
         max_length=100,
     )
     slug = models.SlugField(
