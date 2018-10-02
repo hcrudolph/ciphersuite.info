@@ -91,9 +91,6 @@ def index_rfc(request):
 def detail_cs(request, cs_name):
     """Detailed view of a CipherSuite instance."""
 
-    # parse GET parameters
-    prev_page = request.GET.get('prev', None)
-
     # query result
     cipher_suite = get_object_or_404(CipherSuite, pk=cs_name)
     referring_rfc_list = cipher_suite.defining_rfcs.all()
@@ -107,7 +104,6 @@ def detail_cs(request, cs_name):
 
     context = {
         'cipher_suite': cipher_suite,
-        'prev_page': prev_page,
         'referring_rfc_list': referring_rfc_list,
         'related_tech': related_tech,
         'search_form': NavbarSearchForm(),
@@ -117,9 +113,6 @@ def detail_cs(request, cs_name):
 
 def detail_rfc(request, rfc_number):
     """Detailed view of an Rfc instance."""
-
-    # parse GET parameters
-    prev_page = request.GET.get('prev', None)
 
     # query result
     rfc = get_object_or_404(Rfc, pk=rfc_number)
@@ -139,7 +132,6 @@ def detail_rfc(request, rfc_number):
 
     context = {
         'defined_cipher_suites': defined_cipher_suites,
-        'prev_page': prev_page,
         'related_docs': related_docs,
         'rfc_status_code': rfc_status_code,
         'rfc': rfc,
