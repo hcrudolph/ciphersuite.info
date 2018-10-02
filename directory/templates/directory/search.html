@@ -39,7 +39,7 @@
                             {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
                             {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
                             {% endif %}
-                            {% if search_type == 'openssl' and element.openssl_name not '' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
+                            {% if search_type == 'openssl' and element.openssl_name != '' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
                         </a></li>
                     {% else %}
                         <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
