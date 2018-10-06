@@ -30,9 +30,7 @@
                 {% endif %}
                 <dt><b>Hex code:</b></dt> 
                 <dd>{{ cipher_suite.hex_byte_1 }}, {{ cipher_suite.hex_byte_2 }}</dd>
-                <dt><b>TLS Versions:</b></dt> 
-                <dd>{{ cipher_suite.tls_version }}</dd>
-
+                <hr />
                 {% for algo in related_tech %}
                 <dt> <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b> </dt>
                 <dd>
@@ -61,7 +59,7 @@
                     </p>
                     {% endfor %}
                 {% endfor %}
-
+                <hr />
                 {% if referring_rfc_list %}
                     <dt><b>Included in RFC:</b></dt>
                     <dd>

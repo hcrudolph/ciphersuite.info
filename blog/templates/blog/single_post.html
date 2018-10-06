@@ -31,7 +31,7 @@
         <p class="tags-label">Tags:</p>
             <ul class="tag-list">
                 {% for tag in post.tags.all %}
-                <li><a href="/blog/tags/{{ tag.slug }}"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ tag }}</a></li>
+                <li><a href="/blog/tags/{{ tag.slug }}"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{ tag|lower }}</a></li>
                 {% endfor %}
             </ul>
         </p>

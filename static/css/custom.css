@@ -162,6 +162,10 @@ dd {
   margin-bottom: 25px;
 }
 
+.my-5{
+  margin: 5px 0px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 .footer {
