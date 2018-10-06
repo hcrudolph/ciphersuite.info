@@ -1,7 +1,26 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models.fields.related import ManyToManyField
 from django.db import models
 from django.db.models import Q
+
+
+class PrintableModel(models.Model):
+    def to_dict(self):
+        opts = self._meta
+        data = {}
+        for f in opts.concrete_fields + opts.many_to_many:
+            if isinstance(f, ManyToManyField):
+                if self.pk is None:
+                    data[f.name] = []
+                else:
+                    data[f.name] = [x.__str__() for x in list(f.value_from_object(self))]
+            else:
+                data[f.name] = f.value_from_object(self)
+        return data
+
+    class Meta:
+        abstract = True
 
 
 class CipherSuiteQuerySet(models.QuerySet):
@@ -157,7 +176,7 @@ class OpensslCipher(CipherImplementation):
         verbose_name_plural=_('openssl ciphers')
 
 
-class CipherSuite(models.Model):
+class CipherSuite(PrintableModel):
     class Meta:
         ordering=['name']
         verbose_name=_('cipher suite')
@@ -315,7 +334,7 @@ class CipherSuite(models.Model):
         return self.name
 
 
-class Rfc(models.Model):
+class Rfc(PrintableModel):
     class Meta:
         verbose_name='RFC'
         verbose_name_plural='RFCs'
