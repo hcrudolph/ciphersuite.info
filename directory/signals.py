@@ -140,3 +140,8 @@ def complete_cs_names(sender, instance, *args, **kwargs):
         instance.openssl_name = related_openssl.name
     except ObjectDoesNotExist:
         pass
+
+
+@receiver(pre_save, sender=TlsVersion)
+def complete_tls_version(sender, instance, *args, **kwargs):
+    instance.short = f"{instance.major}{instance.minor}"

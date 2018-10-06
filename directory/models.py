@@ -180,10 +180,10 @@ class CipherSuite(models.Model):
         blank=True,
         default='',
     )
-    tls_version = models.CharField(
-        max_length=50,
+    tls_version = models.ManyToManyField(
+        'TlsVersion',
+        verbose_name=_('TLS version'),
         blank=True,
-        default='',
     )
     # hex bytes stored as string 0x00-0xFF
     hex_byte_1 = models.CharField(
@@ -295,18 +295,18 @@ class CipherSuite(models.Model):
 
     @property
     def tls10_cipher(self):
-        if 'tls1.0' in self.tls_version.lower():
+        if self.tls_version.short == "10" or \
+            self.tls_version.short == "11":
             return True
         else:
             return False
 
     @property
     def tls12_cipher(self):
-        if 'tls1.2' in self.tls_version.lower():
+        if self.tls_version.short == "12":
             return True
         else:
             return False
-
 
     objects = models.Manager()
     custom_filters = CipherSuiteQuerySet.as_manager()
@@ -382,6 +382,25 @@ class Rfc(models.Model):
             return f"DRAFT RFC {self.number}"
         else:
             return f"RFC {self.number}"
+
+
+class TlsVersion(models.Model):
+    class Meta:
+        verbose_name=_('TLS version')
+        verbose_name_plural=_('TLS versions')
+        unique_together=(('major', 'minor'),)
+        ordering=['major', 'minor']
+
+    major = models.IntegerField()
+    minor = models.IntegerField()
+    short = models.CharField(
+        max_length=3,
+        editable=False,
+        blank=True
+    )
+
+    def __str__(self):
+        return f"TLS{self.major}.{self.minor}"
 
 
 class Technology(models.Model):

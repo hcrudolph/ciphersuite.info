@@ -30,6 +30,12 @@
                 {% endif %}
                 <dt><b>Hex code:</b></dt> 
                 <dd>{{ cipher_suite.hex_byte_1 }}, {{ cipher_suite.hex_byte_2 }}</dd>
+                <dt><b>TLS Version(s):</b></dt> 
+                <dd>
+                    {% for version in cipher_suite.tls_version.all %}
+                        {{ version }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </dd>
                 <hr />
                 {% for algo in related_tech %}
                 <dt> <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication' 'Encryption:' 'Hash:' %}</b> </dt>
