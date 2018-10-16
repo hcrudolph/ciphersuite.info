@@ -9,7 +9,6 @@
             posted by <a href="/blog/authors/{{ post.author }}">{{ post.author }}</a>
             {% if post.category %}in <a href="/blog/categories/{{ post.category.slug }}">"{{ post.category }}"</a>{% endif %}
             on {{ post.first_published|date:"Y-m-d" }}
-            {% if post.last_edited != post.first_published %} last_edited {{ post.last_edited|date:"Y-m-d" }}{% endif %}
         </p>
     </div><!-- end column -->
 </div>
