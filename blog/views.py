@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User
 from directory.forms import NavbarSearchForm
+from datetime import datetime
 
 from .models import *
 
@@ -126,7 +127,7 @@ def monthly_post_archive(request, year, month):
     )
 
     context = {
-        'term': f"{year}/{month}",
+        'term': datetime.strptime(f"{year}/{month}", '%Y/%m'),
         'navbar_context': 'blog',
         'archive_type': 'by_month',
         'post_list': post_list,
@@ -143,7 +144,7 @@ def daily_post_archive(request, year, month, day):
     )
 
     context = {
-        'term': f"{year}/{month}/{day}",
+        'term': datetime.strptime(f"{year}/{month}/{day}", '%Y/%m/%d'),
         'navbar_context': 'blog',
         'archive_type': 'by_day',
         'post_list': post_list,

@@ -5,8 +5,8 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h1>{{ post.title }}</h1>
-        <p class="small">
-            posted by <a href="/blog/authors/{{ post.author }}">{{ post.author }}</a> 
+        <p>
+            posted by <a href="/blog/authors/{{ post.author }}">{{ post.author }}</a>
             {% if post.category %}in <a href="/blog/categories/{{ post.category.slug }}">"{{ post.category }}"</a>{% endif %}
             on {{ post.first_published|date:"Y-m-d" }}
             {% if post.last_edited != post.first_published %} last_edited {{ post.last_edited|date:"Y-m-d" }}{% endif %}
@@ -22,12 +22,14 @@
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <p class="post-content">{{ post.text|markdown:"trusted" }}</p>
+        <div class="post-content">{{ post.text|markdown:"trusted" }}</div>
     </div><!-- end column -->
 </div>
+
+{% if post.tags.all %}
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <p>
+        <hr />
         <p class="tags-label">Tags:</p>
             <ul class="tag-list">
                 {% for tag in post.tags.all %}
@@ -37,5 +39,6 @@
         </p>
     </div><!-- end column -->
 </div>
+{% endif %}
 
 {% endblock content %}
