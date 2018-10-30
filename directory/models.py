@@ -1,7 +1,26 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models.fields.related import ManyToManyField
 from django.db import models
 from django.db.models import Q
+
+
+class PrintableModel(models.Model):
+    def to_dict(self):
+        opts = self._meta
+        data = {}
+        for f in opts.concrete_fields + opts.many_to_many:
+            if isinstance(f, ManyToManyField):
+                if self.pk is None:
+                    data[f.name] = []
+                else:
+                    data[f.name] = [x.__str__() for x in list(f.value_from_object(self))]
+            else:
+                data[f.name] = f.value_from_object(self)
+        return data
+
+    class Meta:
+        abstract = True
 
 
 class CipherSuiteQuerySet(models.QuerySet):
@@ -20,7 +39,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
             Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
         ).filter(
-            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
+            Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
+            Q(tls_version__short='13')                     # TLS1.3 cipher
         )
 
     def secure(self):
@@ -36,7 +56,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='MED')
         ).exclude(
-            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
+            Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
+            Q(tls_version__short='13')                     # TLS1.3 cipher
         )
 
     def weak(self):
@@ -157,7 +178,7 @@ class OpensslCipher(CipherImplementation):
         verbose_name_plural=_('openssl ciphers')
 
 
-class CipherSuite(models.Model):
+class CipherSuite(PrintableModel):
     class Meta:
         ordering=['name']
         verbose_name=_('cipher suite')
@@ -180,10 +201,10 @@ class CipherSuite(models.Model):
         blank=True,
         default='',
     )
-    tls_version = models.CharField(
-        max_length=50,
+    tls_version = models.ManyToManyField(
+        'TlsVersion',
+        verbose_name=_('TLS version'),
         blank=True,
-        default='',
     )
     # hex bytes stored as string 0x00-0xFF
     hex_byte_1 = models.CharField(
@@ -270,11 +291,12 @@ class CipherSuite(models.Model):
 
     @property
     def recommended(self):
-        if not self.insecure \
+        if not 'WITH' in self.name \
+        or (not self.insecure \
         and not self.weak \
         and ("DHE" in self.kex_algorithm.short_name) \
         and not ("CBC" in self.enc_algorithm.short_name) \
-        and not ("CCM" in self.hash_algorithm.short_name):
+        and not ("CCM" in self.hash_algorithm.short_name)):
             return True
         else:
             return False
@@ -295,18 +317,29 @@ class CipherSuite(models.Model):
 
     @property
     def tls10_cipher(self):
-        if 'tls1.0' in self.tls_version.lower():
+        v0 = TlsVersion.objects.get(major=1, minor=0)
+        v1 = TlsVersion.objects.get(major=1, minor=1)
+        if v0 in self.tls_version.all() or \
+           v1 in self.tls_version.all():
             return True
         else:
             return False
 
     @property
     def tls12_cipher(self):
-        if 'tls1.2' in self.tls_version.lower():
+        v = TlsVersion.objects.get(major=1, minor=2)
+        if v in self.tls_version.all():
             return True
         else:
             return False
 
+    @property
+    def tls13_cipher(self):
+        v = TlsVersion.objects.get(major=1, minor=3)
+        if v in self.tls_version.all():
+            return True
+        else:
+            return False
 
     objects = models.Manager()
     custom_filters = CipherSuiteQuerySet.as_manager()
@@ -315,7 +348,7 @@ class CipherSuite(models.Model):
         return self.name
 
 
-class Rfc(models.Model):
+class Rfc(PrintableModel):
     class Meta:
         verbose_name='RFC'
         verbose_name_plural='RFCs'
@@ -382,6 +415,25 @@ class Rfc(models.Model):
             return f"DRAFT RFC {self.number}"
         else:
             return f"RFC {self.number}"
+
+
+class TlsVersion(models.Model):
+    class Meta:
+        verbose_name=_('TLS version')
+        verbose_name_plural=_('TLS versions')
+        unique_together=(('major', 'minor'),)
+        ordering=['major', 'minor']
+
+    major = models.IntegerField()
+    minor = models.IntegerField()
+    short = models.CharField(
+        max_length=3,
+        editable=False,
+        blank=True
+    )
+
+    def __str__(self):
+        return f"TLS{self.major}.{self.minor}"
 
 
 class Technology(models.Model):

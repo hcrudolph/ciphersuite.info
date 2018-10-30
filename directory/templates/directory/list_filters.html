@@ -2,7 +2,7 @@
 {% with params=request.GET.urlencode %}
 
 <p>
-    <div class="btn-group inline-button">
+    <div class="btn-group inline-button my-5">
         <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Sort by <span class="caret"></span>
         </button>
@@ -20,7 +20,7 @@
             <li><a {% if sorting == 'hash-desc' %}class="active"{% endif %} href="{% relative_url 'hash-desc' 'sort' params %}">Hash descending</a></li>
         </ul>
     </div>
-    <div class="btn-group inline-button">
+    <div class="btn-group inline-button my-5">
         <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Security <span class="caret"></span>
         </button>
@@ -33,7 +33,7 @@
             <li><a {% if sec_level == "insecure" %}class="active"{% endif %} href="{% relative_url 'insecure' 'security' params %}">Insecure</a></li>
         </ul>
     </div>
-    <div class="btn-group inline-button">
+    <div class="btn-group inline-button my-5">
         <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             TLS Version <span class="caret"></span>
         </button>
@@ -42,9 +42,10 @@
             <li role="separator" class="divider"></li>
             <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls' params %}">TLS1.0/TLS1.1</a></li>
             <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls' params %}">TLS1.2</a></li>
+            <li><a {% if tls_version == 'tls13' %}class="active"{% endif %} href="{% relative_url 'tls13' 'tls' params %}">TLS1.3</a></li>
         </ul>
     </div>
-    <div class="btn-group inline-button">
+    <div class="btn-group inline-button my-5">
         <button type="button" class="btn btn-default dropdown-toggle {% if category == "rfc" %}disabled{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Software <span class="caret"></span>
         </button>

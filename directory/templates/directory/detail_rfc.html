@@ -2,8 +2,8 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h1>RFC</h1>
+        <div class="col-md-8 col-md-offset-2 mb-25">
+            <h1>RFC {{ rfc.number }}</h1>
         </div>
     </div>
 
@@ -38,6 +38,10 @@
             </ul>
             </dd>
             {% endif %}
+            <hr />
+            <dt><b>Machine-readable:</b></dt>
+            <dd><a href="/api/rfc/{{ rfc.number }}">application/json</a></dd>
+
             </dl>
             </div>
         </div>

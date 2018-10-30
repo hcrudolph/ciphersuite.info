@@ -12,9 +12,9 @@
         {% elif archive_type == 'by_year' %}
             <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} in {{ term }}</h1>
         {% elif archive_type == 'by_month' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} in {{ term }}</h1>
+            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} from {{ term|date:"F Y" }}</h1>
         {% elif archive_type == 'by_day' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} on {{ term }}</h1>
+            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} on {{ term|date:"F j, Y" }}</h1>
         {% endif %}
     </div><!-- end column -->
 </div>

@@ -37,6 +37,8 @@ def filter_cs_by_tls_version(cipher_suites, version):
         return [cs for cs in cipher_suites if cs.tls10_cipher]
     elif version == "tls12":
         return [cs for cs in cipher_suites if cs.tls12_cipher]
+    elif version == "tls13":
+        return [cs for cs in cipher_suites if cs.tls13_cipher]
     else:
         return cipher_suites
 

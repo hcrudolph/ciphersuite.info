@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from directory.models import CipherSuite
+from directory.models import CipherSuite, TlsVersion
 
 class Command(BaseCommand):
     # definition of generic filters for TLS ciphers
@@ -49,17 +49,28 @@ class Command(BaseCommand):
         ]
 
         for cipher_suite in CipherSuite.objects.all():
-            # IDEA and DES are deprecated with TLS1.2
-            if 'IDEA' in cipher_suite.name or 'DES' in cipher_suite.name:
-                cipher_suite.tls_version = "TLS1.0, TLS1.1"
-            # ChaCha/Poly, GCM and CCM are TLS1.2-only
+            tls10, _ = TlsVersion.objects.get_or_create(major=1, minor=0)
+            tls11, _ = TlsVersion.objects.get_or_create(major=1, minor=1)
+            tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
+            tls13, _ = TlsVersion.objects.get_or_create(major=1, minor=3)
+
+            if not 'WITH' in cipher_suite.name:
+                # TLS1.3 IANA names don't include WITH
+                cipher_suite.tls_version.add(tls13)
+            elif 'IDEA' in cipher_suite.name or 'DES' in cipher_suite.name:
+                # IDEA and DES are deprecated with TLS1.2
+                cipher_suite.tls_version.add(tls10)
+                cipher_suite.tls_version.add(tls11)
             elif 'POLY1305' in cipher_suite.name or 'GCM' in cipher_suite.name or 'CCM' in cipher_suite.name:
-                cipher_suite.tls_version = "TLS1.2"
-            # catch some others by name
+                # ChaCha/Poly, GCM and CCM are TLS1.2-only
+                cipher_suite.tls_version.add(tls12)
             elif cipher_suite.name in misc_tls12:
-                cipher_suite.tls_version = "TLS1.2"
-            # default is support by all TLS versions
+                # catch some others by name
+                cipher_suite.tls_version.add(tls12)
             else:
-                cipher_suite.tls_version = "TLS1.0, TLS1.1, TLS1.2"
+                # default is support by all legacy TLS versions
+                cipher_suite.tls_version.add(tls10)
+                cipher_suite.tls_version.add(tls11)
+                cipher_suite.tls_version.add(tls12)
             cipher_suite.save()
 

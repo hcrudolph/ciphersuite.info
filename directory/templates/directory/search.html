@@ -1,9 +1,7 @@
 {% extends "directory/base.html" %}
-{% load add_get_parameter %}
 {% block content %}
 
 <div class="container">
-{% with params=request.GET.urlencode %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h2>Search results for "{{ search_term }}"</h2>
@@ -33,16 +31,27 @@
             {% if results %}
                 {% for element in results %}
                     {% if cs_tab_active %}
-                        <li><a class="long-string" href="/cs/{{ element }}/?prev={{ full_path|urlencode:"" }}">
-                            {% if element.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
-                            {% elif element.weak %}<span class="label label-fixed-width label-warning">Weak</span>
-                            {% elif element.secure %}<span class="label label-fixed-width label-success">Secure</span>
-                            {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
+                        <li>
+                            <a class="long-string" href="/cs/{{ element }}">
+                            {% if element.insecure %}
+                                <span class="label label-fixed-width label-danger">Insecure</span>
+                            {% elif element.weak %}
+                                <span class="label label-fixed-width label-warning">Weak</span>
+                            {% elif element.secure %}
+                                <span class="label label-fixed-width label-success">Secure</span>
+                            {% else %}
+                                <span class="label label-fixed-width label-recommended">Recommended</span>
                             {% endif %}
-                            {% if search_type == 'openssl' and element.openssl_name != '' %} {{ element.openssl_name }} {% else %} {{ element.name }} {% endif %}
-                        </a></li>
+
+                            {% if search_type == 'openssl' and element.openssl_name != '' %}
+                                {{ element.openssl_name }}
+                            {% else %}
+                                {{ element.name }}
+                            {% endif %}
+                            </a>
+                        </li>
                     {% else %}
-                        <li><a href="/rfc/{{ element.number }}/?prev={{ full_path|urlencode:"" }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
+                        <li><a href="/rfc/{{ element.number }}">&rsaquo; <b>{{ element }}:</b> {{ element.title }}</a></li>
                     {% endif %}
                 {% endfor %}
             {% else %}
@@ -54,6 +63,5 @@
 
     {% include "directory/pagination.html" %}
 
-{% endwith %}
 </div>
 {% endblock content %}

@@ -41,6 +41,8 @@ class Post(models.Model):
     text = models.TextField()
     category = models.ForeignKey(
         'Category',
+        blank=True,
+        null=True,
         on_delete=models.CASCADE,
     )
     tags = models.ManyToManyField(

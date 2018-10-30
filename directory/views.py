@@ -180,14 +180,13 @@ def search(request):
     result_list_paginated = paginate(result_list, page, 15)
 
     context = {
-        'cs_tab_active': cs_tab_active,
         'category': category,
-        'full_path' : request.get_full_path(),
+        'cs_tab_active': cs_tab_active,
         'page_number_range': range(1, result_list_paginated.paginator.num_pages+1),
         'result_count_cs': len(result_list_cs),
         'result_count_rfc': len(result_list_rfc),
-        'search_form': NavbarSearchForm(),
         'results': result_list_paginated,
+        'search_form': NavbarSearchForm(),
         'search_term': search_term,
         'search_type': search_type,
         'sec_level': sec_level,
