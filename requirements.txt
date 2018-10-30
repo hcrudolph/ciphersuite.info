@@ -23,7 +23,6 @@ markdown2==2.3.6
 multidict==4.4.2
 packaging==18.0
 parsel==1.5.0
-psycopg2==2.7.5
 psycopg2-binary==2.7.5
 pycparser==2.19
 pyparsing==2.2.2
