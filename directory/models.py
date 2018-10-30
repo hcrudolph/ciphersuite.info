@@ -39,7 +39,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
             Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
         ).filter(
-            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
+            Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
+            Q(tls_version__short='13')                     # TLS1.3 cipher
         )
 
     def secure(self):
@@ -55,7 +56,8 @@ class CipherSuiteQuerySet(models.QuerySet):
             Q(hash_algorithm__vulnerabilities__severity='HIG')|
             Q(hash_algorithm__vulnerabilities__severity='MED')
         ).exclude(
-            Q(kex_algorithm__short_name__icontains='DHE') # DHE = recommended cipher
+            Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
+            Q(tls_version__short='13')                     # TLS1.3 cipher
         )
 
     def weak(self):
@@ -289,11 +291,12 @@ class CipherSuite(PrintableModel):
 
     @property
     def recommended(self):
-        if not self.insecure \
+        if not 'WITH' in self.name \
+        or (not self.insecure \
         and not self.weak \
         and ("DHE" in self.kex_algorithm.short_name) \
         and not ("CBC" in self.enc_algorithm.short_name) \
-        and not ("CCM" in self.hash_algorithm.short_name):
+        and not ("CCM" in self.hash_algorithm.short_name)):
             return True
         else:
             return False
@@ -314,15 +317,26 @@ class CipherSuite(PrintableModel):
 
     @property
     def tls10_cipher(self):
-        if self.tls_version.short == "10" or \
-            self.tls_version.short == "11":
+        v0 = TlsVersion.objects.get(major=1, minor=0)
+        v1 = TlsVersion.objects.get(major=1, minor=1)
+        if v0 in self.tls_version.all() or \
+           v1 in self.tls_version.all():
             return True
         else:
             return False
 
     @property
     def tls12_cipher(self):
-        if self.tls_version.short == "12":
+        v = TlsVersion.objects.get(major=1, minor=2)
+        if v in self.tls_version.all():
+            return True
+        else:
+            return False
+
+    @property
+    def tls13_cipher(self):
+        v = TlsVersion.objects.get(major=1, minor=3)
+        if v in self.tls_version.all():
             return True
         else:
             return False

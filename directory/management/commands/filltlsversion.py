@@ -49,25 +49,26 @@ class Command(BaseCommand):
         ]
 
         for cipher_suite in CipherSuite.objects.all():
-            # IDEA and DES are deprecated with TLS1.2
-            if 'IDEA' in cipher_suite.name or 'DES' in cipher_suite.name:
-                tls10, _ = TlsVersion.objects.get_or_create(major=1, minor=0)
-                tls11, _ = TlsVersion.objects.get_or_create(major=1, minor=1)
+            tls10, _ = TlsVersion.objects.get_or_create(major=1, minor=0)
+            tls11, _ = TlsVersion.objects.get_or_create(major=1, minor=1)
+            tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
+            tls13, _ = TlsVersion.objects.get_or_create(major=1, minor=3)
+
+            if not 'WITH' in cipher_suite.name:
+                # TLS1.3 IANA names don't include WITH
+                cipher_suite.tls_version.add(tls13)
+            elif 'IDEA' in cipher_suite.name or 'DES' in cipher_suite.name:
+                # IDEA and DES are deprecated with TLS1.2
                 cipher_suite.tls_version.add(tls10)
                 cipher_suite.tls_version.add(tls11)
-            # ChaCha/Poly, GCM and CCM are TLS1.2-only
             elif 'POLY1305' in cipher_suite.name or 'GCM' in cipher_suite.name or 'CCM' in cipher_suite.name:
-                tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
+                # ChaCha/Poly, GCM and CCM are TLS1.2-only
                 cipher_suite.tls_version.add(tls12)
-            # catch some others by name
             elif cipher_suite.name in misc_tls12:
-                tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
+                # catch some others by name
                 cipher_suite.tls_version.add(tls12)
-            # default is support by all TLS versions
             else:
-                tls10, _ = TlsVersion.objects.get_or_create(major=1, minor=0)
-                tls11, _ = TlsVersion.objects.get_or_create(major=1, minor=1)
-                tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
+                # default is support by all legacy TLS versions
                 cipher_suite.tls_version.add(tls10)
                 cipher_suite.tls_version.add(tls11)
                 cipher_suite.tls_version.add(tls12)

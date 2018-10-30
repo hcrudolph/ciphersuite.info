@@ -74,46 +74,41 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
 def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
-    # EXPORT substring does not describe any algorithm, so we remove it
-    # substring is later appended to the protocol_version
-    if re.search("EXPORT", instance.name):
-        name = instance.name.replace('EXPORT_', '')
-        export_cipher = True
-    else:
+    # TLS1.3 ciphers start with 0x13
+    if instance.hex_byte_1 == '0x13':
         name = instance.name
-        export_cipher = False
+        (prt,_,rst) = name.replace("_", " ").partition(" ")
+        (enc,_,hsh) = rst.rpartition(" ")
+        aut = "-"
+        kex = "-"
 
-    (prt,_,rst) = name.replace("_", " ").partition(" ")
-    (kex,_,rst) = rst.partition("WITH")
+    else:
+        # EXPORT substring does not describe any algorithm, so we remove it
+        # substring is later appended to the protocol_version
+        if re.search("EXPORT", instance.name):
+            name = instance.name.replace('EXPORT_', '')
+            export_cipher = True
+        else:
+            name = instance.name
+            export_cipher = False
 
-    # add information about export-grade cipher to protocol version
-    if export_cipher:
-        prt += " EXPORT"
+        (prt,_,rst) = name.replace("_", " ").partition(" ")
+        (kex,_,rst) = rst.partition("WITH")
 
-    # split kex again, potentially yielding auth algorithm
-    # otherwise this variable will remain unchanged
-    (kex,_,aut) = kex.partition(" ")
-    (enc,_,hsh) = rst.rpartition(" ")
+        # add information about export-grade cipher to protocol version
+        if export_cipher:
+            prt += " EXPORT"
 
-    # split enc again if we only got a number for hsh
-    # specifically needed for 'CCM 8' hash algorithm
-    if re.match(r'\d+', hsh.strip()):
-        (enc,_,ccm) = enc.rpartition(" ")
-        hsh = ccm + " " + hsh
+        # split kex again, potentially yielding auth algorithm
+        # otherwise this variable will remain unchanged
+        (kex,_,aut) = kex.partition(" ")
+        (enc,_,hsh) = rst.rpartition(" ")
 
-    # connect foreign keys from other models
-    instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
-        short_name=prt.strip()
-    )
-    instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
-        short_name=kex.strip()
-    )
-    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-        short_name=enc.strip()
-    )
-    instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
-        short_name=hsh.strip()
-    )
+        # split enc again if we only got a number for hsh
+        # specifically needed for 'CCM 8' hash algorithm
+        if re.match(r'\d+', hsh.strip()):
+            (enc,_,ccm) = enc.rpartition(" ")
+            hsh = ccm + " " + hsh
 
     # if aut is not excplicitly defined, set it equal to kex
     if not aut:
@@ -124,6 +119,22 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
         )
+
+    # connect foreign keys from other models
+    instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
+        short_name=kex.strip()
+    )
+
+    instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
+        short_name=prt.strip()
+    )
+    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
+        short_name=enc.strip()
+    )
+    instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
+        short_name=hsh.strip()
+    )
+
 
 @receiver(pre_save, sender=CipherSuite)
 def complete_cs_names(sender, instance, *args, **kwargs):

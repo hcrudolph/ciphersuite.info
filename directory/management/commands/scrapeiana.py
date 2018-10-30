@@ -15,8 +15,14 @@ class Command(BaseCommand):
     # given regex will be added to the database
     # format: (fieldname, regex)
     def __init__(self):
-        self.filters = [
-            ('name', 'WITH'),
+        self.positive_filters = [
+            ('name', 'Unassigned'),
+            ('name', 'Reserved'),
+            ('name', 'EMPTY'),
+            ('name', 'FALLBACK'),
+        ]
+        self.negative_filters = [
+            ('name', 'TLS'),
         ]
         # inherit everything else from BaseCommand
         super().__init__()
@@ -69,7 +75,15 @@ class Command(BaseCommand):
                 continue
 
             # if any filters don't match, skip current cipher suite
-            if not all(re.search(f[1], d[f[0]]) for f in self.filters):
+            if not all(re.search(f[1], d[f[0]], re.IGNORECASE) for f in self.negative_filters):
+                if verbosity > 1:
+                    self.stdout.write(
+                        self.style.NOTICE("Failed to parse line. Skipping.")
+                    )
+                continue
+
+            # if any filters do match, skip current cipher suite
+            if any(re.search(f[1], d[f[0]]) for f in self.positive_filters):
                 if verbosity > 1:
                     self.stdout.write(
                         self.style.NOTICE("Failed to parse line. Skipping.")

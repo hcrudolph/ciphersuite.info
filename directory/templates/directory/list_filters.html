@@ -42,6 +42,7 @@
             <li role="separator" class="divider"></li>
             <li><a {% if tls_version == 'tls10' %}class="active"{% endif %} href="{% relative_url 'tls10' 'tls' params %}">TLS1.0/TLS1.1</a></li>
             <li><a {% if tls_version == 'tls12' %}class="active"{% endif %} href="{% relative_url 'tls12' 'tls' params %}">TLS1.2</a></li>
+            <li><a {% if tls_version == 'tls13' %}class="active"{% endif %} href="{% relative_url 'tls13' 'tls' params %}">TLS1.3</a></li>
         </ul>
     </div>
     <div class="btn-group inline-button my-5">

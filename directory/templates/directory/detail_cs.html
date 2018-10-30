@@ -42,8 +42,10 @@
                 <dd>
                     {% if algo.long_name %}
                         {{ algo.long_name }} ({{ algo.short_name }})
-                    {% else %}
+                    {% elif algo.short_name %}
                         {{ algo.short_name }}
+                    {% else %}
+                        -
                     {% endif %}
                 </dd>
 
