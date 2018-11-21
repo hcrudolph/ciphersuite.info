@@ -25,8 +25,7 @@ class PrintableModel(models.Model):
 
 class CipherSuiteQuerySet(models.QuerySet):
     def recommended(self):
-        return set(
-            self.exclude(
+        return self.exclude(
                 Q(protocol_version__vulnerabilities__severity='HIG')|
                 Q(protocol_version__vulnerabilities__severity='MED')|
                 Q(kex_algorithm__vulnerabilities__severity='HIG')|
@@ -42,12 +41,10 @@ class CipherSuiteQuerySet(models.QuerySet):
             ).filter(
                 Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
                 Q(tls_version__short='13')                     # TLS1.3 cipher
-            )
-        )
+        ).distinct()
 
     def secure(self):
-        return set(
-            self.exclude(
+        return self.exclude(
                 Q(protocol_version__vulnerabilities__severity='HIG')|
                 Q(protocol_version__vulnerabilities__severity='MED')|
                 Q(kex_algorithm__vulnerabilities__severity='HIG')|
@@ -60,12 +57,10 @@ class CipherSuiteQuerySet(models.QuerySet):
                 Q(hash_algorithm__vulnerabilities__severity='MED')|
                 Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
                 Q(tls_version__short='13')                     # TLS1.3 cipher
-            )
-        )
+        ).distinct()
 
     def weak(self):
-        return set(
-            self.filter(
+        return self.filter(
                 Q(protocol_version__vulnerabilities__severity='MED')|
                 Q(kex_algorithm__vulnerabilities__severity='MED')|
                 Q(enc_algorithm__vulnerabilities__severity='MED')|
@@ -77,18 +72,16 @@ class CipherSuiteQuerySet(models.QuerySet):
                 Q(enc_algorithm__vulnerabilities__severity='HIG')|
                 Q(auth_algorithm__vulnerabilities__severity='HIG')|
                 Q(hash_algorithm__vulnerabilities__severity='HIG')
-            )
-        )
+        ).distinct()
+            
     def insecure(self):
-        return set( 
-            self.filter(
+        return self.filter(
                 Q(protocol_version__vulnerabilities__severity='HIG')|
                 Q(kex_algorithm__vulnerabilities__severity='HIG')|
                 Q(enc_algorithm__vulnerabilities__severity='HIG')|
                 Q(auth_algorithm__vulnerabilities__severity='HIG')|
                 Q(hash_algorithm__vulnerabilities__severity='HIG')
-            )
-        )
+        ).distinct()
 
     def search(self, search_term):
         # create query and vector object needed for ranking results
@@ -116,7 +109,7 @@ class CipherSuiteQuerySet(models.QuerySet):
         # retrieve list of all results ordered by decreasing relevancy
         ranked_results = CipherSuite.objects.annotate(
             rank=SearchRank(vector, query)
-        ).order_by('-rank')
+        ).distinct().order_by('-rank')
 
         # exclude items that do not match query at all
         return ranked_results.exclude(
