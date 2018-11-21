@@ -25,63 +25,69 @@ class PrintableModel(models.Model):
 
 class CipherSuiteQuerySet(models.QuerySet):
     def recommended(self):
-        return self.exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
-            Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
-        ).filter(
-            Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
-            Q(tls_version__short='13')                     # TLS1.3 cipher
+        return set(
+            self.exclude(
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(protocol_version__vulnerabilities__severity='MED')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='MED')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='MED')|
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='MED')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='MED')|
+                Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
+                Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
+            ).filter(
+                Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
+                Q(tls_version__short='13')                     # TLS1.3 cipher
+            )
         )
 
     def secure(self):
-        return self.exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
-        ).exclude(
-            Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
-            Q(tls_version__short='13')                     # TLS1.3 cipher
+        return set(
+            self.exclude(
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(protocol_version__vulnerabilities__severity='MED')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='MED')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='MED')|
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='MED')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='MED')|
+                Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
+                Q(tls_version__short='13')                     # TLS1.3 cipher
+            )
         )
 
     def weak(self):
-        return self.filter(
-            Q(protocol_version__vulnerabilities__severity='MED')|
-            Q(kex_algorithm__vulnerabilities__severity='MED')|
-            Q(enc_algorithm__vulnerabilities__severity='MED')|
-            Q(auth_algorithm__vulnerabilities__severity='MED')|
-            Q(hash_algorithm__vulnerabilities__severity='MED')
-        ).exclude(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        return set(
+            self.filter(
+                Q(protocol_version__vulnerabilities__severity='MED')|
+                Q(kex_algorithm__vulnerabilities__severity='MED')|
+                Q(enc_algorithm__vulnerabilities__severity='MED')|
+                Q(auth_algorithm__vulnerabilities__severity='MED')|
+                Q(hash_algorithm__vulnerabilities__severity='MED')
+            ).exclude(
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')
+            )
         )
-
     def insecure(self):
-        return self.filter(
-            Q(protocol_version__vulnerabilities__severity='HIG')|
-            Q(kex_algorithm__vulnerabilities__severity='HIG')|
-            Q(enc_algorithm__vulnerabilities__severity='HIG')|
-            Q(auth_algorithm__vulnerabilities__severity='HIG')|
-            Q(hash_algorithm__vulnerabilities__severity='HIG')
+        return set( 
+            self.filter(
+                Q(protocol_version__vulnerabilities__severity='HIG')|
+                Q(kex_algorithm__vulnerabilities__severity='HIG')|
+                Q(enc_algorithm__vulnerabilities__severity='HIG')|
+                Q(auth_algorithm__vulnerabilities__severity='HIG')|
+                Q(hash_algorithm__vulnerabilities__severity='HIG')
+            )
         )
 
     def search(self, search_term):
