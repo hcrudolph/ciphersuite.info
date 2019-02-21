@@ -25,6 +25,7 @@ def static_page(request, sp_name):
         'search_form': NavbarSearchForm(),
         'static_page': page,
     }
+
     return render(request, 'directory/static_page.html', context)
 
 
@@ -36,6 +37,7 @@ def index_cs(request):
     sec_level = request.GET.get('security', 'all').strip()
     tls_version = request.GET.get('tls', 'all').strip()
     software = request.GET.get('software', 'all').strip()
+    single_page = request.GET.get('singlepage', 'false').strip()
     page = request.GET.get('page', '1').strip()
 
     # filter result list
@@ -44,26 +46,34 @@ def index_cs(request):
                             get_cs_by_security_level(sec_level),
                         tls_version),
                     software)
-    # sort result list
-    sorted_cipher_suites = sort_cipher_suites(cipher_suites, sorting)
-    # paginate result list
-    cipher_suites_paginated = paginate(sorted_cipher_suites, page, 15)
+
+    cipher_suites_sorted = sort_cipher_suites(cipher_suites, sorting)
+
+    # paginate depending on GET parameter
+    if single_page == 'true':
+        cipher_suites_paginated = paginate(
+            cipher_suites_sorted, page, len(cipher_suites_sorted))
+    else:
+        cipher_suites_paginated = paginate(
+            cipher_suites_sorted, page, 15)
 
     # display CS name format according to search query
     search_type = 'openssl' if software == 'openssl' else 'iana'
 
     context = {
-        'results': cipher_suites_paginated,
-        'count': len(sorted_cipher_suites),
+        'count': cipher_suites_paginated.paginator.count,
         'navbar_context': 'cs',
-        'page_number_range': range(1, cipher_suites_paginated.paginator.num_pages + 1),
+        'page_number_range': cipher_suites_paginated.paginator.page_range,
+        'results': cipher_suites_paginated,
         'search_form': NavbarSearchForm(),
-        'sec_level': sec_level,
         'search_type': search_type,
+        'sec_level': sec_level,
+        'singlepage': single_page,
         'software': software,
         'sorting': sorting,
         'tls_version': tls_version,
     }
+    
     return render(request, 'directory/index_cs.html', context)
 
 
@@ -72,19 +82,26 @@ def index_rfc(request):
 
     # parse GET parameters
     sorting = request.GET.get('sorting', 'number-asc').strip()
+    single_page = request.GET.get('singlepage', 'false').strip()
     page = request.GET.get('page', '1').strip()
 
     # sort result list
     rfc_list = sort_rfcs(Rfc.objects.all(), sorting)
-    # paginate result list
-    rfc_list_paginated = paginate(rfc_list, page, 15)
+    
+    # paginate result list depending on GET parameter
+    if single_page == 'true':
+        rfc_list_paginated = paginate(rfc_list, page, len(rfc_list))
+    else:
+        rfc_list_paginated = paginate(rfc_list, page, 15)
 
     context = {
         'navbar_context': 'rfc',
-        'page_number_range': range(1, rfc_list_paginated.paginator.num_pages + 1),
+        'page_number_range': rfc_list_paginated.paginator.page_range,
         'results': rfc_list_paginated,
         'search_form': NavbarSearchForm(),
+        'singlepage': single_page,
     }
+
     return render(request, 'directory/index_rfc.html', context)
 
 
@@ -108,6 +125,7 @@ def detail_cs(request, cs_name):
         'related_tech': related_tech,
         'search_form': NavbarSearchForm(),
     }
+
     return render(request, 'directory/detail_cs.html', context)
 
 
@@ -137,6 +155,7 @@ def detail_rfc(request, rfc_number):
         'rfc': rfc,
         'search_form': NavbarSearchForm(),
     }
+
     return render(request, 'directory/detail_rfc.html', context)
 
 
@@ -149,6 +168,7 @@ def search(request):
     sorting = request.GET.get('sort', 'rel').strip()
     tls_version = request.GET.get('tls', 'all').strip()
     software = request.GET.get('software', 'all').strip()
+    single_page = request.GET.get('singlepage', 'false').strip()
     category = request.GET.get('cat', 'cs').strip()
     page = request.GET.get('page', '1').strip()
 
@@ -176,20 +196,24 @@ def search(request):
         cs_tab_active = False
         result_list = result_list_rfc
 
-    # paginate result list
-    result_list_paginated = paginate(result_list, page, 15)
+    # paginate depending on GET parameter
+    if single_page == 'true':
+        result_list_paginated = paginate(result_list, page, len(result_list))
+    else:
+        result_list_paginated = paginate(result_list, page, 15)
 
     context = {
         'category': category,
         'cs_tab_active': cs_tab_active,
-        'page_number_range': range(1, result_list_paginated.paginator.num_pages+1),
-        'result_count_cs': len(set(result_list_cs)),
-        'result_count_rfc': len(set(result_list_rfc)),
+        'page_number_range': result_list_paginated.paginator.page_range,
+        'result_count_cs': result_list_cs.count,
+        'result_count_rfc': result_list_rfc.count,
         'results': result_list_paginated,
         'search_form': NavbarSearchForm(),
         'search_term': search_term,
         'search_type': search_type,
         'sec_level': sec_level,
+        'singlepage': single_page,
         'software': software,
         'sorting': sorting,
         'tls_version': tls_version,

@@ -19,6 +19,10 @@
                     <li><a href="{% relative_url 'title-desc' 'sorting' params %}">Title descending</a></li>
                 </ul>
             </div> <!-- end button group --> 
+            <div class="btn-group" role="group" aria-label="...">
+                <a href="{% relative_url 'false' 'singlepage' params %}" class="btn btn-default {% if singlepage != 'true' %}active{% endif %}">Paginated</a>
+                <a href="{% relative_url 'true' 'singlepage' params %}" class="btn btn-default {% if singlepage == 'true' %}active{% endif %}">Single Page</a>
+            </div>
             </p>
         </div><!-- end column -->
     </div><!-- end row -->
