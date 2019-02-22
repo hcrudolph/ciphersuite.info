@@ -1,10 +1,5 @@
-appdirs
-asn1crypto
-beautifulsoup4
 brotlipy
-bs4
 cffi
-coverage
 cssselect
 dj-database-url
 Django
@@ -12,7 +7,6 @@ django-appconf
 django-compressor
 django-markdown-deux
 django-sass-processor
-gunicorn
 idna
 libsass
 lxml
@@ -28,7 +22,6 @@ PyYAML
 rcssmin
 requests
 rjsmin
-six
 sqlparse
 w3lib
 whitenoise
