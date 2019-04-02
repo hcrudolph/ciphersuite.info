@@ -51,20 +51,14 @@ class CipherSuiteQuerySet(models.QuerySet):
 
     def weak(self):
         return self.filter(
-            (
-                Q(protocol_version__vulnerabilities__severity=1)|
-                Q(kex_algorithm__vulnerabilities__severity=1)|
-                Q(enc_algorithm__vulnerabilities__severity=1)|
-                Q(auth_algorithm__vulnerabilities__severity=1)|
-                Q(hash_algorithm__vulnerabilities__severity=1)
-            ) & ~(
-                Q(protocol_version__vulnerabilities__severity=2)|
-                Q(kex_algorithm__vulnerabilities__severity=2)|
-                Q(enc_algorithm__vulnerabilities__severity=2)|
-                Q(auth_algorithm__vulnerabilities__severity=2)|
-                Q(hash_algorithm__vulnerabilities__severity=2)
-            )
-        ).distinct()
+            Q(protocol_version__vulnerabilities__severity=1)|
+            Q(kex_algorithm__vulnerabilities__severity=1)|
+            Q(enc_algorithm__vulnerabilities__severity=1)|
+            Q(auth_algorithm__vulnerabilities__severity=1)|
+            Q(hash_algorithm__vulnerabilities__severity=1)
+        ).distinct().difference(
+            self.insecure()
+        )
             
     def insecure(self):
         return self.filter(
@@ -101,7 +95,7 @@ class CipherSuiteQuerySet(models.QuerySet):
         # retrieve list of all results ordered by decreasing relevancy
         ranked_results = CipherSuite.objects.annotate(
             rank=SearchRank(vector, query)
-        ).distinct().order_by('-rank')
+        ).order_by('-rank')
 
         # exclude items that do not match query at all
         return ranked_results.exclude(
@@ -124,7 +118,7 @@ class CipherSuiteQuerySet(models.QuerySet):
                 Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
                 Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
             )
-        )
+        ).distinct()
 
 
 class RfcQuerySet(models.QuerySet):
@@ -132,7 +126,7 @@ class RfcQuerySet(models.QuerySet):
         return self.filter(
             Q(title__icontains=search_term)|
             Q(number__icontains=search_term)
-        )
+        ).distinct()
 
 
 class CipherImplementation(models.Model):
