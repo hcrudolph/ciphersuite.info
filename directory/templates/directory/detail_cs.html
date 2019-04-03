@@ -51,11 +51,11 @@
 
                     {% for item in algo.vulnerabilities.all %}
                     <p>
-                    {% if item.severity == 'HIG' %}
+                    {% if item.severity == 2 %}
                         <div class="alert alert-danger" role="alert">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
-                    {% elif item.severity == 'MED' %}
+                    {% elif item.severity == 1 %}
                         <div class="alert alert-warning" role="alert">
                             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>

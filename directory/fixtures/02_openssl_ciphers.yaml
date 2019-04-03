@@ -946,3 +946,27 @@
     hex_byte_1: '0xC0'
     hex_byte_2: '0x21'
     min_tls_version: 'SSL3'
+- model: directory.OpensslCipher
+  pk: 'TLS_AES_256_GCM_SHA384'
+  fields:
+    hex_byte_1: '0x13'
+    hex_byte_2: '0x02'
+    min_tls_version: 'TLS1.3'
+- model: directory.OpensslCipher
+  pk: 'TLS_CHACHA20_POLY1305_SHA256'
+  fields:
+    hex_byte_1: '0x13'
+    hex_byte_2: '0xC3'
+    min_tls_version: 'TLS1.3'
+- model: directory.OpensslCipher
+  pk: 'TLS_AES_128_GCM_SHA256'
+  fields:
+    hex_byte_1: '0x13'
+    hex_byte_2: '0x01'
+    min_tls_version: 'TLS1.3'
+- model: directory.OpensslCipher
+  pk: 'TLS_AES_128_CCM_SHA256'
+  fields:
+    hex_byte_1: '0x13'
+    hex_byte_2: '0x04'
+    min_tls_version: 'TLS1.3'

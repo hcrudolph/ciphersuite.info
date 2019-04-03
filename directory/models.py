@@ -25,62 +25,48 @@ class PrintableModel(models.Model):
 
 class CipherSuiteQuerySet(models.QuerySet):
     def recommended(self):
-        return self.exclude(
-                Q(protocol_version__vulnerabilities__severity='HIG')|
-                Q(protocol_version__vulnerabilities__severity='MED')|
-                Q(kex_algorithm__vulnerabilities__severity='HIG')|
-                Q(kex_algorithm__vulnerabilities__severity='MED')|
-                Q(enc_algorithm__vulnerabilities__severity='HIG')|
-                Q(enc_algorithm__vulnerabilities__severity='MED')|
-                Q(auth_algorithm__vulnerabilities__severity='HIG')|
-                Q(auth_algorithm__vulnerabilities__severity='MED')|
-                Q(hash_algorithm__vulnerabilities__severity='HIG')|
-                Q(hash_algorithm__vulnerabilities__severity='MED')|
-                Q(enc_algorithm__short_name__icontains='CBC')| # CBC cipher
-                Q(hash_algorithm__short_name__icontains='CCM') # CBC cipher
-            ).filter(
-                Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
-                Q(tls_version__short='13')                     # TLS1.3 cipher
+        return self.filter(
+            ~(
+                Q(protocol_version__vulnerabilities__severity__gte=0)|
+                Q(kex_algorithm__vulnerabilities__severity__gte=0)|
+                Q(enc_algorithm__vulnerabilities__severity__gte=0)|
+                Q(auth_algorithm__vulnerabilities__severity__gte=0)|
+                Q(hash_algorithm__vulnerabilities__severity__gte=0)
+            ) & (
+                Q(kex_algorithm__short_name__icontains='DHE')|
+                Q(tls_version__short='13')
+            )
         ).distinct()
 
     def secure(self):
         return self.exclude(
-                Q(protocol_version__vulnerabilities__severity='HIG')|
-                Q(protocol_version__vulnerabilities__severity='MED')|
-                Q(kex_algorithm__vulnerabilities__severity='HIG')|
-                Q(kex_algorithm__vulnerabilities__severity='MED')|
-                Q(enc_algorithm__vulnerabilities__severity='HIG')|
-                Q(enc_algorithm__vulnerabilities__severity='MED')|
-                Q(auth_algorithm__vulnerabilities__severity='HIG')|
-                Q(auth_algorithm__vulnerabilities__severity='MED')|
-                Q(hash_algorithm__vulnerabilities__severity='HIG')|
-                Q(hash_algorithm__vulnerabilities__severity='MED')|
-                Q(kex_algorithm__short_name__icontains='DHE')| # DHE = recommended cipher
-                Q(tls_version__short='13')                     # TLS1.3 cipher
-        ).distinct()
+            Q(protocol_version__vulnerabilities__severity__gt=0)|
+            Q(kex_algorithm__vulnerabilities__severity__gt=0)|
+            Q(enc_algorithm__vulnerabilities__severity__gt=0)|
+            Q(auth_algorithm__vulnerabilities__severity__gt=0)|
+            Q(hash_algorithm__vulnerabilities__severity__gt=0)
+        ).distinct().difference(
+            self.recommended()
+        )
 
     def weak(self):
         return self.filter(
-                Q(protocol_version__vulnerabilities__severity='MED')|
-                Q(kex_algorithm__vulnerabilities__severity='MED')|
-                Q(enc_algorithm__vulnerabilities__severity='MED')|
-                Q(auth_algorithm__vulnerabilities__severity='MED')|
-                Q(hash_algorithm__vulnerabilities__severity='MED')
-            ).exclude(
-                Q(protocol_version__vulnerabilities__severity='HIG')|
-                Q(kex_algorithm__vulnerabilities__severity='HIG')|
-                Q(enc_algorithm__vulnerabilities__severity='HIG')|
-                Q(auth_algorithm__vulnerabilities__severity='HIG')|
-                Q(hash_algorithm__vulnerabilities__severity='HIG')
-        ).distinct()
+            Q(protocol_version__vulnerabilities__severity=1)|
+            Q(kex_algorithm__vulnerabilities__severity=1)|
+            Q(enc_algorithm__vulnerabilities__severity=1)|
+            Q(auth_algorithm__vulnerabilities__severity=1)|
+            Q(hash_algorithm__vulnerabilities__severity=1)
+        ).distinct().difference(
+            self.insecure()
+        )
             
     def insecure(self):
         return self.filter(
-                Q(protocol_version__vulnerabilities__severity='HIG')|
-                Q(kex_algorithm__vulnerabilities__severity='HIG')|
-                Q(enc_algorithm__vulnerabilities__severity='HIG')|
-                Q(auth_algorithm__vulnerabilities__severity='HIG')|
-                Q(hash_algorithm__vulnerabilities__severity='HIG')
+            Q(protocol_version__vulnerabilities__severity=2)|
+            Q(kex_algorithm__vulnerabilities__severity=2)|
+            Q(enc_algorithm__vulnerabilities__severity=2)|
+            Q(auth_algorithm__vulnerabilities__severity=2)|
+            Q(hash_algorithm__vulnerabilities__severity=2)
         ).distinct()
 
     def search(self, search_term):
@@ -109,28 +95,30 @@ class CipherSuiteQuerySet(models.QuerySet):
         # retrieve list of all results ordered by decreasing relevancy
         ranked_results = CipherSuite.objects.annotate(
             rank=SearchRank(vector, query)
-        ).distinct().order_by('-rank')
+        ).order_by('-rank')
 
         # exclude items that do not match query at all
         return ranked_results.exclude(
-            ~Q(name__icontains=search_term)&
-            ~Q(openssl_name__icontains=search_term)&
-            ~Q(gnutls_name__icontains=search_term)&
-            ~Q(auth_algorithm__long_name__icontains=search_term)&
-            ~Q(enc_algorithm__long_name__icontains=search_term)&
-            ~Q(kex_algorithm__long_name__icontains=search_term)&
-            ~Q(hash_algorithm__long_name__icontains=search_term)&
-            ~Q(protocol_version__vulnerabilities__name__icontains=search_term)&
-            ~Q(auth_algorithm__vulnerabilities__name__icontains=search_term)&
-            ~Q(enc_algorithm__vulnerabilities__name__icontains=search_term)&
-            ~Q(kex_algorithm__vulnerabilities__name__icontains=search_term)&
-            ~Q(hash_algorithm__vulnerabilities__name__icontains=search_term)&
-            ~Q(protocol_version__vulnerabilities__description__icontains=search_term)&
-            ~Q(auth_algorithm__vulnerabilities__description__icontains=search_term)&
-            ~Q(enc_algorithm__vulnerabilities__description__icontains=search_term)&
-            ~Q(kex_algorithm__vulnerabilities__description__icontains=search_term)&
-            ~Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
-        )
+            ~(
+                Q(name__icontains=search_term)|
+                Q(openssl_name__icontains=search_term)|
+                Q(gnutls_name__icontains=search_term)|
+                Q(auth_algorithm__long_name__icontains=search_term)|
+                Q(enc_algorithm__long_name__icontains=search_term)|
+                Q(kex_algorithm__long_name__icontains=search_term)|
+                Q(hash_algorithm__long_name__icontains=search_term)|
+                Q(protocol_version__vulnerabilities__name__icontains=search_term)|
+                Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
+                Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
+                Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
+                Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
+                Q(protocol_version__vulnerabilities__description__icontains=search_term)|
+                Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
+                Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
+                Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
+                Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
+            )
+        ).distinct()
 
 
 class RfcQuerySet(models.QuerySet):
@@ -138,7 +126,7 @@ class RfcQuerySet(models.QuerySet):
         return self.filter(
             Q(title__icontains=search_term)|
             Q(number__icontains=search_term)
-        )
+        ).distinct()
 
 
 class CipherImplementation(models.Model):
@@ -189,6 +177,7 @@ class CipherSuite(PrintableModel):
     name = models.CharField(
         primary_key=True,
         max_length=200,
+        db_index=True,
     )
     gnutls_name = models.CharField(
         max_length=200,
@@ -253,49 +242,30 @@ class CipherSuite(PrintableModel):
         default='',
     )
 
-
-    def __get_vulnerabilities(self):
-        return set().union(
-            self.protocol_version.vulnerabilities.all().values_list('severity', flat=True),
-            self.enc_algorithm.vulnerabilities.all().values_list('severity', flat=True),
-            self.kex_algorithm.vulnerabilities.all().values_list('severity', flat=True),
-            self.auth_algorithm.vulnerabilities.all().values_list('severity', flat=True),
-            self.hash_algorithm.vulnerabilities.all().values_list('severity', flat=True)
-        )
-
     @property
     def insecure(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if any([v for v in vulnerabilities if v=='HIG']):
+        if self in CipherSuite.custom_filters.insecure():
             return True
         else:
             return False
 
     @property
     def weak(self):
-        vulnerabilities = self.__get_vulnerabilities()
-        if not self.insecure and any([v for v in vulnerabilities if v=='MED']):
+        if self in CipherSuite.custom_filters.weak():
             return True
         else:
             return False
 
     @property
     def secure(self):
-        if not self.insecure \
-        and not self.weak \
-        and not self.recommended:
+        if self in CipherSuite.custom_filters.secure():
             return True
         else:
             return False
 
     @property
     def recommended(self):
-        if not 'WITH' in self.name \
-        or (not self.insecure \
-        and not self.weak \
-        and ("DHE" in self.kex_algorithm.short_name) \
-        and not ("CBC" in self.enc_algorithm.short_name) \
-        and not ("CCM" in self.hash_algorithm.short_name)):
+        if self in CipherSuite.custom_filters.recommended():
             return True
         else:
             return False
@@ -503,18 +473,15 @@ class Vulnerability(models.Model):
         max_length=1000,
         blank=True,
     )
-    HIG = 'HIG'
-    MED = 'MED'
-    LOW = 'LOW'
+    
     SEVERITY_CHOICES = (
-        (HIG, 'High'),
-        (MED, 'Medium'),
-        (LOW, 'Low'),
+        (2, 'High'),
+        (1, 'Medium'),
+        (0, 'Low'),
     )
-    severity = models.CharField(
-        max_length=3,
+    severity = models.IntegerField(
         choices=SEVERITY_CHOICES,
-        default=LOW,
+        default=0,
     )
 
     def __str__(self):

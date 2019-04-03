@@ -251,17 +251,17 @@
   pk: 'DES40 CBC'
   fields:
     long_name: 'Data Encryption Standard with 40bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['Cipher Block Chaining']
+    vulnerabilities: ['Data Encryption Standard', 'Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'DES CBC'
   fields:
     long_name: 'Data Encryption Standard with 56bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['Cipher Block Chaining']
+    vulnerabilities: ['Data Encryption Standard', 'Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'DES CBC 40'
   fields:
     long_name: 'Data Encryption Standard with 40bit key in Cipher Block Chaining mode'
-    vulnerabilities: ['Cipher Block Chaining']
+    vulnerabilities: ['Data Encryption Standard', 'Cipher Block Chaining']
 - model: directory.EncAlgorithm
   pk: 'IDEA CBC'
   fields:

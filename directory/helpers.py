@@ -30,39 +30,39 @@ def get_cs_by_security_level(sec_level):
     else:
         return CipherSuite.objects.all()
 
-def filter_cs_by_tls_version(cipher_suites, version):
+def get_cs_by_tls_version(version):
     """Returns a list of CipherSuite instances filtered by their TLS version."""
 
-    if version == "tls10":
-        return [cs for cs in cipher_suites if cs.tls10_cipher]
-    elif version == "tls12":
-        return [cs for cs in cipher_suites if cs.tls12_cipher]
-    elif version == "tls13":
-        return [cs for cs in cipher_suites if cs.tls13_cipher]
+    if version == 'tls10':
+        return CipherSuite.objects.filter(tls_version__short='11')
+    elif version == 'tls12':
+        return CipherSuite.objects.filter(tls_version__short='12')
+    elif version == 'tls13':
+        return CipherSuite.objects.filter(tls_version__short='13')
     else:
-        return cipher_suites
+        return CipherSuite.objects.all()
 
-def filter_cs_by_software(cipher_suites, software):
+def get_cs_by_software(software):
     """Returns a list of CipherSuite instances filtered by their available implementations."""
 
-    if software == "gnutls":
-        return [cs for cs in cipher_suites if cs.gnutls_cipher]
-    elif software == "openssl":
-        return [cs for cs in cipher_suites if cs.openssl_cipher]
+    if software == 'gnutls':
+        return CipherSuite.objects.exclude(gnutls_name='')
+    elif software == 'openssl':
+        return CipherSuite.objects.exclude(openssl_name='')
     else:
-        return cipher_suites
+        return CipherSuite.objects.all()
 
 def filter_cs_by_sec_level(cipher_suites, sec_level):
     """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
 
     if sec_level == 'insecure':
-        return [cs for cs in cipher_suites if cs.insecure]
+        return cipher_suites.intersection(CipherSuite.custom_filters.insecure())
     elif sec_level == 'weak':
-        return [cs for cs in cipher_suites if cs.weak]
+        return cipher_suites.intersection(CipherSuite.custom_filters.weak())
     elif sec_level == 'secure':
-        return [cs for cs in cipher_suites if cs.secure]
+        return cipher_suites.intersection(CipherSuite.custom_filters.secure())
     elif sec_level == 'recommended':
-        return [cs for cs in cipher_suites if cs.recommended]
+        return cipher_suites.intersection(CipherSuite.custom_filters.recommended())
     else:
         return cipher_suites
 
@@ -70,25 +70,25 @@ def sort_cipher_suites(cipher_suites, ordering):
     """Sorts the given list of CipherSuite instances in a specific order."""
 
     if ordering == 'auth-asc':
-        return sorted(cipher_suites, key=lambda x: x.auth_algorithm)
+        return cipher_suites.order_by('auth_algorithm')
     elif ordering == 'auth-desc':
-        return sorted(cipher_suites, key=lambda x: x.auth_algorithm, reverse=True)
+        return cipher_suites.order_by('-auth_algorithm')
     elif ordering == 'enc-asc':
-        return sorted(cipher_suites, key=lambda x: x.enc_algorithm)
+        return cipher_suites.order_by('enc_algorithm')
     elif ordering == 'enc-desc':
-        return sorted(cipher_suites, key=lambda x: x.enc_algorithm, reverse=True)
+        return cipher_suites.order_by('-enc_algorithm')
     elif ordering == 'hash-asc':
-        return sorted(cipher_suites, key=lambda x: x.hash_algorithm)
+        return cipher_suites.order_by('hash_algorithm')
     elif ordering == 'hash-desc':
-        return sorted(cipher_suites, key=lambda x: x.hash_algorithm, reverse=True)
+        return cipher_suites.order_by('-hash_algorithm')
     elif ordering == 'kex-asc':
-        return sorted(cipher_suites, key=lambda x: x.kex_algorithm)
+        return cipher_suites.order_by('kex_algorithm')
     elif ordering == 'kex-desc':
-        return sorted(cipher_suites, key=lambda x: x.kex_algorithm, reverse=True)
+        return cipher_suites.order_by('-kex_algorithm')
     elif ordering == 'name-asc':
-        return sorted(cipher_suites, key=lambda x: x.name,)
+        return cipher_suites.order_by('name')
     elif ordering == 'name-desc':
-        return sorted(cipher_suites, key=lambda x: x.name, reverse=True)
+        return cipher_suites.order_by('-name')
     else:
         return cipher_suites
 
@@ -97,13 +97,15 @@ def sort_rfcs(rfcs, ordering):
     """Sorts the given list of Rfc instances in a specific order."""
 
     if ordering == 'number-asc':
-        return sorted(rfcs, key=lambda x: x.number)
+        return rfcs.order_by('number')
     elif ordering == 'number-desc':
-        return sorted(rfcs, key=lambda x: x.number, reverse=True)
+        return rfcs.order_by('-number')
+    elif ordering == 'title-asc':
+        return rfcs.order_by('title')
     elif ordering == 'title-desc':
-        return sorted(rfcs, key=lambda x: x.title, reverse=True)
+        return rfcs.order_by('-title')
     else:
-        return sorted(rfcs, key=lambda x: x.title)
+        return rfcs
 
 
 def search_rfcs(search_term):
