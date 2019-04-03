@@ -30,27 +30,27 @@ def get_cs_by_security_level(sec_level):
     else:
         return CipherSuite.objects.all()
 
-def filter_cs_by_tls_version(cipher_suites, version):
+def get_cs_by_tls_version(version):
     """Returns a list of CipherSuite instances filtered by their TLS version."""
 
-    if version == "tls10":
-        return cipher_suites.filter(tls_version__short='11')
-    elif version == "tls12":
-        return cipher_suites.filter(tls_version__short='12')
-    elif version == "tls13":
-        return cipher_suites.filter(tls_version__short='13')
+    if version == 'tls10':
+        return CipherSuite.objects.filter(tls_version__short='11')
+    elif version == 'tls12':
+        return CipherSuite.objects.filter(tls_version__short='12')
+    elif version == 'tls13':
+        return CipherSuite.objects.filter(tls_version__short='13')
     else:
-        return cipher_suites
+        return CipherSuite.objects.all()
 
-def filter_cs_by_software(cipher_suites, software):
+def get_cs_by_software(software):
     """Returns a list of CipherSuite instances filtered by their available implementations."""
 
-    if software == "gnutls":
-        return cipher_suites.exclude(gnutls_name='')
-    elif software == "openssl":
-        return cipher_suites.exclude(openssl_name='')
+    if software == 'gnutls':
+        return CipherSuite.objects.exclude(gnutls_name='')
+    elif software == 'openssl':
+        return CipherSuite.objects.exclude(openssl_name='')
     else:
-        return cipher_suites
+        return CipherSuite.objects.all()
 
 def filter_cs_by_sec_level(cipher_suites, sec_level):
     """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""

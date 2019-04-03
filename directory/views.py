@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.db.models import Value, FloatField
 from directory.helpers import *
 from directory.models import *
 from directory.forms import *
@@ -33,29 +34,31 @@ def index_cs(request):
     """CipherSuite overview, listing all instances stored in the database."""
 
     # parse GET parameters
-    sorting = request.GET.get('sort', 'name-asc').strip()
-    sec_level = request.GET.get('security', 'all').strip()
-    tls_version = request.GET.get('tls', 'all').strip()
-    software = request.GET.get('software', 'all').strip()
-    single_page = request.GET.get('singlepage', 'false').strip()
-    page = request.GET.get('page', '1').strip()
+    sorting = request.GET.get('sort', 'name-asc')
+    sec_level = request.GET.get('security', 'all')
+    tls_version = request.GET.get('tls', 'all')
+    software = request.GET.get('software', 'all')
+    single_page = request.GET.get('singlepage', 'false')
+    page = request.GET.get('page', '1')
 
-    # filter result list
-    cipher_suites = filter_cs_by_software(
-                        filter_cs_by_tls_version(
-                            get_cs_by_security_level(sec_level),
-                        tls_version),
-                    software)
+    # get subsets based on list filters
+    cs_by_sl = get_cs_by_security_level(sec_level)
+    cs_by_sw = get_cs_by_software(software)
+    cs_by_tv = get_cs_by_tls_version(tls_version)
+    
+    # create intersection of all subsets
+    cipher_suites = cs_by_sl.intersection(cs_by_sw, cs_by_tv)
 
-    cipher_suites_sorted = sort_cipher_suites(cipher_suites, sorting)
+    if len(cipher_suites) > 0:
+        cipher_suites = sort_cipher_suites(cipher_suites, sorting)
 
     # paginate depending on GET parameter
-    if single_page == 'true':
+    if single_page == 'true' and len(cipher_suites) > 0:
         cipher_suites_paginated = paginate(
-            cipher_suites_sorted, page, len(cipher_suites_sorted))
+            cipher_suites, page, len(cipher_suites))
     else:
         cipher_suites_paginated = paginate(
-            cipher_suites_sorted, page, 15)
+            cipher_suites, page, 15)
 
     # display CS name format according to search query
     search_type = 'openssl' if software == 'openssl' else 'iana'
@@ -163,30 +166,34 @@ def search(request):
     """Search functionality and result page for Rfc and CipherSuite instances."""
 
     # parse GET parameters
-    search_term = request.GET.get('q', '').strip()
-    sec_level = request.GET.get('security', 'all').strip()
-    sorting = request.GET.get('sort', 'rel').strip()
-    tls_version = request.GET.get('tls', 'all').strip()
-    software = request.GET.get('software', 'all').strip()
-    single_page = request.GET.get('singlepage', 'false').strip()
-    category = request.GET.get('cat', 'cs').strip()
-    page = request.GET.get('page', '1').strip()
+    search_term = request.GET.get('q', '')
+    sec_level = request.GET.get('security', 'all')
+    sorting = request.GET.get('sort', 'rel')
+    tls_version = request.GET.get('tls', 'all')
+    software = request.GET.get('software', 'all')
+    single_page = request.GET.get('singlepage', 'false')
+    category = request.GET.get('cat', 'cs')
+    page = request.GET.get('page', '1')
 
-    # display CS name format according to search query
+    # display cs name format according to search query
     search_type = 'openssl' if ('-' in search_term) or (software == 'openssl') else 'iana'
 
-    # filter result list
-    cipher_suites = filter_cs_by_software(
-                        filter_cs_by_tls_version(
-                            filter_cs_by_sec_level(
-                                search_cipher_suites(search_term),
-                            sec_level),
-                        tls_version),
-                    software)
-   
+    # get subsets based on search term
+    ranked_list = search_cipher_suites(search_term)
+    search_result = CipherSuite.objects.filter(pk__in=ranked_list.values_list('name', flat=True))
+    
+    # get subsets based on list filters
+    cs_by_sl = get_cs_by_security_level(sec_level)
+    cs_by_sw = get_cs_by_software(software)
+    cs_by_tv = get_cs_by_tls_version(tls_version)
+
+    # create intersection of all subsets
+    cipher_suites = search_result.intersection(cs_by_sl, cs_by_sw, cs_by_tv)
+    rfcs = search_rfcs(search_term)
+
     # Query list returned from db is already sorted by relevancy
     result_list_cs = sort_cipher_suites(cipher_suites, sorting)
-    result_list_rfc = search_rfcs(search_term)
+    result_list_rfc = sort_rfcs(rfcs, sorting)
 
     # distinguish results to display by category
     if category == 'cs':
@@ -197,7 +204,7 @@ def search(request):
         result_list = result_list_rfc
 
     # paginate depending on GET parameter
-    if single_page == 'true':
+    if single_page == 'true' and len(result_list) > 0:
         result_list_paginated = paginate(result_list, page, len(result_list))
     else:
         result_list_paginated = paginate(result_list, page, 15)
