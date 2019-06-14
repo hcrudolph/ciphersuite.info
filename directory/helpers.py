@@ -69,25 +69,9 @@ def filter_cs_by_sec_level(cipher_suites, sec_level):
 def sort_cipher_suites(cipher_suites, ordering):
     """Sorts the given list of CipherSuite instances in a specific order."""
 
-    if ordering == 'auth-asc':
-        return cipher_suites.order_by('auth_algorithm')
-    elif ordering == 'auth-desc':
-        return cipher_suites.order_by('-auth_algorithm')
-    elif ordering == 'enc-asc':
-        return cipher_suites.order_by('enc_algorithm')
-    elif ordering == 'enc-desc':
-        return cipher_suites.order_by('-enc_algorithm')
-    elif ordering == 'hash-asc':
-        return cipher_suites.order_by('hash_algorithm')
-    elif ordering == 'hash-desc':
-        return cipher_suites.order_by('-hash_algorithm')
-    elif ordering == 'kex-asc':
-        return cipher_suites.order_by('kex_algorithm')
-    elif ordering == 'kex-desc':
-        return cipher_suites.order_by('-kex_algorithm')
-    elif ordering == 'name-asc':
+    if ordering == 'asc':
         return cipher_suites.order_by('name')
-    elif ordering == 'name-desc':
+    elif ordering == 'desc':
         return cipher_suites.order_by('-name')
     else:
         return cipher_suites
