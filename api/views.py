@@ -5,6 +5,8 @@ import json
 
 
 def reformat_cs(cs):
+    sec_lvl = get_security_by_csname(cs['name'])
+    cs.update({"security_level": sec_lvl})
     return {cs.pop('name'):cs}
 
 
@@ -24,6 +26,17 @@ def cs_all(request):
 def cs_single(request, iana_name):
     cs = get_object_or_404(CipherSuite, pk=iana_name)
     return JsonResponse(reformat_cs(cs.to_dict()), safe=False)
+
+
+def get_security_by_csname(name):
+    if CipherSuite.objects.get(pk=name).insecure:
+        return 'insecure'
+    elif CipherSuite.objects.get(pk=name).weak:
+        return 'weak'
+    elif CipherSuite.objects.get(pk=name).secure:
+        return 'secure'
+    elif CipherSuite.objects.get(pk=name).recommended:
+        return 'recommended'
 
 
 def cs_by_security(request, sec_level):
