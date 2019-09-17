@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse, Http404
-from directory.models import *
+from directory.models import CipherSuite, Rfc
 import json
 
 
@@ -36,17 +36,6 @@ def cs_single(request, iana_name):
     return JsonResponse(reformat_cs(cs.to_dict()), safe=False)
 
 
-def get_security_by_csname(name):
-    if CipherSuite.objects.get(pk=name).insecure:
-        return 'insecure'
-    elif CipherSuite.objects.get(pk=name).weak:
-        return 'weak'
-    elif CipherSuite.objects.get(pk=name).secure:
-        return 'secure'
-    elif CipherSuite.objects.get(pk=name).recommended:
-        return 'recommended'
-
-
 def cs_by_security(request, sec_level):
     if sec_level == 'insecure':
         cs = [reformat_cs(cs.to_dict()) for cs in
@@ -68,31 +57,33 @@ def cs_by_security(request, sec_level):
 
 def cs_by_software(request, software):
     if software == 'openssl':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.exclude(openssl_name="")]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.exclude(openssl_name="")]
     elif software == 'gnutls':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.exclude(gnutls_name="")]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.exclude(gnutls_name="")]
     else:
         raise Http404(f"Software '{software}' does not exist.")
-    
+
     return JsonResponse({"ciphersuites":cs}, safe=False)
 
 
 def cs_by_tlsversion(request, tlsv):
     if tlsv == '10':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.filter(
-                tls_version__short="10")]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="10")]
     elif tlsv == '11':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.filter(
-                tls_version__short="11")]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="11")]
     elif tlsv == '12':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.filter(
-                tls_version__short="12")]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="12")]
     elif tlsv == '13':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.filter(
-                tls_version__short="13")]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="13")]
     else:
         raise Http404(f"TLS version '{tlsv}' does not exist.")
-    
+
     return JsonResponse({"ciphersuites":cs}, safe=False)
 
 
