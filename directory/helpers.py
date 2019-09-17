@@ -20,13 +20,13 @@ def get_cs_by_security_level(sec_level):
     """Returns all CipherSuites of a certain security level."""
 
     if sec_level == 'recommended':
-        return CipherSuite.custom_filters.recommended()
+        return CipherSuite.objects.filter(security=0)
     elif sec_level == 'secure':
-        return CipherSuite.custom_filters.secure()
+        return CipherSuite.objects.filter(security=1)
     elif sec_level == 'weak':
-        return CipherSuite.custom_filters.weak()
+        return CipherSuite.objects.filter(security=2)
     elif sec_level == 'insecure':
-        return CipherSuite.custom_filters.insecure()
+        return CipherSuite.objects.filter(security=3)
     else:
         return CipherSuite.objects.all()
 
@@ -56,13 +56,13 @@ def filter_cs_by_sec_level(cipher_suites, sec_level):
     """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
 
     if sec_level == 'insecure':
-        return cipher_suites.intersection(CipherSuite.custom_filters.insecure())
+        return cipher_suites.intersection(CipherSuite.objects.filter(security=3))
     elif sec_level == 'weak':
-        return cipher_suites.intersection(CipherSuite.custom_filters.weak())
+        return cipher_suites.intersection(CipherSuite.objects.filter(security=2))
     elif sec_level == 'secure':
-        return cipher_suites.intersection(CipherSuite.custom_filters.secure())
+        return cipher_suites.intersection(CipherSuite.objects.filter(security=1))
     elif sec_level == 'recommended':
-        return cipher_suites.intersection(CipherSuite.custom_filters.recommended())
+        return cipher_suites.intersection(CipherSuite.objects.filter(security=0))
     else:
         return cipher_suites
 

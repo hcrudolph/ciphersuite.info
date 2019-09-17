@@ -5,8 +5,16 @@ import json
 
 
 def reformat_cs(cs):
-    sec_lvl = get_security_by_csname(cs['name'])
-    cs.update({"security_level": sec_lvl})
+    # replace int security rating by string
+    if cs['security'] == 0:
+        cs['security'] = "recommended"
+    elif cs['security'] == 1:
+        cs['security'] = "secure"
+    elif cs['security'] == 2:
+        cs['security'] = "weak"
+    elif cs['security'] == 3:
+        cs['security'] = "insecure"
+
     return {cs.pop('name'):cs}
 
 
@@ -41,13 +49,17 @@ def get_security_by_csname(name):
 
 def cs_by_security(request, sec_level):
     if sec_level == 'insecure':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.custom_filters.insecure()]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=3)]
     elif sec_level == 'weak':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.custom_filters.weak()]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=2)]
     elif sec_level == 'secure':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.custom_filters.secure()]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=1)]
     elif sec_level == 'recommended':
-        cs = [reformat_cs(x.to_dict()) for x in CipherSuite.custom_filters.recommended()]
+        cs = [reformat_cs(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=0)]
     else:
         raise Http404(f"Security level '{sec_level}' does not exist.")
 
