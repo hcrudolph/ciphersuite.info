@@ -13,6 +13,7 @@ test:
     POSTGRES_PASSWORD: "start123"
   before_script:
     - pip install -r requirements/requirements.txt
+    - python manage.py makemigrations
     - python manage.py migrate --run-syncdb
     - python manage.py loaddata directory/fixtures/*
     - python manage.py scrapeiana
