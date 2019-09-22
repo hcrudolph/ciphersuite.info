@@ -17,7 +17,10 @@ import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+if "staging" in BASE_DIR:
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY_STAGING']
+else:
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if 'DEVELOPMENT' in os.environ and os.environ.get('DEVELOPMENT', '0') == '1':
@@ -31,7 +34,7 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     'localhost',
     'ciphersuite.info',
-    'ciphersuite-info.herokuapp.com',
+    'staging.ciphersuite.info',
 ]
 
 # Application definition
@@ -91,9 +94,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default':  dj_database_url.config()
-}
+if "staging" in BASE_DIR:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ['DATABASE_URL_STAGING'])
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
