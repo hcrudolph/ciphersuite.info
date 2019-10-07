@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'directory.apps.DirectoryConfig',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -148,7 +149,13 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'sass_processor.finders.CssFinder',
+    'compressor.finders.CompressorFinder' # Django-Compressor
 ]
+
+SASS_OUTPUT_STYLE = 'compressed'
+COMPRESS_STORAGE = 'compressor.storage.GzipCompressorFileStorage'
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
 
 MARKDOWN_DEUX_STYLES = {
     "default": {
