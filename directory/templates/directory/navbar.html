@@ -1,61 +1,48 @@
 {% load static %}
-<div class="row">
-    <nav class="navbar navbar-fixed-top navbar-inverse">
-        <div class="container">
-
-            <!-- Title and collapse button -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"><img src=" {% static 'img/logo.png' %}" height="20px"/></a>
-            </div>
-
-            <!-- Menu items -->
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li {% if navbar_context == "cs" %}class="active"{% endif %}>
-                        <a href="/cs/">
-                            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Cipher Suites
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/"><img src=" {% static 'img/logo.png' %}" height="25"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+        <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if navbar_context == 'cs' %}active{% endif %}">
+                    <a class="nav-link" href="/cs/">
+                        <i class="fas fa-lock"></i> Cipher Suites
+                    </a>
+                </li>
+                <li class="nav-item {% if navbar_context == 'rfc' %}active{% endif %}">
+                    <a class="nav-link" href="/rfc/">
+                        <i class="fas fa-file"></i> RFCs
+                    </a>
+                </li>
+                <li class="nav-item {% if navbar_context == 'blog' %}active{% endif %}">
+                    <a class="nav-link" href="/blog/">
+                        <i class="fas fa-bullhorn"></i> Blog
+                    </a>
+                </li>
+                {% for page in static_pages %}
+                    <li class="nav-item {% if navbar_context == page.title %}active{% endif %}">
+                        <a class="nav-link" href="/page/{{ page|lower }}/">
+                            {% if page.glyphicon %}<i class="fas fa-{{ page.glyphicon }}"></i>{% endif %}
+                            {{ page|title }}
                         </a>
                     </li>
-                    <li {% if navbar_context == "rfc" %}class="active"{% endif %}>
-                        <a href="/rfc/">
-                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RFCs
-                        </a>
-                    </li>
-                    <li {% if navbar_context == "blog" %}class="active"{% endif %}>
-                        <a href="/blog/">
-                            <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Blog
-                        </a>
-                    </li>
-                    {% for page in static_pages %}
-                        <li {% if navbar_context == page.title %}class="active"{% endif %}>
-                            <a href="/page/{{ page|lower }}/">
-                                {% if page.glyphicon %}<span class="glyphicon {{ page.glyphicon }}" aria-hidden="true"></span>{% endif %}
-                                {{ page|title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% endfor %}
+        </ul>
+        {% if not hide_navbar_search %}
+            <form class="form-inline my-2 my-md-0" action="/search?q={{ search_form.get_search_term }}" method="get">
+                <div class="form-group input-group">
 
-                {% if not hide_navbar_search %}
-                    <form class="navbar-form navbar-right" action="/search?q={{ search_form.get_search_term }}" method="get">
-                        <div class="form-group input-group">
+                    {{ search_form }}
 
-                            {{ search_form }}
-
-                            <span class="input-group-btn">
-                                <button class="btn btn-custom" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                            </span>
-                        </div>
-                    </form>
-                {% endif %}
-            </div> <!-- end menu items -->
-
-        </div> <!-- end container -->
-    </nav> <!-- end navbar -->
-</div> <!-- end row -->
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</nav>

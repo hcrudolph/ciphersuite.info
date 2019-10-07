@@ -1,26 +1,30 @@
 {% load add_get_parameter %}
 {% with params=request.GET.urlencode %}
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2" align="center">
-        <div class="pagination">
+<div class="row justify-content-center">
+    <div class="flex-col col-lg-8 col-lg-offset-2 mb-3">
+        <div class="pagination justify-content-center">
             <span class="step-links">
                 <nav aria-label="...">
                     <ul class="pagination">
 
                     <!-- First and previous links -->
                     {% if results.has_previous %}
-                    <li class="first"><a href="{% relative_url '1' 'page' params %}">
+                    <li class="page-item first">
+                        <a class="page-link" href="{% relative_url '1' 'page' params %}">
                             <span aria-hidden="true">&laquo;</span>
                         </a></li>
-                        <li class="previous"><a href="{% relative_url results.previous_page_number 'page' params %}">
+                        <li class="page-item previous">
+                            <a class="page-link" href="{% relative_url results.previous_page_number 'page' params %}">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a></li>
                     {% else %}
-                        <li class="first disabled"><a href="#">
+                        <li class="page-item first disabled">
+                            <a class="page-link" href="#">
                             <span aria-hidden="true">&laquo;</span>
                         </a></li>
-                        <li class="previous disabled"><a href="#" aria-label="Previous">
+                        <li class="page-item previous disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a></li>
                     {% endif %}
@@ -29,27 +33,35 @@
                     {% for page in page_number_range %}
                         <!-- active case -->
                         {% if page == results.number %}
-                            <li class="active"><a href="{% relative_url page 'page' params %}">{{ page }} <span class="sr-only">(current)</span></a></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="{% relative_url page 'page' params %}">{{ page }} <span class="sr-only">(current)</span></a>
+                            </li>
                         {% elif page > 5 and page > results.number|add:"+2" %}
                         {% elif page < results.paginator.num_pages|add:"-4" and page < results.number|add:"-2" %}
                         {% else %}
-                            <li><a href="{% relative_url page 'page' params %}">{{ page }} </a></li>
+                            <li>
+                                <a class="page-link" href="{% relative_url page 'page' params %}">{{ page }} </a>
+                            </li>
                         {% endif %}
                     {% endfor %}
 
                     <!-- Next and last links -->
                     {% if results.has_next %}
-                        <li class="next"><a href="{% relative_url results.next_page_number 'page' params %}">
+                        <li class="page-item next">
+                            <a class="page-link" href="{% relative_url results.next_page_number 'page' params %}">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a></li>
-                        <li class="last"><a href="{% relative_url results.paginator.num_pages 'page' params %}">
+                        <li class="page-item last">
+                            <a class="page-link" href="{% relative_url results.paginator.num_pages 'page' params %}">
                             <span aria-hidden="true">&raquo;</span>
                         </a></li>
                     {% else %}
-                        <li class="next disabled"><a href="#">
+                        <li class="page-item next disabled">
+                            <a class="page-link" href="#">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a></li>
-                        <li class="last disabled"><a href="#">
+                        <li class="page-item last disabled">
+                            <a class="page-link" href="#">
                             <span aria-hidden="true">&raquo;</span>
                         </a></li>
                     {% endif %}
