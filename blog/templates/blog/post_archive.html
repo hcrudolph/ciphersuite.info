@@ -1,35 +1,36 @@
 {% extends "directory/base.html" %}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        {% if archive_type == 'by_tag' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} tagged with "{{ term }}"</h1>
-        {% elif archive_type == 'by_category' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} categorized as "{{ term }}"</h1>
-        {% elif archive_type == 'by_author' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} by {{ term }}</h1>
-        {% elif archive_type == 'by_year' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} in {{ term }}</h1>
-        {% elif archive_type == 'by_month' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} from {{ term|date:"F Y" }}</h1>
-        {% elif archive_type == 'by_day' %}
-            <h1>{{ post_list|length }} {% if post_list|length == 1 %}Post{% else %}Posts{% endif %} on {{ term|date:"F j, Y" }}</h1>
-        {% endif %}
-    </div><!-- end column -->
-</div>
+<div class="container">
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
+            {% if archive_type == 'by_tag' %}
+                <h1>{{ post_list|length }} {% if post_list|length == 1 %}post{% else %}posts{% endif %} tagged with "{{ term }}"</h1>
+            {% elif archive_type == 'by_category' %}
+                <h1>{{ post_list|length }} {% if post_list|length == 1 %}post{% else %}posts{% endif %} categorized as "{{ term }}"</h1>
+            {% elif archive_type == 'by_author' %}
+                <h1>{{ post_list|length }} {% if post_list|length == 1 %}post{% else %}posts{% endif %} by {{ term }}</h1>
+            {% elif archive_type == 'by_year' %}
+                <h1>{{ post_list|length }} {% if post_list|length == 1 %}post{% else %}posts{% endif %} in {{ term }}</h1>
+            {% elif archive_type == 'by_month' %}
+                <h1>{{ post_list|length }} {% if post_list|length == 1 %}post{% else %}posts{% endif %} from {{ term|date:"F Y" }}</h1>
+            {% elif archive_type == 'by_day' %}
+                <h1>{{ post_list|length }} {% if post_list|length == 1 %}post{% else %}posts{% endif %} on {{ term|date:"F j, Y" }}</h1>
+            {% endif %}
+        </div><!-- end column -->
+    </div>
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <ul class="post-list">
-        {% for post in post_list %}
-        <li><a href="/blog/{{ post.first_published|date:"Y" }}/{{ post.first_published|date:"m" }}/{{ post.first_published|date:"d" }}/{{ post.slug }}">
-                    <p class="recent-post-title"><span class="small light">{{ post.first_published|date:"Y-m-d" }}</span> <span class="bold">{{ post }}</span></p>
-                    <p class="post-intro-preview">{{ post.intro }}</p>
-        </a></li>
-        {% endfor %}
-        </ul>
-    </div><!-- end column -->
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
+            <ul class="post-list">
+            {% for post in post_list %}
+            <li><a href="/blog/{{ post.first_published|date:"Y" }}/{{ post.first_published|date:"m" }}/{{ post.first_published|date:"d" }}/{{ post.slug }}">
+                <p class="recent-post-title"><span class="small light">{{ post.first_published|date:"Y-m-d" }}</span> <span class="bold">{{ post }}</span></p>
+                <p class="post-intro-preview">{{ post.intro }}</p>
+            </a></li>
+            {% endfor %}
+            </ul>
+        </div><!-- end column -->
+    </div>
 </div>
-
 {% endblock content %}

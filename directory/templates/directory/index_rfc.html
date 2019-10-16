@@ -4,31 +4,33 @@
 
 <div class="container">
 {% with params=request.GET.urlencode %}
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
             <h1>RFCs</h1>
-            <p>
-            <div class="btn-group inline-button">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort by <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{% relative_url 'number-asc' 'sorting' params %}">Number ascending</a></li>
-                    <li><a href="{% relative_url 'number-desc' 'sorting' params %}">Number descending</a></li>
-                    <li><a href="{% relative_url 'title-asc' 'sorting' params %}">Title ascending</a></li>
-                    <li><a href="{% relative_url 'title-desc' 'sorting' params %}">Title descending</a></li>
-                </ul>
-            </div> <!-- end button group --> 
-            <div class="btn-group" role="group" aria-label="...">
-                <a href="{% relative_url 'false' 'singlepage' params %}" class="btn btn-default {% if singlepage != 'true' %}active{% endif %}">Paginated</a>
-                <a href="{% relative_url 'true' 'singlepage' params %}" class="btn btn-default {% if singlepage == 'true' %}active{% endif %}">Single Page</a>
-            </div>
-            </p>
         </div><!-- end column -->
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="btn-group my-3">
+                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort by <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% relative_url 'number-asc' 'sorting' params %}">Number ascending</a>
+                        <a class="dropdown-item" href="{% relative_url 'number-desc' 'sorting' params %}">Number descending</a>
+                        <a class="dropdown-item" href="{% relative_url 'title-asc' 'sorting' params %}">Title ascending</a>
+                        <a class="dropdown-item" href="{% relative_url 'title-desc' 'sorting' params %}">Title descending</a>
+                    </div>
+                </div> <!-- end button group --> 
+                <div class="btn-group" role="group" aria-label="...">
+                    <a href="{% relative_url 'false' 'singlepage' params %}" class="btn btn-light {% if singlepage != 'true' %}active{% endif %}">Paginated</a>
+                    <a href="{% relative_url 'true' 'singlepage' params %}" class="btn btn-light {% if singlepage == 'true' %}active{% endif %}">Single Page</a>
+                </div>
+            </div>
+        </div>
     </div><!-- end row -->
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="row flex-row justify-content-center mb-3">
+        <div class="col-lg-8 col-lg-offset-2">
             {% if results %}
                 <ul class="prettylist">
                 {% for rfc in results %}

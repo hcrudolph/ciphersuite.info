@@ -241,48 +241,54 @@ class CipherSuite(PrintableModel):
         blank=True,
         default='',
     )
-
-    @property
-    def insecure(self):
-        if self in CipherSuite.custom_filters.insecure():
-            return True
-        else:
-            return False
-
-    @property
-    def weak(self):
-        if self in CipherSuite.custom_filters.weak():
-            return True
-        else:
-            return False
-
-    @property
-    def secure(self):
-        if self in CipherSuite.custom_filters.secure():
-            return True
-        else:
-            return False
+    # security level
+    REC = 0
+    SEC = 1
+    WEK = 2
+    INS = 3
+    SECURITY_CHOICES = (
+        (REC, 'recommended'),
+        (SEC, 'secure'),
+        (WEK, 'weak'),
+        (INS, 'insecure')
+    )
+    security = models.IntegerField(
+        verbose_name=_('security level'),
+        choices=SECURITY_CHOICES,
+        default=3,
+        blank=True,
+        editable=True,
+    )
 
     @property
     def recommended(self):
-        if self in CipherSuite.custom_filters.recommended():
+        if self.security == 0:
             return True
-        else:
-            return False
+    
+    @property
+    def secure(self):
+        if self.security == 1:
+            return True
+
+    @property
+    def weak(self):
+        if self.security == 2:
+            return True
+
+    @property
+    def insecure(self):
+        if self.security == 3:
+            return True
 
     @property
     def gnutls_cipher(self):
         if self.gnutls_name:
             return True
-        else:
-            return False
 
     @property
     def openssl_cipher(self):
         if self.openssl_name:
             return True
-        else:
-            return False
 
     @property
     def tls10_cipher(self):
@@ -291,24 +297,18 @@ class CipherSuite(PrintableModel):
         if v0 in self.tls_version.all() or \
            v1 in self.tls_version.all():
             return True
-        else:
-            return False
 
     @property
     def tls12_cipher(self):
         v = TlsVersion.objects.get(major=1, minor=2)
         if v in self.tls_version.all():
             return True
-        else:
-            return False
 
     @property
     def tls13_cipher(self):
         v = TlsVersion.objects.get(major=1, minor=3)
         if v in self.tls_version.all():
             return True
-        else:
-            return False
 
     objects = models.Manager()
     custom_filters = CipherSuiteQuerySet.as_manager()

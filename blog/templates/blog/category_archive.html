@@ -1,22 +1,24 @@
 {% extends "directory/base.html" %}
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h1>{{ category_list|length }} {% if category_list|length == 1 %}Category{% else %}Categories{% endif %}</h1>
-    </div><!-- end column -->
-</div>
+<div class="container">
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h1>{{ category_list|length }} {% if category_list|length == 1 %}Category{% else %}Categories{% endif %}</h1>
+        </div><!-- end column -->
+    </div>
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <ul>
-        {% for category in category_list %}
-        <li>
-            <a href="/blog/categories/{{ category.slug }}">{{ category }}</a>
-        </li>
-        {% endfor %}
-        </ul>
-    </div><!-- end column -->
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
+            <ul>
+            {% for category in category_list %}
+            <li>
+                <a href="/blog/categories/{{ category.slug }}">{{ category }}</a>
+            </li>
+            {% endfor %}
+            </ul>
+        </div><!-- end column -->
+    </div>
 </div>
 
 {% endblock content %}

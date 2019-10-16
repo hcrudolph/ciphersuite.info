@@ -4,23 +4,25 @@
 
 <div class="container">
 {% with params=request.GET.urlencode %}
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h1>{{ count }} Cipher Suites</h1>
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
+                <h1>{{ count }} Cipher Suites</h1>
+        </div><!-- end column -->
+        <div class="col-xl-8 col-xl-offset-2">
             {% include "directory/list_filters.html" %}
         </div><!-- end column -->
     </div><!-- end row -->
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="row flex-row justify-content-center mb-3">
+        <div class="col-lg-8 col-lg-offset-2">
         {% if results %}
             <ul class="prettylist">
                 {% for cipher_suite in results %}
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
-                    {% if cipher_suite.insecure %}<span class="label label-fixed-width label-danger">Insecure</span>
-                    {% elif cipher_suite.weak %}<span class="label label-fixed-width label-warning">Weak</span>
-                    {% elif cipher_suite.secure %}<span class="label label-fixed-width label-success">Secure</span>
-                    {% else %}<span class="label label-fixed-width label-recommended">Recommended</span>
+                    {% if cipher_suite.insecure %}<span class="badge badge-fixed-width badge-danger">Insecure</span>
+                    {% elif cipher_suite.weak %}<span class="badge badge-fixed-width badge-warning">Weak</span>
+                    {% elif cipher_suite.secure %}<span class="badge badge-fixed-width badge-success">Secure</span>
+                    {% else %}<span class="badge badge-fixed-width badge-recommended">Recommended</span>
                     {% endif %}
                     {% if search_type == 'openssl' %} {{ cipher_suite.openssl_name }} {% else %} {{ cipher_suite.name }} {% endif %}</a></li>
                 {% endfor %}

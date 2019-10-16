@@ -1,14 +1,15 @@
 {% extends "directory/base.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 mb-25">
+<div class="container">
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
             <h1>RFC {{ rfc.number }}</h1>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="row flex-row justify-content-center">
+        <div class="col-lg-8 col-lg-offset-2">
             <dl class="dl-horizontal">
                 <dt><b>Title:</b></dt>
                 <dd>{{ rfc.title }}</td>
@@ -46,4 +47,5 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock content %}
