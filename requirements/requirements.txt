@@ -6,7 +6,7 @@ chardet==3.0.4
 coverage==4.5.4
 cssselect==1.1.0
 dj-database-url==0.5.0
-Django==2.2.5
+Django==2.2.13
 django-appconf==1.0.3
 django-compressor==2.3
 django-markdown-deux==1.0.5
