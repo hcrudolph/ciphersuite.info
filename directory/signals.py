@@ -107,8 +107,8 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         # split enc again if we only got a number for hsh
         # specifically needed for 'CCM 8' hash algorithm
         if re.match(r'\d+', hsh.strip()):
-            (enc,_,ccm) = enc.rpartition(" ")
-            hsh = ccm + " " + hsh
+            enc += " " + hsh
+            hsh = "SHA256"
 
     # if aut is not excplicitly defined, set it equal to kex
     if not aut:
