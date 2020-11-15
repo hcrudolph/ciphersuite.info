@@ -1,4 +1,4 @@
-@import 'custom-mixins';
+@import 'mixins/_custom-mixins';
 
 $background:        #ffffff;
 $background-alt:    #eeeeee;
@@ -164,11 +164,21 @@ dd {
     padding-bottom: 5px;
 }
 
-.badge-recommended {
+.bg-recommended {
     background: #009a00;
     color: #fff;
 }
-  
+
+.bi {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    font-size: inherit;
+    color: inherit;
+    vertical-align: -0.125em;
+    fill: currentColor;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -215,7 +225,7 @@ code {
     color: #555;
 }
 
-.badge-fixed-width {
+.bg-fixed-width {
     display: inline-block;
     min-width: 65px;
 }
@@ -282,4 +292,3 @@ ul.post-list p.post-intro-preview {
 .dropdown-menu > a.dropdown-item:hover {
     background: $primary-superlight;
 }
-
