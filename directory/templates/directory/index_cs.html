@@ -19,10 +19,10 @@
             <ul class="prettylist">
                 {% for cipher_suite in results %}
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
-                    {% if cipher_suite.insecure %}<span class="badge badge-fixed-width badge-danger">Insecure</span>
-                    {% elif cipher_suite.weak %}<span class="badge badge-fixed-width badge-warning">Weak</span>
-                    {% elif cipher_suite.secure %}<span class="badge badge-fixed-width badge-success">Secure</span>
-                    {% else %}<span class="badge badge-fixed-width badge-recommended">Recommended</span>
+                    {% if cipher_suite.insecure %}<span class="badge bg-fixed-width bg-danger">Insecure</span>
+                    {% elif cipher_suite.weak %}<span class="badge bg-fixed-width bg-warning">Weak</span>
+                    {% elif cipher_suite.secure %}<span class="badge bg-fixed-width bg-success">Secure</span>
+                    {% else %}<span class="badge bg-fixed-width bg-recommended">Recommended</span>
                     {% endif %}
                     {% if search_type == 'openssl' %} {{ cipher_suite.openssl_name }} {% else %} {{ cipher_suite.name }} {% endif %}</a></li>
                 {% endfor %}
@@ -34,7 +34,7 @@
     </div><!-- end row -->
 
     {% include "directory/pagination.html" %}
-    
+
 {% endwith %}
 </div><!-- end container -->
 

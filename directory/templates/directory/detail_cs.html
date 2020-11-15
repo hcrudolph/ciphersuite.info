@@ -19,19 +19,19 @@
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
             <dl class="dl-horizontal">
-                <dt><b>IANA name:</b></dt> 
+                <dt><b>IANA name:</b></dt>
                 <dd class="long-string">{{ cipher_suite.name }} </dd>
                 {% if cipher_suite.openssl_name %}
-                    <dt><b>OpenSSL name:</b></dt> 
+                    <dt><b>OpenSSL name:</b></dt>
                     <dd class="long-string">{{ cipher_suite.openssl_name }}</dd>
                 {% endif %}
                 {% if cipher_suite.gnutls_name %}
-                    <dt><b>GnuTLS name:</b></dt> 
+                    <dt><b>GnuTLS name:</b></dt>
                     <dd class="long-string">{{ cipher_suite.gnutls_name }}</dd>
                 {% endif %}
-                <dt><b>Hex code:</b></dt> 
+                <dt><b>Hex code:</b></dt>
                 <dd>{{ cipher_suite.hex_byte_1 }}, {{ cipher_suite.hex_byte_2 }}</dd>
-                <dt><b>TLS Version(s):</b></dt> 
+                <dt><b>TLS Version(s):</b></dt>
                 <dd>
                     {% for version in cipher_suite.tls_version.all %}
                         {{ version }}{% if not forloop.last %}, {% endif %}
@@ -54,15 +54,24 @@
                     <p>
                     {% if item.severity == 2 %}
                         <div class="alert alert-danger" role="alert">
-                            <i class="fas fa-ban"></i> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                            <svg class="bi bi-exclamation-octagon-fill" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
+                            <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
                     {% elif item.severity == 1 %}
                         <div class="alert alert-warning" role="alert">
-                            <i class="fas fa-exclamation-circle"></i> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                            <svg class="bi bi-exclamation-triangle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 5zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                            </svg>
+                            <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
                     {% else %}
                         <div class="alert alert-info" role="alert">
-                            <i class="fas fa-info-circle"></i> <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                            <svg class="bi bi-info-circle-fill svg-icon" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            </svg>
+                            <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
                         </div>
                     {% endif %}
                     </p>

@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- Result list --> 
+    <!-- Result list -->
     <div class="row flex-row justify-content-center mb-3">
         <div class="col-lg-8 col-lg-offset-2">
             <ul class="prettylist">
@@ -45,13 +45,13 @@
                         <li>
                             <a class="long-string" href="/cs/{{ element }}">
                             {% if element.insecure %}
-                                <span class="badge badge-fixed-width badge-danger">Insecure</span>
+                                <span class="badge bg-fixed-width bg-danger">Insecure</span>
                             {% elif element.weak %}
-                                <span class="badge badge-fixed-width badge-warning">Weak</span>
+                                <span class="badge bg-fixed-width bg-warning">Weak</span>
                             {% elif element.secure %}
-                                <span class="badge badge-fixed-width badge-success">Secure</span>
+                                <span class="badge bg-fixed-width bg-success">Secure</span>
                             {% else %}
-                                <span class="badge badge-fixed-width badge-recommended">Recommended</span>
+                                <span class="badge bg-fixed-width bg-recommended">Recommended</span>
                             {% endif %}
 
                             {% if search_type == 'openssl' and element.openssl_name != '' %}
