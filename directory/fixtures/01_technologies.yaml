@@ -128,16 +128,6 @@
 ###################
 
 - model: directory.HashAlgorithm
-  pk: 'CCM'
-  fields:
-    long_name: 'Counter with CBC-MAC'
-    vulnerabilities: ['Cipher Block Chaining']
-- model: directory.HashAlgorithm
-  pk: 'CCM8'
-  fields:
-    long_name: 'Counter with CBC-MAC 8'
-    vulnerabilities: ['Cipher Block Chaining']
-- model: directory.HashAlgorithm
   pk: 'MD5'
   fields:
     long_name: 'Message Digest 5'
@@ -197,6 +187,26 @@
   fields:
     long_name: 'Advanced Encryption Standard with 256bit key in Cipher Block Chaining mode'
     vulnerabilities: ['Cipher Block Chaining']
+- model: directory.EncAlgorithm
+  pk: 'AES 128 CCM'
+  fields:
+    long_name: 'Advanced Encryption Standard with 128bit key in Counter with CBC-MAC mode'
+    vulnerabilities: []
+- model: directory.EncAlgorithm
+  pk: 'AES 128 CCM 8'
+  fields:
+    long_name: 'Advanced Encryption Standard with 128bit key in Counter with CBC-MAC mode with 8-Octet ICV'
+    vulnerabilities: []
+- model: directory.EncAlgorithm
+  pk: 'AES 256 CCM'
+  fields:
+    long_name: 'Advanced Encryption Standard with 256bit key in Counter with CBC-MAC mode'
+    vulnerabilities: []
+- model: directory.EncAlgorithm
+  pk: 'AES 256 CCM 8'
+  fields:
+    long_name: 'Advanced Encryption Standard with 256bit key in Counter with CBC-MAC mode with an 8-Octet ICV'
+    vulnerabilities: []
 - model: directory.EncAlgorithm
   pk: 'AES 256 GCM'
   fields:
