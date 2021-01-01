@@ -1,4 +1,5 @@
 # Custom rules
+.DS_Store
 *.css.map
 staticfiles/
 
