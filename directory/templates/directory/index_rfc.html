@@ -11,16 +11,16 @@
         <div class="col-lg-8 col-lg-offset-2">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <div class="btn-group my-3">
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button id="sortDropdownButton" type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Sort by <span class="caret"></span>
                     </button>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu" aria-labelledby="sortDropdownButton">
                         <a class="dropdown-item" href="{% relative_url 'number-asc' 'sorting' params %}">Number ascending</a>
                         <a class="dropdown-item" href="{% relative_url 'number-desc' 'sorting' params %}">Number descending</a>
                         <a class="dropdown-item" href="{% relative_url 'title-asc' 'sorting' params %}">Title ascending</a>
                         <a class="dropdown-item" href="{% relative_url 'title-desc' 'sorting' params %}">Title descending</a>
                     </div>
-                </div> <!-- end button group --> 
+                </div> <!-- end button group -->
                 <div class="btn-group" role="group" aria-label="...">
                     <a href="{% relative_url 'false' 'singlepage' params %}" class="btn btn-light {% if singlepage != 'true' %}active{% endif %}">Paginated</a>
                     <a href="{% relative_url 'true' 'singlepage' params %}" class="btn btn-light {% if singlepage == 'true' %}active{% endif %}">Single Page</a>

@@ -34,7 +34,7 @@
                         <!-- active case -->
                         {% if page == results.number %}
                             <li class="page-item active">
-                                <a class="page-link" href="{% relative_url page 'page' params %}">{{ page }} <span class="sr-only">(current)</span></a>
+                                <a class="page-link" href="{% relative_url page 'page' params %}">{{ page }}</a>
                             </li>
                         {% elif page > 5 and page > results.number|add:"+2" %}
                         {% elif page < results.paginator.num_pages|add:"-4" and page < results.number|add:"-2" %}
