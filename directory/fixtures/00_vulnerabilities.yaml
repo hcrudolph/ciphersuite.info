@@ -2,12 +2,12 @@
   pk: 'Export-grade cipher suite'
   fields:
     severity: 2
-    description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted. Nowadays, they are considered insecure (cf. [FREAK Attack](https://freakattack.com/)).'
+    description: 'Export ciphers used to be legally exportable from the United States of America in the 1990s, when exporting military technology was heavily restricted. Nowadays, they are considered insecure (see [freakattack.com](https://freakattack.com/)).'
 - model: directory.Vulnerability
   pk: 'Secure Hash Algorithm 1'
   fields:
     severity: 1
-    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (cf. [shattered.io](https://shattered.io)).'
+    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (see [shattered.io](https://shattered.io)).'
 - model: directory.Vulnerability
   pk: 'Message Digest 5'
   fields:
@@ -42,7 +42,7 @@
   pk: 'Triple-DES'
   fields:
     severity: 1
-    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it has been proven to suffer from several vulnerabilities in the past (cf. [Sweet32](https://sweet32.info)).'
+    description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it has been proven to suffer from several vulnerabilities in the past (see [sweet32.info](https://sweet32.info)).'
 - model: directory.Vulnerability
   pk: 'Non-ephemeral Diffie-Hellman'
   fields:
@@ -51,10 +51,15 @@
 - model: directory.Vulnerability
   pk: 'Cipher Block Chaining'
   fields:
-    severity: 0
-    description: 'The CBC mode is vulnerable to plain-text attacks with TLS 1.0, SSL 3.0 and lower. However a real fix is implemented with TLS 1.2 in which the GCM mode was introduced and which is not vulnerable to the BEAST attack. GCM should be preferred over CBC (cf. [BEAST](https://bug665814.bmoattachments.org/attachment.cgi?id=540839)).'
+    severity: 1
+    description: 'In 2013, researchers demonstrated a timing attack against several TLS implementations using the CBC encryption algorithm (see [isg.rhul.ac.uk](http://www.isg.rhul.ac.uk/tls/Lucky13.html)). Additionally, the CBC mode is vulnerable to plain-text attacks in TLS 1.0, SSL 3.0 and lower. A fix has been introduced with TLS 1.2 in form of the GCM mode which is not vulnerable to the BEAST attack. GCM should be preferred over CBC.'
 - model: directory.Vulnerability
   pk: 'Rivest Cipher 2'
   fields:
     severity: 2
-    description: 'There exists a related-key attack found in 1997. With this attack, RC2 can be broken (cf. [ RC2 related-key analysis](https://www.schneier.com/academic/paperfiles/paper-relatedkey.pdf)).'
+    description: 'There exists a related-key attack found in 1997. With this attack, RC2 can be broken (see [schneier.com](https://www.schneier.com/academic/paperfiles/paper-relatedkey.pdf)).'
+- model: directory.Vulnerability
+  pk: 'RSA Authentication'
+  fields:
+    severity: 0
+    description: 'There are reports that servers using the RSA authentication algorithm with keys longer than 3072-bit may experience heavy performance issues leading to connection timeouts and even service unavailability if many clients open simultaneous connections.'

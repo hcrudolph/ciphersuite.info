@@ -56,7 +56,7 @@
   pk: 'RSA'
   fields:
     long_name: 'Rivest Shamir Adleman algorithm'
-    vulnerabilities: []
+    vulnerabilities: ['RSA Authentication']
 - model: directory.AuthAlgorithm
   pk: 'SHA'
   fields:
