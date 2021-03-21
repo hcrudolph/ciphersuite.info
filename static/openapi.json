@@ -9,12 +9,12 @@
     },
     "license": {
       "name": "MIT License",
-      "url": "https://git.hcrudolph.com/hcrudolph/ciphersuite.info/blob/master/LICENSE"
+      "url": "https://github.com/hcrudolph/ciphersuite.info/blob/master/LICENSE"
     }
   },
   "servers": [
     {
-      "url": "https://api.ciphersuite.info"
+      "url": "https://ciphersuite.info/api"
     }
   ],
   "tags": [

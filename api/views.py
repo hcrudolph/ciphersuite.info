@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, HttpResponse, Http404
 from directory.models import CipherSuite, Rfc
 import json
 
@@ -23,7 +23,10 @@ def reformat_rfc(rfc):
 
 
 def api_root(request):
-    return redirect('/static/openapi.json')
+    api_definition = open('./static/openapi.json', 'rb')
+    response = HttpResponse(content=api_definition)
+    response['Content-Type'] = 'application/json'
+    return response
 
 
 def cs_all(request):
