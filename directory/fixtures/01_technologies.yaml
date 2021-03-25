@@ -152,6 +152,11 @@
   fields:
     long_name: 'Secure Hash Algorithm 384'
     vulnerabilities: []
+- model: directory.HashAlgorithm
+  pk: 'SM3'
+  fields:
+    long_name: 'ShangMi 3 Hashing Algorithm'
+    vulnerabilities: ['ShangMi 3 Hash']
 
 #########################
 # Encryption Algorithms #
@@ -302,3 +307,8 @@
   fields:
     long_name: 'SEED in Cipher Block Chaining mode'
     vulnerabilities: ['Cipher Block Chaining']
+- model: directory.HashAlgorithm
+  pk: 'SM4'
+  fields:
+    long_name: 'ShangMi 4 Encryption Algorithm'
+    vulnerabilities: ['ShangMi 4 Encryption']

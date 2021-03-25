@@ -63,3 +63,14 @@
   fields:
     severity: 0
     description: 'There are reports that servers using the RSA authentication algorithm with keys longer than 3072-bit may experience heavy performance issues leading to connection timeouts and even service unavailability if many clients open simultaneous connections.'
+- model: directory.Vulnerability
+  pk: 'ShangMi 3 Hash'
+  fields:
+    severity: 2
+    description: 'The ShangMi 3 (SM3) hashing algorithm is a chinese algorithm, which will be or is already mandatory for TLS encrypted connections in China. The security of this algorithm is not proven and it\'s use is not recommended by the IETF. (see [ietf.org](https://tools.ietf.org/html/rfc8998))'
+
+- model: directory.Vulnerability
+  pk: 'ShangMi 4 Encryption'
+  fields:
+    severity: 2
+    description: 'The ShangMi 4 (SM4) encryption algorithm is a chinese algorithm, which will be or is already mandatory for TLS encrypted connections in China. The security of this algorithm is not proven and it\'s use is not recommended by the IETF. (see [ietf.org](https://tools.ietf.org/html/rfc8998))'
