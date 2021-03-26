@@ -307,8 +307,13 @@
   fields:
     long_name: 'SEED in Cipher Block Chaining mode'
     vulnerabilities: ['Cipher Block Chaining']
-- model: directory.HashAlgorithm
-  pk: 'SM4'
+- model: directory.EncAlgorithm
+  pk: 'SM4 GCM'
   fields:
-    long_name: 'ShangMi 4 Encryption Algorithm'
+    long_name: 'ShangMi 4 Encryption Algorithm in Galois/Counter Mode'
+    vulnerabilities: ['ShangMi 4 Encryption']
+- model: directory.EncAlgorithm
+  pk: 'SM4 CCM'
+  fields:
+    long_name: 'ShangMi 4 Encryption Algorithm in Counter with CBC-MAC mode'
     vulnerabilities: ['ShangMi 4 Encryption']

@@ -75,7 +75,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
     # TLS1.3 ciphers start with 0x13
-    if instance.hex_byte_1 == '0x13':
+    if instance.hex_byte_1 == '0x13' or instance.hex_byte_2 == '0xC6' or instance.hex_byte_2 == '0xC7':
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (enc,_,hsh) = rst.rpartition(" ")
