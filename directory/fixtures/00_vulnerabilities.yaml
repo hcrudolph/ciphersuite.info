@@ -68,7 +68,6 @@
   fields:
     severity: 2
     description: 'The ShangMi 3 (SM3) hashing algorithm is a chinese algorithm, which will be or is already mandatory for TLS encrypted connections in China. The security of this algorithm is not proven and it\'s use is not recommended by the IETF. (see [ietf.org](https://tools.ietf.org/html/rfc8998))'
-
 - model: directory.Vulnerability
   pk: 'ShangMi 4 Encryption'
   fields:
