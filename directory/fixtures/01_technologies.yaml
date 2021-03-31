@@ -56,7 +56,7 @@
   pk: 'RSA'
   fields:
     long_name: 'Rivest Shamir Adleman algorithm'
-    vulnerabilities: []
+    vulnerabilities: ['RSA Authentication']
 - model: directory.AuthAlgorithm
   pk: 'SHA'
   fields:
@@ -152,6 +152,11 @@
   fields:
     long_name: 'Secure Hash Algorithm 384'
     vulnerabilities: []
+- model: directory.HashAlgorithm
+  pk: 'SM3'
+  fields:
+    long_name: 'ShangMi 3 Hashing Algorithm'
+    vulnerabilities: ['ShangMi 3 Hash']
 
 #########################
 # Encryption Algorithms #
@@ -302,3 +307,13 @@
   fields:
     long_name: 'SEED in Cipher Block Chaining mode'
     vulnerabilities: ['Cipher Block Chaining']
+- model: directory.EncAlgorithm
+  pk: 'SM4 GCM'
+  fields:
+    long_name: 'ShangMi 4 Encryption Algorithm in Galois/Counter Mode'
+    vulnerabilities: ['ShangMi 4 Encryption']
+- model: directory.EncAlgorithm
+  pk: 'SM4 CCM'
+  fields:
+    long_name: 'ShangMi 4 Encryption Algorithm in Counter with CBC-MAC mode'
+    vulnerabilities: ['ShangMi 4 Encryption']
