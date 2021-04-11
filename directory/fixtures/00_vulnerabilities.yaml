@@ -44,10 +44,10 @@
     severity: 1
     description: 'While Triple-DES is still recognized as a secure symmetric-key encryption, a more and more standardizations bodies and projects decide to deprecate this algorithm. Though not broken, it has been proven to suffer from several vulnerabilities in the past (see [sweet32.info](https://sweet32.info)).'
 - model: directory.Vulnerability
-  pk: 'Non-ephemeral Diffie-Hellman'
+  pk: 'Non-ephemeral Key Exchange'
   fields:
     severity: 1
-    description: 'Diffie-Hellman key exchanges not using ephemeral keys do not support Perfect Forward Secrecy (PFS) which is recommended, so attackers cannot decrypt the whole communication stream.'
+    description: 'This key exchange algorithm does not support Perfect Forward Secrecy (PFS) which is recommended, so attackers cannot decrypt the complete communication stream.'
 - model: directory.Vulnerability
   pk: 'Cipher Block Chaining'
   fields:

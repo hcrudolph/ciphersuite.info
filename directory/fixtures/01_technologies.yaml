@@ -81,7 +81,7 @@
   pk: 'DH'
   fields:
     long_name: 'Diffie-Hellman'
-    vulnerabilities: ['Non-ephemeral Diffie-Hellman']
+    vulnerabilities: ['Non-ephemeral Key Exchange']
 - model: directory.KexAlgorithm
   pk: 'DHE'
   fields:
@@ -91,7 +91,7 @@
   pk: 'ECDH'
   fields:
     long_name: 'Elliptic Curve Diffie-Hellman'
-    vulnerabilities: ['Non-ephemeral Diffie-Hellman']
+    vulnerabilities: ['Non-ephemeral Key Exchange']
 - model: directory.KexAlgorithm
   pk: 'ECDHE'
   fields:
@@ -101,22 +101,22 @@
   pk: 'KRB5'
   fields:
     long_name: 'Kerberos 5'
-    vulnerabilities: []
+    vulnerabilities: ['Non-ephemeral Key Exchange']
 - model: directory.KexAlgorithm
   pk: 'NULL'
   fields:
     long_name: 'NULL Key exchange'
-    vulnerabilities: []
+    vulnerabilities: ['Non-ephemeral Key Exchange']
 - model: directory.KexAlgorithm
   pk: 'PSK'
   fields:
     long_name: 'Pre-Shared Key'
-    vulnerabilities: []
+    vulnerabilities: ['Non-ephemeral Key Exchange']
 - model: directory.KexAlgorithm
   pk: 'RSA'
   fields:
     long_name: 'Rivest Shamir Adleman algorithm'
-    vulnerabilities: []
+    vulnerabilities: ['Non-ephemeral Key Exchange']
 - model: directory.KexAlgorithm
   pk: 'SRP'
   fields:
