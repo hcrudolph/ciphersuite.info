@@ -29,7 +29,7 @@
                 {% for page in static_pages %}
                     <li class="nav-item {% if navbar_context == page.title %}active{% endif %}">
                         <a class="nav-link" href="/page/{{ page|lower }}/">
-                            {% if page.glyphicon %}<i class="bi {{ page.glyphicon }}"></i>{% endif %}
+                            {% if page.icon %}<i class="bi bi-{{ page.icon }}"></i>{% endif %}
                             {{ page|title }}
                         </a>
                     </li>

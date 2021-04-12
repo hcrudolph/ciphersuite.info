@@ -59,7 +59,7 @@ class CipherSuiteQuerySet(models.QuerySet):
         ).distinct().difference(
             self.insecure()
         )
-            
+
     def insecure(self):
         return self.filter(
             Q(protocol_version__vulnerabilities__severity=2)|
@@ -91,7 +91,7 @@ class CipherSuiteQuerySet(models.QuerySet):
             'kex_algorithm__vulnerabilities__description',
             'hash_algorithm__vulnerabilities__description'
         )
-        
+
         # retrieve list of all results ordered by decreasing relevancy
         ranked_results = CipherSuite.objects.annotate(
             rank=SearchRank(vector, query)
@@ -264,7 +264,7 @@ class CipherSuite(PrintableModel):
     def recommended(self):
         if self.security == 0:
             return True
-    
+
     @property
     def secure(self):
         if self.security == 1:
@@ -473,7 +473,7 @@ class Vulnerability(models.Model):
         max_length=1000,
         blank=True,
     )
-    
+
     SEVERITY_CHOICES = (
         (2, 'High'),
         (1, 'Medium'),
@@ -490,7 +490,7 @@ class Vulnerability(models.Model):
 
 class StaticPage(models.Model):
     class Meta:
-        ordering=['title']
+        ordering=['rank']
         verbose_name=_('static page')
         verbose_name_plural=_('static pages')
 
@@ -498,12 +498,15 @@ class StaticPage(models.Model):
         primary_key=True,
         max_length=50,
     )
+    rank = models.IntegerField(
+        help_text="Defines display order of static pages"
+    )
     content = models.TextField(
         max_length = 10000,
     )
-    glyphicon = models.CharField(
+    icon = models.CharField(
         max_length=50,
-        help_text="For reference, see https://getbootstrap.com/docs/3.3/components#glyphicons"
+        help_text="For reference, see https://icons.getbootstrap.com/"
     )
 
     def __str__(self):
