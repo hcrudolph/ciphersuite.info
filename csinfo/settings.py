@@ -86,6 +86,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'csinfo.wsgi.application'
 
+DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
+
 # Whitenoise storage
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
