@@ -8,9 +8,12 @@ from directory.forms import *
 def index(request):
     """Site-wide index accessed when visiting the web root."""
 
+    announcements = Announcement.objects.all()
+
     context = {
         'hide_navbar_search': True,
         'search_form': MainSearchForm(),
+        'announcements': announcements,
     }
     return render(request, 'directory/index.html', context)
 
@@ -45,7 +48,7 @@ def index_cs(request):
     cs_by_sl = get_cs_by_security_level(sec_level)
     cs_by_sw = get_cs_by_software(software)
     cs_by_tv = get_cs_by_tls_version(tls_version)
-    
+
     # create intersection of all subsets
     cipher_suites = cs_by_sl.intersection(cs_by_sw, cs_by_tv)
 
@@ -76,7 +79,7 @@ def index_cs(request):
         'sorting': sorting,
         'tls_version': tls_version,
     }
-    
+
     return render(request, 'directory/index_cs.html', context)
 
 
@@ -90,7 +93,7 @@ def index_rfc(request):
 
     # sort result list
     rfc_list = sort_rfcs(Rfc.objects.all(), sorting)
-    
+
     # paginate result list depending on GET parameter
     if single_page == 'true':
         rfc_list_paginated = paginate(rfc_list, page, len(rfc_list))
@@ -181,7 +184,7 @@ def search(request):
     # get subsets based on search term
     ranked_list = search_cipher_suites(search_term)
     search_result = CipherSuite.objects.filter(pk__in=ranked_list.values_list('name', flat=True))
-    
+
     # get subsets based on list filters
     cs_by_sl = get_cs_by_security_level(sec_level)
     cs_by_sw = get_cs_by_software(software)

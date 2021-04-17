@@ -511,3 +511,36 @@ class StaticPage(models.Model):
 
     def __str__(self):
         return self.title
+
+class Announcement(models.Model):
+    class Meta:
+        ordering=['rank']
+
+    SEVERITY_OPTIONS = (
+        ('info', 'Info'),
+        ('success', 'Success'),
+        ('warning', 'Warning'),
+        ('danger', 'Danger'),
+    )
+
+    rank = models.IntegerField(
+        help_text="Defines display order of announcements"
+    )
+    text = models.CharField(
+        max_length=250,
+    )
+    severity = models.CharField(
+        max_length=10,
+        choices=SEVERITY_OPTIONS
+    )
+    dismissable = models.BooleanField(
+        default=False,
+    )
+    emoji = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="For reference, see https://emoji-css.afeld.me/"
+    )
+
+    def __str__(self):
+        return self.text[0:30] + "..."
