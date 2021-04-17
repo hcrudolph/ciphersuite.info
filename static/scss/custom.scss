@@ -90,7 +90,7 @@ a:hover {
 
 .title-heading {
     font-size: 4em;
-    margin-top: 20%;
+    margin-top: 7.5%;
     margin-bottom: 7.5%;
 }
 
@@ -98,10 +98,6 @@ a:hover {
 .borderless td,
 .borderless th {
     border: none !important;
-}
-
-* {
-    @include border-radius(0px !important);
 }
 
 .rfclist {

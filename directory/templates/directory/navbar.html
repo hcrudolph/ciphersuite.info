@@ -39,11 +39,9 @@
             <form class="form-inline my-2 my-md-0" action="/search?q={{ search_form.get_search_term }}" method="get">
                 <div class="form-group input-group">
                     {{ search_form }}
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
             </form>
         {% endif %}

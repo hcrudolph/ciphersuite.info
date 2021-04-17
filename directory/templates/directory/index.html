@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-md-offset-2 mb-4">
-            <h1 class="title-heading centered-text">TLS Cipher Suite Search</h1>
+            <h1 class="title-heading centered-text">TLS Ciphersuite Search</h1>
         </div><!-- end column -->
 
         <div class="col-lg-8 col-md-offset-2">
@@ -12,14 +12,15 @@
                 <form class="form-group input-group input-group-lg" action="/search?q={{ search_form.get_search_term }}" method="get">
                     {{ search_form }}
                     <div class="input-group-append">
-                        <button class="btn btn-primary btn-lg" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
+                    <button class="btn btn-primary btn-lg" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
                     </div>
                 </form>
             </div><!-- end end input -->
         </div><!-- end column -->
-
+    </div>
+    <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-md-offset-2">
             <div class="alert alert-info help-text centered-text" role="alert">
                 <i class="bi bi-info-circle-fill"></i>
