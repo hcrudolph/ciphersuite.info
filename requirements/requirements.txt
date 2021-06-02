@@ -22,5 +22,5 @@ requests==2.25.1
 rjsmin==1.1.0
 six==1.15.0
 sqlparse==0.4.1
-urllib3==1.26.4
+urllib3==1.26.5
 whitenoise==5.2.0
