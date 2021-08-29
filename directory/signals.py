@@ -110,6 +110,10 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
             enc += " " + hsh
             hsh = "SHA256"
 
+        if kex.strip() == "PSK" and aut.strip() == "DHE":
+            kex = "DHE"
+            aut = "PSK"
+
     # if aut is not excplicitly defined, set it equal to kex
     if not aut:
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
