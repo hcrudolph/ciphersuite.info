@@ -22,7 +22,7 @@ def get_cs_by_security_level(sec_level):
     if sec_level == 'recommended':
         return CipherSuite.objects.filter(security=0)
     elif sec_level == 'secure':
-        return CipherSuite.objects.filter(security=1)
+        return CipherSuite.objects.filter(security__lte=1)
     elif sec_level == 'weak':
         return CipherSuite.objects.filter(security=2)
     elif sec_level == 'insecure':
@@ -60,7 +60,7 @@ def filter_cs_by_sec_level(cipher_suites, sec_level):
     elif sec_level == 'weak':
         return cipher_suites.intersection(CipherSuite.objects.filter(security=2))
     elif sec_level == 'secure':
-        return cipher_suites.intersection(CipherSuite.objects.filter(security=1))
+        return cipher_suites.intersection(CipherSuite.objects.filter(security__lte=1))
     elif sec_level == 'recommended':
         return cipher_suites.intersection(CipherSuite.objects.filter(security=0))
     else:
@@ -99,7 +99,7 @@ def search_rfcs(search_term):
     return Rfc.custom_filters.search(search_term)
 
 def search_cipher_suites(search_term):
-    """Returns a QuerySet of all CipherSuite instances, whose name, 
+    """Returns a QuerySet of all CipherSuite instances, whose name,
     algorithms or their vulnerabilities contain the given search term"""
 
     return CipherSuite.custom_filters.search(search_term)
