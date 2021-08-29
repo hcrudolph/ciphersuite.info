@@ -509,6 +509,10 @@ class StaticPage(models.Model):
         help_text="For reference, see https://icons.getbootstrap.com/"
     )
 
+    direct_link = models.BooleanField(
+        default=False
+    )
+
     def __str__(self):
         return self.title
 
