@@ -8,8 +8,8 @@
             <h1 class="mb-4">
             {% if cipher_suite.insecure %}<span class="text-danger">Insecure</span>
             {% elif cipher_suite.weak %}<span class="text-warning">Weak</span>
-            {% elif cipher_suite.secure %}<span class="text-success">Secure</span>
-            {% else %}<span class="text-recommended">Recommended</span>
+            {% elif cipher_suite.secure %}<span class="text-secure">Secure</span>
+            {% else %}<span class="text-success">Recommended</span>
             {% endif %}
             Cipher Suite
             </h1>

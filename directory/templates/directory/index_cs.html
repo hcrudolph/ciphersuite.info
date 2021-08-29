@@ -21,8 +21,8 @@
                 <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
                     {% if cipher_suite.insecure %}<span class="badge bg-fixed-width bg-danger">Insecure</span>
                     {% elif cipher_suite.weak %}<span class="badge bg-fixed-width bg-warning">Weak</span>
-                    {% elif cipher_suite.secure %}<span class="badge bg-fixed-width bg-success">Secure</span>
-                    {% else %}<span class="badge bg-fixed-width bg-recommended">Recommended</span>
+                    {% elif cipher_suite.secure %}<span class="badge bg-fixed-width bg-secure">Secure</span>
+                    {% else %}<span class="badge bg-fixed-width bg-success">Recommended</span>
                     {% endif %}
                     {% if search_type == 'openssl' %} {{ cipher_suite.openssl_name }} {% else %} {{ cipher_suite.name }} {% endif %}</a></li>
                 {% endfor %}

@@ -49,9 +49,9 @@
                             {% elif element.weak %}
                                 <span class="badge bg-fixed-width bg-warning">Weak</span>
                             {% elif element.secure %}
-                                <span class="badge bg-fixed-width bg-success">Secure</span>
+                                <span class="badge bg-fixed-width bg-secure">Secure</span>
                             {% else %}
-                                <span class="badge bg-fixed-width bg-recommended">Recommended</span>
+                                <span class="badge bg-fixed-width bg-success">Recommended</span>
                             {% endif %}
 
                             {% if search_type == 'openssl' and element.openssl_name != '' %}
