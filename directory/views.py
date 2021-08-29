@@ -1,8 +1,8 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.db.models import Value, FloatField
+from django.shortcuts import get_object_or_404, render
 from directory.helpers import *
 from directory.models import *
 from directory.forms import *
+import re
 
 
 def index(request):
@@ -169,7 +169,7 @@ def search(request):
     """Search functionality and result page for Rfc and CipherSuite instances."""
 
     # parse GET parameters
-    search_term = request.GET.get('q', '')
+    search_term = re.sub('[^A-Za-z0-9_-]+', '', request.GET.get('q', ''))
     sec_level = request.GET.get('security', 'all')
     sorting = request.GET.get('sort', 'rel')
     tls_version = request.GET.get('tls', 'all')
