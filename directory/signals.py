@@ -34,23 +34,23 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         tree = html.fromstring(response.content)
         # concat all fields possibly containing doc status
         docinfo = " ".join(
-            tree.xpath('//span[@class="pre noprint docinfo"]/text()')
+            tree.xpath('//pre[@class="pre meta-info"]/text()')
         )
 
         # search for predefined options
-        if re.search('INTERNET STANDARD', docinfo):
+        if re.search('INTERNET STANDARD', docinfo, re.IGNORECASE):
             return 'IST'
-        elif re.search('PROPOSED STANDARD', docinfo):
+        elif re.search('PROPOSED STANDARD', docinfo, re.IGNORECASE):
             return 'PST'
-        elif re.search('DRAFT STANDARD', docinfo):
+        elif re.search('DRAFT STANDARD', docinfo, re.IGNORECASE):
             return 'DST'
-        elif re.search('BEST CURRENT PRACTISE', docinfo):
+        elif re.search('BEST CURRENT PRACTISE', docinfo, re.IGNORECASE):
             return 'BCP'
-        elif re.search('INFORMATIONAL', docinfo):
+        elif re.search('INFORMATIONAL', docinfo, re.IGNORECASE):
             return 'INF'
-        elif re.search('EXPERIMENTAL', docinfo):
+        elif re.search('EXPERIMENTAL', docinfo, re.IGNORECASE):
             return 'EXP'
-        elif re.search('HISTORIC', docinfo):
+        elif re.search('HISTORIC', docinfo, re.IGNORECASE):
             return 'HST'
         else:
             return 'UND'
