@@ -495,11 +495,8 @@ class StaticPage(models.Model):
         verbose_name_plural=_('static pages')
 
     title = models.CharField(
-        primary_key=True,
         max_length=50,
-    )
-    rank = models.IntegerField(
-        help_text="Defines display order of static pages"
+        unique=True
     )
     content = models.TextField(
         max_length = 10000,
@@ -508,13 +505,19 @@ class StaticPage(models.Model):
         max_length=50,
         help_text="For reference, see https://icons.getbootstrap.com/"
     )
-
+    rank = models.IntegerField(
+        help_text="Defines display order of static pages"
+    )
+    show_in_nav = models.BooleanField(
+        default=True
+    )
     direct_link = models.BooleanField(
         default=False
     )
 
     def __str__(self):
         return self.title
+
 
 class Announcement(models.Model):
     class Meta:

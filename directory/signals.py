@@ -160,3 +160,9 @@ def complete_cs_names(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=TlsVersion)
 def complete_tls_version(sender, instance, *args, **kwargs):
     instance.short = f"{instance.major}{instance.minor}"
+
+
+@receiver(pre_save, sender=StaticPage)
+def complete_cs_names(sender, instance, *args, **kwargs):
+    if instance.show_in_nav == False:
+        instance.direct_link = False

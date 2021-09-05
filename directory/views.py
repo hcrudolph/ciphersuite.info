@@ -22,7 +22,7 @@ def static_page(request, sp_name):
     """Generic static page, to be created in admin interface."""
 
     # query result
-    page = get_object_or_404(StaticPage, pk=sp_name)
+    page = get_object_or_404(StaticPage, title__iexact=sp_name)
 
     context = {
         'navbar_context': page.title,
