@@ -31,7 +31,8 @@ class CipherSuiteQuerySet(models.QuerySet):
                 Q(kex_algorithm__vulnerabilities__severity__gte=0)|
                 Q(enc_algorithm__vulnerabilities__severity__gte=0)|
                 Q(auth_algorithm__vulnerabilities__severity__gte=0)|
-                Q(hash_algorithm__vulnerabilities__severity__gte=0)
+                Q(hash_algorithm__vulnerabilities__severity__gte=0)|
+                Q(enc_algorithm__short_name__icontains="CCM")
             ) & (
                 Q(kex_algorithm__short_name__icontains='DHE')|
                 Q(tls_version__short='13')
