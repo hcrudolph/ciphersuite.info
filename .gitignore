@@ -2,7 +2,6 @@
 .DS_Store
 *.css.map
 .vscode/
-staticfiles/
 migrations/
 
 # Byte-compiled / optimized / DLL files
