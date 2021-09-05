@@ -42,9 +42,9 @@
                 <dt><b>{% cycle 'Protocol' 'Key Exchange' 'Authentication' 'Encryption' 'Hash' as atype %}:</b></dt>
                 <dd>
                     {% if atype == 'Encryption' and cipher_suite.enc_algorithm.aead_algorithm %}
-                        <span class="badge bg-secondary">AEAD</span>
+                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Authenticated Encryption with Associated Data">AEAD</span>
                     {% elif atype == 'Hash' and not cipher_suite.enc_algorithm.aead_algorithm %}
-                        <span class="badge bg-secondary">HMAC</span>
+                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Hash-based Message Authentication Code">HMAC</span>
                     {% endif %}
                     {% if algo.long_name %}
                         {{ algo.long_name }} ({{ algo.short_name }})
@@ -95,3 +95,12 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block customjs %}
+<script>
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
+{% endblock customjs %}
