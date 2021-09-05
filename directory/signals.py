@@ -114,6 +114,12 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
             kex = "DHE"
             aut = "PSK"
 
+    # identify AEAD algorithms
+    aead_flag = False
+    if re.search(r'GCM|POLY1305|CCM', enc, re.IGNORECASE):
+        aead_flag = True
+
+    # connect foreign keys from other models
     # if aut is not excplicitly defined, set it equal to kex
     if not aut:
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
@@ -123,20 +129,18 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
         )
-
-    # connect foreign keys from other models
     instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
         short_name=kex.strip()
     )
-
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()
     )
-    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-        short_name=enc.strip()
-    )
     instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
         short_name=hsh.strip()
+    )
+    instance.enc_algorithm, _ = EncAlgorithm.objects.update_or_create(
+        short_name=enc.strip(),
+        defaults={'aead_algorithm': aead_flag}
     )
 
 

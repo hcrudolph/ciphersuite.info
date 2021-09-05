@@ -453,6 +453,11 @@ class EncAlgorithm(Technology):
         verbose_name=_('encryption algorithm')
         verbose_name_plural=_('encryption algorithms')
 
+    aead_algorithm = models.BooleanField(
+        default=False,
+        null=True
+    )
+
 
 class HashAlgorithm(Technology):
     class Meta(Technology.Meta):
