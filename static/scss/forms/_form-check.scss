@@ -17,7 +17,7 @@
 .form-check-input {
   width: $form-check-input-width;
   height: $form-check-input-width;
-  margin-top: ($line-height-base - $form-check-input-width) / 2; // line-height minus check height
+  margin-top: ($line-height-base - $form-check-input-width) * .5; // line-height minus check height
   vertical-align: top;
   background-color: $form-check-input-bg;
   background-repeat: no-repeat;
@@ -113,6 +113,7 @@
     background-image: escape-svg($form-switch-bg-image);
     background-position: left center;
     @include border-radius($form-switch-border-radius);
+    @include transition($form-switch-transition);
 
     &:focus {
       background-image: escape-svg($form-switch-focus-bg-image);
