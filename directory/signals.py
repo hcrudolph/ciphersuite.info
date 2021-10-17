@@ -34,23 +34,23 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         tree = html.fromstring(response.content)
         # concat all fields possibly containing doc status
         docinfo = " ".join(
-            tree.xpath('//span[@class="pre noprint docinfo"]/text()')
+            tree.xpath('//pre[@class="pre meta-info"]/text()')
         )
 
         # search for predefined options
-        if re.search('INTERNET STANDARD', docinfo):
+        if re.search('INTERNET STANDARD', docinfo, re.IGNORECASE):
             return 'IST'
-        elif re.search('PROPOSED STANDARD', docinfo):
+        elif re.search('PROPOSED STANDARD', docinfo, re.IGNORECASE):
             return 'PST'
-        elif re.search('DRAFT STANDARD', docinfo):
+        elif re.search('DRAFT STANDARD', docinfo, re.IGNORECASE):
             return 'DST'
-        elif re.search('BEST CURRENT PRACTISE', docinfo):
+        elif re.search('BEST CURRENT PRACTISE', docinfo, re.IGNORECASE):
             return 'BCP'
-        elif re.search('INFORMATIONAL', docinfo):
+        elif re.search('INFORMATIONAL', docinfo, re.IGNORECASE):
             return 'INF'
-        elif re.search('EXPERIMENTAL', docinfo):
+        elif re.search('EXPERIMENTAL', docinfo, re.IGNORECASE):
             return 'EXP'
-        elif re.search('HISTORIC', docinfo):
+        elif re.search('HISTORIC', docinfo, re.IGNORECASE):
             return 'HST'
         else:
             return 'UND'
@@ -110,6 +110,16 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
             enc += " " + hsh
             hsh = "SHA256"
 
+        if kex.strip() == "PSK" and aut.strip() == "DHE":
+            kex = "DHE"
+            aut = "PSK"
+
+    # identify AEAD algorithms
+    aead_flag = False
+    if re.search(r'GCM|POLY1305|CCM', enc, re.IGNORECASE):
+        aead_flag = True
+
+    # connect foreign keys from other models
     # if aut is not excplicitly defined, set it equal to kex
     if not aut:
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
@@ -119,20 +129,18 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
         )
-
-    # connect foreign keys from other models
     instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
         short_name=kex.strip()
     )
-
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()
     )
-    instance.enc_algorithm, _ = EncAlgorithm.objects.get_or_create(
-        short_name=enc.strip()
-    )
     instance.hash_algorithm, _ = HashAlgorithm.objects.get_or_create(
         short_name=hsh.strip()
+    )
+    instance.enc_algorithm, _ = EncAlgorithm.objects.update_or_create(
+        short_name=enc.strip(),
+        defaults={'aead_algorithm': aead_flag}
     )
 
 
@@ -156,3 +164,9 @@ def complete_cs_names(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=TlsVersion)
 def complete_tls_version(sender, instance, *args, **kwargs):
     instance.short = f"{instance.major}{instance.minor}"
+
+
+@receiver(pre_save, sender=StaticPage)
+def complete_cs_names(sender, instance, *args, **kwargs):
+    if instance.show_in_nav == False:
+        instance.direct_link = False

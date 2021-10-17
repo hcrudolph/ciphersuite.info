@@ -31,7 +31,8 @@ class CipherSuiteQuerySet(models.QuerySet):
                 Q(kex_algorithm__vulnerabilities__severity__gte=0)|
                 Q(enc_algorithm__vulnerabilities__severity__gte=0)|
                 Q(auth_algorithm__vulnerabilities__severity__gte=0)|
-                Q(hash_algorithm__vulnerabilities__severity__gte=0)
+                Q(hash_algorithm__vulnerabilities__severity__gte=0)|
+                Q(enc_algorithm__short_name__icontains="CCM")
             ) & (
                 Q(kex_algorithm__short_name__icontains='DHE')|
                 Q(tls_version__short='13')
@@ -452,6 +453,11 @@ class EncAlgorithm(Technology):
         verbose_name=_('encryption algorithm')
         verbose_name_plural=_('encryption algorithms')
 
+    aead_algorithm = models.BooleanField(
+        default=False,
+        null=True
+    )
+
 
 class HashAlgorithm(Technology):
     class Meta(Technology.Meta):
@@ -495,11 +501,8 @@ class StaticPage(models.Model):
         verbose_name_plural=_('static pages')
 
     title = models.CharField(
-        primary_key=True,
         max_length=50,
-    )
-    rank = models.IntegerField(
-        help_text="Defines display order of static pages"
+        unique=True
     )
     content = models.TextField(
         max_length = 10000,
@@ -508,6 +511,49 @@ class StaticPage(models.Model):
         max_length=50,
         help_text="For reference, see https://icons.getbootstrap.com/"
     )
+    rank = models.IntegerField(
+        help_text="Defines display order of static pages"
+    )
+    show_in_nav = models.BooleanField(
+        default=True
+    )
+    direct_link = models.BooleanField(
+        default=False
+    )
 
     def __str__(self):
         return self.title
+
+
+class Announcement(models.Model):
+    class Meta:
+        ordering=['rank']
+
+    SEVERITY_OPTIONS = (
+        ('info', 'Info'),
+        ('success', 'Success'),
+        ('warning', 'Warning'),
+        ('danger', 'Danger'),
+    )
+
+    rank = models.IntegerField(
+        help_text="Defines display order of announcements"
+    )
+    text = models.CharField(
+        max_length=250,
+    )
+    severity = models.CharField(
+        max_length=10,
+        choices=SEVERITY_OPTIONS
+    )
+    dismissable = models.BooleanField(
+        default=False,
+    )
+    emoji = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="For reference, see https://emoji-css.afeld.me/"
+    )
+
+    def __str__(self):
+        return self.text[0:30] + "..."

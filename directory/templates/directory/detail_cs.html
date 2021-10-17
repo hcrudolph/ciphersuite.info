@@ -8,8 +8,8 @@
             <h1 class="mb-4">
             {% if cipher_suite.insecure %}<span class="text-danger">Insecure</span>
             {% elif cipher_suite.weak %}<span class="text-warning">Weak</span>
-            {% elif cipher_suite.secure %}<span class="text-success">Secure</span>
-            {% else %}<span class="text-recommended">Recommended</span>
+            {% elif cipher_suite.secure %}<span class="text-secure">Secure</span>
+            {% else %}<span class="text-success">Recommended</span>
             {% endif %}
             Cipher Suite
             </h1>
@@ -39,8 +39,13 @@
                 </dd>
                 <hr />
                 {% for algo in related_tech %}
-                <dt> <b>{% cycle 'Protocol:' 'Key Exchange:' 'Authentication:' 'Encryption:' 'Hash:' %}</b> </dt>
+                <dt><b>{% cycle 'Protocol' 'Key Exchange' 'Authentication' 'Encryption' 'Hash' as atype %}:</b></dt>
                 <dd>
+                    {% if atype == 'Encryption' and cipher_suite.enc_algorithm.aead_algorithm %}
+                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Authenticated Encryption with Associated Data">AEAD</span>
+                    {% elif atype == 'Hash' and not cipher_suite.enc_algorithm.aead_algorithm %}
+                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Hash-based Message Authentication Code">HMAC</span>
+                    {% endif %}
                     {% if algo.long_name %}
                         {{ algo.long_name }} ({{ algo.short_name }})
                     {% elif algo.short_name %}
@@ -55,17 +60,17 @@
                     {% if item.severity == 2 %}
                         <div class="alert alert-danger" role="alert">
                             <i class="bi bi-exclamation-octagon-fill me-1"></i>
-                            <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                            <strong>{{ item.name }}:</strong> {{ item.description|markdown:"trusted" }}
                         </div>
                     {% elif item.severity == 1 %}
                         <div class="alert alert-warning" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                            <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                            <strong>{{ item.name }}:</strong> {{ item.description|markdown:"trusted" }}
                         </div>
                     {% else %}
                         <div class="alert alert-info" role="alert">
                             <i class="bi bi-info-circle-fill me-1"></i>
-                            <strong>{{ item.name }}:</strong> {{ item.description|markdown }}
+                            <strong>{{ item.name }}:</strong> {{ item.description|markdown:"trusted" }}
                         </div>
                     {% endif %}
                     </p>
@@ -90,3 +95,12 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block customjs %}
+<script>
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
+{% endblock customjs %}
