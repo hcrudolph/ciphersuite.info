@@ -38,7 +38,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'markdown_deux',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.postgres',
@@ -51,6 +50,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'compressor',
+    'markdownx',
 ]
 
 MIDDLEWARE = [

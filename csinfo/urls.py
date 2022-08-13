@@ -6,4 +6,5 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('blog/', include('blog.urls')),
     path('', include('directory.urls')),
+    path('markdownx/', include('markdownx.urls')),
 ]

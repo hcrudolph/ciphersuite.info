@@ -3,6 +3,8 @@ from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models.fields.related import ManyToManyField
 from django.db import models
 from django.db.models import Q
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 
 class PrintableModel(models.Model):
@@ -475,7 +477,7 @@ class Vulnerability(models.Model):
         max_length=50,
         primary_key=True,
     )
-    description = models.TextField(
+    description = MarkdownxField(
         max_length=1000,
         blank=True,
     )
@@ -489,6 +491,10 @@ class Vulnerability(models.Model):
         choices=SEVERITY_CHOICES,
         default=0,
     )
+
+    @property
+    def formatted_desc(self):
+        return markdownify(self.description)
 
     def __str__(self):
         return self.name
@@ -504,7 +510,7 @@ class StaticPage(models.Model):
         max_length=50,
         unique=True
     )
-    content = models.TextField(
+    content = MarkdownxField(
         max_length = 10000,
     )
     icon = models.CharField(
@@ -520,6 +526,10 @@ class StaticPage(models.Model):
     direct_link = models.BooleanField(
         default=False
     )
+
+    @property
+    def formatted_content(self):
+        return markdownify(self.content)
 
     def __str__(self):
         return self.title

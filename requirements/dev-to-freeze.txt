@@ -8,12 +8,13 @@ dj-database-url
 Django
 django-appconf
 django-compressor
-django-markdown-deux
+django-markdownx>=4.0.0b1
 django-sass-processor
 idna
+importlib-metadata
 libsass
 lxml
-markdown2
+Markdown
 psycopg2-binary
 pycparser
 pytz
@@ -25,3 +26,4 @@ six
 sqlparse
 urllib3
 whitenoise
+zipp

@@ -1,5 +1,4 @@
 {% extends "directory/base.html" %}
-{% load markdown_deux_tags %}
 {% block content %}
 
 <div class="container">
@@ -60,17 +59,17 @@
                     {% if item.severity == 2 %}
                         <div class="alert alert-danger" role="alert">
                             <i class="bi bi-exclamation-octagon-fill me-1"></i>
-                            <strong>{{ item.name }}:</strong> {{ item.description|markdown:"trusted" }}
+                            <strong>{{ item.name }}:</strong> {{ item.formatted_desc|safe }}
                         </div>
                     {% elif item.severity == 1 %}
                         <div class="alert alert-warning" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                            <strong>{{ item.name }}:</strong> {{ item.description|markdown:"trusted" }}
+                            <strong>{{ item.name }}:</strong> {{ item.formatted_desc|safe }}
                         </div>
                     {% else %}
                         <div class="alert alert-info" role="alert">
                             <i class="bi bi-info-circle-fill me-1"></i>
-                            <strong>{{ item.name }}:</strong> {{ item.description|markdown:"trusted" }}
+                            <strong>{{ item.name }}:</strong> {{ item.formatted_desc|safe }}
                         </div>
                     {% endif %}
                     </p>
