@@ -72,6 +72,16 @@
   fields:
     long_name: 'Secure Hash Algorithm 1 with Rivest Shamir Adleman algorithm'
     vulnerabilities: ['Secure Hash Algorithm 1']
+- model: directory.AuthAlgorithm
+  pk: 'OMAC'
+  fields:
+    long_name: 'One-key MAC'
+    vulnerabilities: []
+- model: directory.AuthAlgorithm
+  pk: 'IMIT'
+  fields:
+    long_name: 'gostIMIT28147'
+    vulnerabilities: ['GOST']
 
 ###########################
 # Key Exchange Algorithms #
@@ -122,6 +132,11 @@
   fields:
     long_name: 'Secure Remote Password'
     vulnerabilities: []
+- model: directory.KexAlgorithm
+  pk: 'VKO GOSTR3410 2012 256'
+  fields:
+    long_name: ''
+    vulnerabilities: ['GOST']
 
 ###################
 # Hash Algorithms #
@@ -157,6 +172,11 @@
   fields:
     long_name: 'ShangMi 3 Hashing Algorithm'
     vulnerabilities: ['ShangMi 3 Hash']
+- model: directory.HashAlgorithm
+  pk: 'GOST R 34.11-2012'
+  fields:
+    long_name: ''
+    vulnerabilities: ['GOST']
 
 #########################
 # Encryption Algorithms #
@@ -317,3 +337,18 @@
   fields:
     long_name: 'ShangMi 4 Encryption Algorithm in Counter with CBC-MAC mode'
     vulnerabilities: ['ShangMi 4 Encryption']
+- model: directory.EncAlgorithm
+  pk: 'KUZNYECHIK CTR'
+  fields:
+    long_name: 'Kuznyechik Block Cipher'
+    vulnerabilities: ['GOST']
+- model: directory.EncAlgorithm
+  pk: 'MAGMA CTR'
+  fields:
+    long_name: 'Magma Block Cipher'
+    vulnerabilities: ['GOST']
+- model: directory.EncAlgorithm
+  pk: '28147 CNT'
+  fields:
+    long_name: 'GOST 28147-89'
+    vulnerabilities: ['GOST']

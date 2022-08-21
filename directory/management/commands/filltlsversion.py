@@ -61,8 +61,11 @@ class Command(BaseCommand):
                 # IDEA and DES are deprecated with TLS1.2
                 cipher_suite.tls_version.add(tls10)
                 cipher_suite.tls_version.add(tls11)
-            elif 'POLY1305' in cipher_suite.name or 'GCM' in cipher_suite.name or 'CCM' in cipher_suite.name:
-                # ChaCha/Poly, GCM and CCM are TLS1.2-only
+            elif 'POLY1305' in cipher_suite.name or\
+                'GCM' in cipher_suite.name or\
+                'CCM' in cipher_suite.name or\
+                'GOST' in cipher_suite.name:
+                # ChaCha/Poly, GCM, CCM, and GOST are TLS1.2-only
                 cipher_suite.tls_version.add(tls12)
             elif cipher_suite.name in misc_tls12:
                 # catch some others by name
