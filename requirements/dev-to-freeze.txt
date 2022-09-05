@@ -10,8 +10,8 @@ dj-database-url
 Django
 django-appconf
 django-compressor
-django-formtools
 django-markdownx>=4.0.0b1
+django-otp
 django-sass-processor
 idna
 importlib-metadata
@@ -29,6 +29,7 @@ pyparsing
 pytest
 pytz
 PyYAML
+qrcode
 rcssmin
 requests
 rjsmin
