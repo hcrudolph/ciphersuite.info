@@ -108,10 +108,9 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
     # GOST ciphers
-    if instance.hex_byte_1 == '0xC1' and\
-        instance.hex_byte_2 == '0x01' or\
-        instance.hex_byte_2 == '0x02' or\
-        instance.hex_byte_2 == '0x03':
+    if (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x01') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x02') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x03'):
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition("WITH")
         (enc,_,aut) = rst.rpartition(" ")
@@ -120,9 +119,8 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         hsh = "GOST R 34.11-2012"
 
     # TLS1.3 authentication/integrity-only ciphers
-    elif instance.hex_byte_1 == '0xC0' and\
-        instance.hex_byte_2 == '0xB4' or\
-        instance.hex_byte_2 == '0xB5':
+    elif (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB4') or\
+        (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB5'):
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (aut,_,hsh) = rst.rpartition(" ")
