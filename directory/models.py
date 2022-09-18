@@ -567,3 +567,15 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.text[0:30] + "..."
+
+class Sponsor(models.Model):
+    title = models.CharField(
+        max_length=50,
+    )
+    icon = models.ImageField(
+        upload_to='sponsors/',
+    )
+    link = models.URLField()
+
+    def __str__(self):
+        return self.title

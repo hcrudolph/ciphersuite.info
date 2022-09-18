@@ -9,11 +9,13 @@ def index(request):
     """Site-wide index accessed when visiting the web root."""
 
     announcements = Announcement.objects.all()
+    sponsor = Sponsor.objects.first()
 
     context = {
         'hide_navbar_search': True,
         'search_form': MainSearchForm(),
         'announcements': announcements,
+        'sponsor': sponsor,
     }
     return render(request, 'directory/index.html', context)
 
@@ -23,11 +25,13 @@ def static_page(request, sp_name):
 
     # query result
     page = get_object_or_404(StaticPage, title__iexact=sp_name)
+    sponsor = Sponsor.objects.first()
 
     context = {
         'navbar_context': page.title,
         'search_form': NavbarSearchForm(),
         'static_page': page,
+        'sponsor': sponsor,
     }
 
     return render(request, 'directory/static_page.html', context)
@@ -66,6 +70,8 @@ def index_cs(request):
     # display CS name format according to search query
     search_type = 'openssl' if software == 'openssl' else 'iana'
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'count': cipher_suites_paginated.paginator.count,
         'navbar_context': 'cs',
@@ -78,6 +84,7 @@ def index_cs(request):
         'software': software,
         'sorting': sorting,
         'tls_version': tls_version,
+        'sponsor': sponsor,
     }
 
     return render(request, 'directory/index_cs.html', context)
@@ -100,12 +107,15 @@ def index_rfc(request):
     else:
         rfc_list_paginated = paginate(rfc_list, page, 15)
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'navbar_context': 'rfc',
         'page_number_range': rfc_list_paginated.paginator.page_range,
         'results': rfc_list_paginated,
         'search_form': NavbarSearchForm(),
         'singlepage': single_page,
+        'sponsor': sponsor,
     }
 
     return render(request, 'directory/index_rfc.html', context)
@@ -125,11 +135,14 @@ def detail_cs(request, cs_name):
         cipher_suite.hash_algorithm,
     ]
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'cipher_suite': cipher_suite,
         'referring_rfc_list': referring_rfc_list,
         'related_tech': related_tech,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'directory/detail_cs.html', context)
@@ -153,6 +166,7 @@ def detail_rfc(request, rfc_number):
     rfc_status_code = all_rfc_status_codes[rfc.status]
     defined_cipher_suites = rfc.defined_cipher_suites.all()
     related_docs = rfc.related_documents.all()
+    sponsor = Sponsor.objects.first()
 
     context = {
         'defined_cipher_suites': defined_cipher_suites,
@@ -160,6 +174,7 @@ def detail_rfc(request, rfc_number):
         'rfc_status_code': rfc_status_code,
         'rfc': rfc,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'directory/detail_rfc.html', context)
@@ -212,6 +227,8 @@ def search(request):
     else:
         result_list_paginated = paginate(result_list, page, 15)
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'category': category,
         'cs_tab_active': cs_tab_active,
@@ -227,6 +244,7 @@ def search(request):
         'software': software,
         'sorting': sorting,
         'tls_version': tls_version,
+        'sponsor': sponsor,
     }
 
     return render(request, 'directory/search.html', context)
