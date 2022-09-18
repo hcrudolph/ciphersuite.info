@@ -156,18 +156,3 @@ SASS_OUTPUT_STYLE = 'compressed'
 COMPRESS_STORAGE = 'compressor.storage.GzipCompressorFileStorage'
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = True
-
-MARKDOWN_DEUX_STYLES = {
-    "default": {
-        "extras": {
-            "code-friendly": None,
-        },
-        "safe_mode": "escape",
-    },
-    "trusted": {
-        "extras": {
-            "code-friendly": None,
-        },
-        "safe_mode": False,
-    }
-}
