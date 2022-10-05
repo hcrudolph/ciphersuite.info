@@ -22,7 +22,7 @@ pycparser==2.21
 pytz==2022.4
 PyYAML==6.0
 qrcode==7.3.1
-rcssmin==1.1.0
+rcssmin==1.1.1
 requests==2.28.1
 rjsmin==1.2.0
 six==1.16.0
