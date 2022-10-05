@@ -36,6 +36,7 @@ rjsmin
 six
 sqlparse
 toml
+tomli
 urllib3
 whitenoise
 zipp
