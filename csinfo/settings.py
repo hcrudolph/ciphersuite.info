@@ -38,19 +38,22 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'markdown_deux',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.postgres',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_static',
     'blog.apps.BlogConfig',
     'sass_processor',
     'directory.apps.DirectoryConfig',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'compressor',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +63,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -138,6 +142,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'uploads')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
@@ -156,18 +161,3 @@ SASS_OUTPUT_STYLE = 'compressed'
 COMPRESS_STORAGE = 'compressor.storage.GzipCompressorFileStorage'
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = True
-
-MARKDOWN_DEUX_STYLES = {
-    "default": {
-        "extras": {
-            "code-friendly": None,
-        },
-        "safe_mode": "escape",
-    },
-    "trusted": {
-        "extras": {
-            "code-friendly": None,
-        },
-        "safe_mode": False,
-    }
-}

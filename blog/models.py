@@ -1,9 +1,10 @@
 # django imports
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from markdownx.models import MarkdownxField
 
 # general python imports
 import re
@@ -38,7 +39,7 @@ class Post(models.Model):
         max_length = 500,
         blank=True,
     )
-    text = models.TextField()
+    text = MarkdownxField()
     category = models.ForeignKey(
         'Category',
         blank=True,

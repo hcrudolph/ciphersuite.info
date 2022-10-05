@@ -3,23 +3,27 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User
 from directory.forms import NavbarSearchForm
+from directory.models import Sponsor
 from datetime import datetime
 
 from .models import *
 
 def recent_posts(request):
     posts = Post.objects.all().exclude(published=False)
+    sponsor = Sponsor.objects.first()
 
     context = {
         'posts': posts,
         'navbar_context': 'blog',
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/recent_posts.html', context)
 
 def tag_post_archive(request, tag_slug):
     tag = Tag.objects.get(slug=tag_slug)
+    sponsor = Sponsor.objects.first()
 
     try:
         post_list = Post.objects.filter(tags__slug=tag_slug)
@@ -32,6 +36,7 @@ def tag_post_archive(request, tag_slug):
         'archive_type': 'by_tag',
         'post_list': post_list,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/post_archive.html', context)
@@ -42,12 +47,15 @@ def author_post_archive(request, author_slug):
     except Post.DoesNotExist:
         raise Http404("No Post matches the given query.")
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'term': author_slug,
         'navbar_context': 'blog',
         'archive_type': 'by_author',
         'post_list': post_list,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/post_archive.html', context)
@@ -59,34 +67,41 @@ def category_post_archive(request, category_slug):
     except Post.DoesNotExist:
         raise Http404("No Post matches the given query.")
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'term': category.name,
         'navbar_context': 'blog',
         'archive_type': 'by_category',
         'post_list': post_list,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/post_archive.html', context)
 
 def tag_archive(request):
     tags = Tag.objects.all()
+    sponsor = Sponsor.objects.first()
 
     context = {
         'navbar_context': 'blog',
         'tag_list': tags,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/tag_archive.html', context)
 
 def category_archive(request):
     categories = Category.objects.all()
+    sponsor = Sponsor.objects.first()
 
     context = {
         'navbar_context': 'blog',
         'category_list': categories,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/category_archive.html', context)
@@ -97,10 +112,13 @@ def author_archive(request):
         user = User.objects.get(pk=uid)
         usernames.add(user.username)
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'navbar_context': 'blog',
         'author_list': usernames,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/author_archive.html', context)
@@ -110,12 +128,15 @@ def yearly_post_archive(request, year):
         first_published__year=year,
     )
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'term': f"{year}",
         'navbar_context': 'blog',
         'archive_type': 'by_year',
         'post_list': post_list,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/post_archive.html', context)
@@ -126,12 +147,15 @@ def monthly_post_archive(request, year, month):
         first_published__month=month,
     )
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'term': datetime.strptime(f"{year}/{month}", '%Y/%m'),
         'navbar_context': 'blog',
         'archive_type': 'by_month',
         'post_list': post_list,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/post_archive.html', context)
@@ -143,12 +167,15 @@ def daily_post_archive(request, year, month, day):
         first_published__day=day,
     )
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'term': datetime.strptime(f"{year}/{month}/{day}", '%Y/%m/%d'),
         'navbar_context': 'blog',
         'archive_type': 'by_day',
         'post_list': post_list,
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/post_archive.html', context)
@@ -159,10 +186,13 @@ def single_post(request, year, month, day, post_slug):
     except Post.DoesNotExist:
         raise Http404("No Post matches the given query.")
 
+    sponsor = Sponsor.objects.first()
+
     context = {
         'post': post,
         'navbar_context': 'blog',
         'search_form': NavbarSearchForm(),
+        'sponsor': sponsor,
     }
 
     return render(request, 'blog/single_post.html', context)

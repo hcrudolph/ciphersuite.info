@@ -12,10 +12,9 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
     """Automatically fetches general document information
     from ietf.org before saving RFC instance."""
 
-    def get_year(response):
-        tree = html.fromstring(response.content)
+    def get_year(html):
         docinfo = " ".join(
-            tree.xpath('//pre[1]/text()')
+            html.xpath('//pre[1]/text()')
         )
         month_list = ['January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December']
@@ -25,17 +24,43 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         match = month_and_year.search(docinfo)
         return int(match.group(1))
 
-    def get_title(response):
-        tree = html.fromstring(response.content)
-        headers = tree.xpath('//span[@class="h1"]/text()')
+    def get_year_alt(html):
+        date = " ".join(html.xpath('//time[@class="published"]/text()'))
+        return int(date.split()[1])
+
+    def get_title(html):
+        headers = html.xpath('//span[@class="h1"]/text()')
         return " ".join(headers)
 
-    def get_status(response):
-        tree = html.fromstring(response.content)
+    def get_title_alt(html):
+        return " ".join(html.xpath('//h1[@id="title"]/text()'))
+
+    def get_status(html):
         # concat all fields possibly containing doc status
         docinfo = " ".join(
-            tree.xpath('//pre[@class="pre meta-info"]/text()')
+            html.xpath('//pre[@class="pre meta-info"]/text()')
         )
+
+        # search for predefined options
+        if re.search('INTERNET STANDARD', docinfo, re.IGNORECASE):
+            return 'IST'
+        elif re.search('PROPOSED STANDARD', docinfo, re.IGNORECASE):
+            return 'PST'
+        elif re.search('DRAFT STANDARD', docinfo, re.IGNORECASE):
+            return 'DST'
+        elif re.search('BEST CURRENT PRACTISE', docinfo, re.IGNORECASE):
+            return 'BCP'
+        elif re.search('INFORMATIONAL', docinfo, re.IGNORECASE):
+            return 'INF'
+        elif re.search('EXPERIMENTAL', docinfo, re.IGNORECASE):
+            return 'EXP'
+        elif re.search('HISTORIC', docinfo, re.IGNORECASE):
+            return 'HST'
+        else:
+            return 'UND'
+
+    def get_status_alt(html):
+        docinfo = " ".join(html.xpath('//dl[@id="external-updates"]/text()'))
 
         # search for predefined options
         if re.search('INTERNET STANDARD', docinfo, re.IGNORECASE):
@@ -61,10 +86,18 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         url = f"https://tools.ietf.org/html/rfc{instance.number}"
     resp = requests.get(url)
     if resp.status_code == 200:
-        instance.url  = url
-        instance.title = get_title(resp)
-        instance.status = get_status(resp)
-        instance.release_year = get_year(resp)
+        content = html.fromstring(resp.content)
+        if int(instance.number) < 8650:
+            instance.url  = url
+            instance.title = get_title(content)
+            instance.status = get_status(content)
+            instance.release_year = get_year(content)
+        # required for parsing new RFC Editor format
+        elif int(instance.number) > 8650:
+            instance.url  = url
+            instance.title = get_title_alt(content)
+            instance.status = get_status_alt(content)
+            instance.release_year = get_year_alt(content)
     else:
         # cancel saving the instance if unable to receive web page
         raise Exception('RFC not found')
@@ -74,8 +107,30 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
 def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
-    # TLS1.3 ciphers start with 0x13
-    if instance.hex_byte_1 == '0x13' or instance.hex_byte_2 == '0xC6' or instance.hex_byte_2 == '0xC7':
+    # GOST ciphers
+    if (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x01') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x02') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x03'):
+        name = instance.name
+        (prt,_,rst) = name.replace("_", " ").partition("WITH")
+        (enc,_,aut) = rst.rpartition(" ")
+        prt = "TLS"
+        kex = "VKO GOSTR3410 2012 256"
+        hsh = "GOST R 34.11-2012"
+
+    # TLS1.3 authentication/integrity-only ciphers
+    elif (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB4') or\
+        (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB5'):
+        name = instance.name
+        (prt,_,rst) = name.replace("_", " ").partition(" ")
+        (aut,_,hsh) = rst.rpartition(" ")
+        enc = "NULL"
+        kex = "-"
+
+    # TLS1.3 ciphers
+    elif instance.hex_byte_1 == '0x13'\
+        or instance.hex_byte_2 == '0xC6'\
+        or instance.hex_byte_2 == '0xC7':
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (enc,_,hsh) = rst.rpartition(" ")

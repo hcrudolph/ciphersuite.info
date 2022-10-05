@@ -73,3 +73,8 @@
   fields:
     severity: 2
     description: 'The ShangMi 4 (SM4) encryption algorithm is a chinese algorithm, which will be or is already mandatory for TLS encrypted connections in China. The security of this algorithm is not proven and its use is not recommended by the IETF. (see <a href="https://tools.ietf.org/html/rfc8998" class="alert-link" target="_blank">ietf.org</a>)'
+- model: directory.Vulnerability
+  pk: 'GOST'
+  fields:
+    severity: 2
+    description: 'The GOST algorithms are Russian cryptographic standard algorithms. Their security is not proven and its use is not recommended by the IETF. (see <a href="https://www.rfc-editor.org/rfc/rfc9189" class="alert-link" target="_blank">ietf.org</a>)'

@@ -1,8 +1,30 @@
-<footer class="footer mt-auto text-muted py-3">
-    <div class="container text-center">
-        2021 &copy; Hans Christian Rudolph · Nils Grundmann
-    </div>
-    <div class="container text-center">
-        <a class="text-muted" href="/page/terms">Terms of Service</a>
+<footer class="footer text-muted py-3 mt-3">
+    <div class="d-flex container justify-content-center justify-sm-content-between">
+        <div class="flex-grow-1 text-xs-start text-lg-center align-self-center">
+            <div>
+                2022 &copy; <span class="nowrap">Hans Christian Rudolph ·</span>
+                <span class="nowrap">Nils Grundmann</span>
+            </div>
+            <div>
+                <a class="text-muted" href="/page/terms">Terms of Service</a> ·
+                <a class="text-muted" href="/page/terms">Privacy</a> ·
+                <a class="text-muted" href="/page/imprint">Imprint</a>
+            </div>
+        </div>
+
+        {% if sponsor %}
+        <div class="me-auto d-lg-none align-self-center mt-2">
+            <div style="width:140px" class="alert alert-secondary d-flex flex-wrap" role="alert">
+                <div class="mb-2">
+                    Sponsored by
+                </div>
+                <div>
+                    <a class="stretched-link" target="_blank" href="{{ sponsor.link }}">
+                        <img style="width: 100px;" class="rounded" src="/static/uploads/{{ sponsor.icon }}"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </footer>

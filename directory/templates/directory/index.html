@@ -4,17 +4,17 @@
 <div class="container">
     {% for announcement in announcements %}
     <div class="row flex-row justify-content-center">
-        <div class="col-lg-8 col-md-offset-2 alert alert-{{ announcement.severity }}{% if announcement.dismissable %} alert-dismissible fade show{% endif %}" role="alert">
+        <div class="col-lg-8 col-lg-offset-2 alert alert-{{ announcement.severity }}{% if announcement.dismissable %} alert-dismissible fade show{% endif %}" role="alert">
             <i class="em em-{{ announcement.emoji }}" aria-role="presentation"></i>&nbsp;{{ announcement.text|safe }}
             {% if announcement.dismissable %}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>{% endif %}
         </div>
     </div>
     {% endfor %}
     <div class="row flex-row justify-content-center">
-        <div class="col-lg-8 col-md-offset-2 mb-4">
+        <div class="col-lg-8 col-lg-offset-2 mb-4">
             <h1 class="title-heading centered-text">TLS Ciphersuite Search</h1>
         </div><!-- end column -->
-        <div class="col-lg-8 col-md-offset-2">
+        <div class="col-lg-8 col-lg-offset-2">
             <div id="custom-search-input">
                 <form class="form-group input-group input-group-lg" action="/search?q={{ search_form.get_search_term }}" method="get">
                     {{ search_form }}
@@ -29,7 +29,7 @@
         <div class="col-lg-6 col-md-offset-3">
             <div class="alert alert-light mt-3 centered-text" role="alert">
                 <i class="bi bi-info-circle-fill"></i>
-                Search for a particular cipher suite by using IANA, OpenSSL or GnuTLS name format, e.g. "<a class="alert-link long-string" href="/search/?q=TLS_DHE_DSS_WITH_AES_256_CBC_SHA256">TLS_DHE_DSS_WITH_AES_256_CBC_SHA256</a>", "<a class="alert-link long-string" href="/search/?q=DHE-DSS-AES256-SHA256">DHE-DSS-AES256-SHA256</a>" or "<a class="alert-link long-string" href="/search/?q=TLS_DHE_DSS_AES_256_CBC_SHA256">TLS_DHE_DSS_AES_256_CBC_SHA256</a>".
+                Search for a particular cipher suite by using IANA, OpenSSL or GnuTLS name format, e.g. "<a class="alert-link nowrap" href="/search/?q=TLS_DHE_DSS_WITH_AES_256_CBC_SHA256">TLS_DHE_DSS_WITH_AES_256_CBC_SHA256</a>", "<a class="alert-link nowrap" href="/search/?q=DHE-DSS-AES256-SHA256">DHE-DSS-AES256-SHA256</a>" or "<a class="alert-link nowrap" href="/search/?q=TLS_DHE_DSS_AES_256_CBC_SHA256">TLS_DHE_DSS_AES_256_CBC_SHA256</a>".
             </div>
         </div>
     </div><!-- end row -->

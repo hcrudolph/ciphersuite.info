@@ -6,9 +6,21 @@
 <body>
     {% include "directory/navbar.html" %}
     <main class="container">
+        {% if sponsor %}
+        <div style="width:140px" class="position-absolute top-1 end-0 mx-5 alert alert-secondary d-none d-lg-block d-flex flex-wrap" role="alert">
+            <div class="mb-2">
+                Sponsored by
+            </div>
+            <div>
+                <a class="stretched-link" target="_blank" href="{{ sponsor.link }}" >
+                    <img style="width: 100px;" class="rounded float-start" src="/static/uploads/{{ sponsor.icon }}"/>
+                </a>
+            </div>
+        </div>
+        {% endif %}
         {% block content %}{% endblock content %}
     </main>
-    {% include "directory/footer.html" %}
+    {% include "directory/footer.html" with sponsor=sponsor %}
     {% include "directory/js.html" %}
     {% block customjs %}{% endblock customjs %}
 </body>

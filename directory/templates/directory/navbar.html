@@ -9,19 +9,19 @@
         <div class="collapse navbar-collapse" id="mainNavigation">
         <ul class="navbar-nav me-auto">
                 <li class="nav-item {% if navbar_context == 'cs' %}active{% endif %}">
-                    <a class="nav-link" href="/cs/">
+                    <a class="nav-link d-flex align-items-center" href="/cs/">
                         <i class="bi bi-lock-fill me-1"></i>
                         Cipher Suites
                     </a>
                 </li>
                 <li class="nav-item {% if navbar_context == 'rfc' %}active{% endif %}">
-                    <a class="nav-link" href="/rfc/">
+                    <a class="nav-link d-flex align-items-center" href="/rfc/">
                         <i class="bi bi-file-earmark-lock2-fill me-1"></i>
                         RFCs
                     </a>
                 </li>
                 <li class="nav-item {% if navbar_context == 'blog' %}active{% endif %}">
-                    <a class="nav-link" href="/blog/">
+                    <a class="nav-link d-flex align-items-center" href="/blog/">
                         <i class="bi bi-newspaper me-1"></i>
                         News
                     </a>
@@ -30,9 +30,9 @@
                     {% if page.show_in_nav %}
                     <li class="nav-item {% if navbar_context == page.title %}active{% endif %}">
                         {% if page.direct_link and page.content %}
-                        <a class="nav-link" href="{{ page.content }}" target="_blank">
+                        <a class="nav-link d-flex align-items-center" href="{{ page.content }}" target="_blank">
                         {% else %}
-                        <a class="nav-link" href="/page/{{ page|lower }}/">
+                        <a class="nav-link d-flex align-items-center" href="/page/{{ page|lower }}/">
                         {% endif %}
                             {% if page.icon %}<i class="bi bi-{{ page.icon }}"></i>{% endif %}
                             {{ page|title }}
