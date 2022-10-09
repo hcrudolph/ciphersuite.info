@@ -22,7 +22,7 @@ Markdown==3.4.1
 packaging==21.3
 Pillow==9.2.0
 pluggy==1.0.0
-psycopg2-binary==2.9.3
+psycopg2-binary==2.9.4
 py==1.11.0
 pycparser==2.21
 pyparsing==3.0.9
