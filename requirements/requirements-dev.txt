@@ -39,4 +39,4 @@ toml==0.10.2
 tomli==2.0.1
 urllib3==1.26.12
 whitenoise==6.2.0
-zipp==3.8.1
+zipp==3.9.0
