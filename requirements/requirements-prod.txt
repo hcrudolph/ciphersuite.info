@@ -29,4 +29,4 @@ six==1.16.0
 sqlparse==0.4.3
 urllib3==1.26.12
 whitenoise==6.2.0
-zipp==3.8.1
+zipp==3.9.0
