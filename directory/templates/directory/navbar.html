@@ -30,7 +30,7 @@
                     {% if page.show_in_nav %}
                     <li class="nav-item {% if navbar_context == page.title %}active{% endif %}">
                         {% if page.direct_link and page.content %}
-                        <a class="nav-link d-flex align-items-center" href="{{ page.content }}" target="_blank">
+                        <a class="nav-link d-flex align-items-center" href="{{ page.content }}" target="_blank" rel="noopener noreferrer">
                         {% else %}
                         <a class="nav-link d-flex align-items-center" href="/page/{{ page|lower }}/">
                         {% endif %}
