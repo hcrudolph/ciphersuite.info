@@ -974,7 +974,7 @@
   pk: 'TLS_CHACHA20_POLY1305_SHA256'
   fields:
     hex_byte_1: '0x13'
-    hex_byte_2: '0xC3'
+    hex_byte_2: '0x03'
     min_tls_version: 'TLS1.3'
 - model: directory.OpensslCipher
   pk: 'TLS_AES_128_GCM_SHA256'
