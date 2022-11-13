@@ -17,7 +17,7 @@ exceptiongroup==1.0.1
 idna==3.4
 importlib-metadata==5.0.0
 iniconfig==1.1.1
-libsass==0.21.0
+libsass==0.22.0
 lxml==4.9.1
 Markdown==3.4.1
 packaging==21.3
