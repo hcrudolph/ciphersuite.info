@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-import api.views as views 
+import api.views as views
 
 urlpatterns = [
     path('', views.api_root),
@@ -10,4 +10,12 @@ urlpatterns = [
     path('rfc/', views.rfc_all),
     re_path(r'^cs/(?P<iana_name>[a-zA-Z0-9_]+)/$', views.cs_single),
     re_path(r'^rfc/(?P<rfc_number>[0-9]+)/$', views.rfc_single),
+    path('v2/', views.api_root_v2),
+    path('v2/cs/', views.cs_all_v2),
+    path('v2/cs/security/<sec_level>/', views.cs_by_security_v2),
+    path('v2/cs/software/<software>/', views.cs_by_software_v2),
+    path('v2/cs/tls/<tlsv>/', views.cs_by_tlsversion_v2),
+    path('v2/rfc/', views.rfc_all_v2),
+    re_path(r'^v2/cs/(?P<iana_name>[a-zA-Z0-9_]+)/$', views.cs_single_v2),
+    re_path(r'^v2/rfc/(?P<rfc_number>[0-9]+)/$', views.rfc_single_v2),
 ]

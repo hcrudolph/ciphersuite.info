@@ -1,0 +1,360 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ciphersuite.info API",
+    "description": "A directory of every cipher suite defined by the IETF. Each cipher suite is broken down to its containing algorithms whose security is then individually assessed. Different warnings are generated based on the severity of known vulnerabilities.",
+    "version": "2.0.0",
+    "contact": {
+      "email": "info@ciphersuite.info"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/hcrudolph/ciphersuite.info/blob/master/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ciphersuite.info/api/v2"
+    }
+  ],
+  "tags": [
+    {
+      "name": "ciphersuite",
+      "description": "Everything about TLS ciphersuites",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://ciphersuite.info/cs"
+      }
+    },
+    {
+      "name": "rfc",
+      "description": "Everything about related RFCs",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://ciphersuite.info/rfc"
+      }
+    }
+  ],
+  "paths": {
+    "/cs": {
+      "get": {
+        "tags": [
+          "ciphersuite"
+        ],
+        "description": "List all TLS ciphersuites.",
+        "operationId": "getCs",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ciphersuite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cs/{cs_name}": {
+      "get": {
+        "tags": [
+          "ciphersuite"
+        ],
+        "description": "Get a TLS ciphersuite by IANA name.",
+        "operationId": "getCsByName",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cs_name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ciphersuite"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cs/tls/{tls_version}": {
+      "get": {
+        "tags": [
+          "ciphersuite"
+        ],
+        "description": "Get a list of TLS ciphersuites by TLS version.",
+        "operationId": "getCsByTlsversion",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tls_version",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                10,
+                11,
+                12,
+                13
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ciphersuite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cs/security/{sec_level}": {
+      "get": {
+        "tags": [
+          "ciphersuite"
+        ],
+        "description": "Get a list of TLS ciphersuites by security level.",
+        "operationId": "getCsBySecurity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sec_level",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "insecure",
+                "weak",
+                "secure",
+                "recommended"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ciphersuite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cs/software/{tls_lib}": {
+      "get": {
+        "tags": [
+          "ciphersuite"
+        ],
+        "description": "Get a list of TLS ciphersuites by software library.",
+        "operationId": "getCsBySoftware",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tls_lib",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "openssl",
+                "gnutls"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ciphersuite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rfc": {
+      "get": {
+        "tags": [
+          "rfc"
+        ],
+        "description": "List all RFCs.",
+        "operationId": "getAllRfc",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rfc"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rfc/{rfc_number}": {
+      "get": {
+        "tags": [
+          "rfc"
+        ],
+        "description": "Get RFC by number.",
+        "operationId": "getRfc",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rfc_number",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rfc"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ciphersuite": {
+        "type": "object",
+        "properties": {
+          "iana_name": {
+            "type": "string"
+          },
+          "gnutls_name": {
+            "type": "string"
+          },
+          "openssl_name": {
+            "type": "string"
+          },
+          "tls_version": {
+            "type": "string",
+            "enum": [
+              "TLS1.0",
+              "TLS1.1",
+              "TLS1.2",
+              "TLS1.3"
+            ]
+          },
+          "hex_byte_1": {
+            "type": "string"
+          },
+          "hex_byte_2": {
+            "type": "string"
+          },
+          "protocol_version": {
+            "type": "string"
+          },
+          "kex_algorithm": {
+            "type": "string"
+          },
+          "auth_algorithm": {
+            "type": "string"
+          },
+          "enc_algorithm": {
+            "type": "string"
+          },
+          "hash_algorithm": {
+            "type": "string"
+          }
+        }
+      },
+      "Rfc": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "release_year": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "IST",
+              "PST",
+              "DST",
+              "BCP",
+              "INF",
+              "EXP",
+              "HST",
+              "UND"
+            ]
+          },
+          "is_draft": {
+            "type": "boolean"
+          },
+          "defined_cipher_suites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Git repository",
+    "url": "https://github.com/hcrudolph/ciphersuite.info.git"
+  }
+}

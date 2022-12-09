@@ -15,9 +15,20 @@ def reformat_cs(cs):
         cs['security'] = "weak"
     elif cs['security'] == 3:
         cs['security'] = "insecure"
-
     return {cs.pop('name'):cs}
 
+def reformat_cs_v2(cs):
+    # replace int security rating by string
+    if cs['security'] == 0:
+        cs['security'] = "recommended"
+    elif cs['security'] == 1:
+        cs['security'] = "secure"
+    elif cs['security'] == 2:
+        cs['security'] = "weak"
+    elif cs['security'] == 3:
+        cs['security'] = "insecure"
+    cs['iana_name'] = cs.pop('name')
+    return cs
 
 def reformat_rfc(rfc):
     return {rfc.pop('number'):rfc}
@@ -29,16 +40,27 @@ def api_root(request):
     response['Content-Type'] = 'application/json'
     return response
 
+def api_root_v2(request):
+    api_definition = open(join(settings.BASE_DIR, 'static/openapi_v2.json'), 'rb')
+    response = HttpResponse(content=api_definition)
+    response['Content-Type'] = 'application/json'
+    return response
 
 def cs_all(request):
     cs = [reformat_cs(x.to_dict()) for x in CipherSuite.objects.all()]
     return JsonResponse({"ciphersuites":cs}, safe=False)
 
+def cs_all_v2(request):
+    cs = [reformat_cs_v2(x.to_dict()) for x in CipherSuite.objects.all()]
+    return JsonResponse({"ciphersuites":cs}, safe=False)
 
 def cs_single(request, iana_name):
     cs = get_object_or_404(CipherSuite, pk=iana_name)
     return JsonResponse(reformat_cs(cs.to_dict()), safe=False)
 
+def cs_single_v2(request, iana_name):
+    cs = get_object_or_404(CipherSuite, pk=iana_name)
+    return JsonResponse(reformat_cs_v2(cs.to_dict()), safe=False)
 
 def cs_by_security(request, sec_level):
     if sec_level == 'insecure':
@@ -58,6 +80,23 @@ def cs_by_security(request, sec_level):
 
     return JsonResponse({"ciphersuites":cs}, safe=False)
 
+def cs_by_security_v2(request, sec_level):
+    if sec_level == 'insecure':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=3)]
+    elif sec_level == 'weak':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=2)]
+    elif sec_level == 'secure':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=1)]
+    elif sec_level == 'recommended':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(security=0)]
+    else:
+        raise Http404(f"Security level '{sec_level}' does not exist.")
+
+    return JsonResponse({"ciphersuites":cs}, safe=False)
 
 def cs_by_software(request, software):
     if software == 'openssl':
@@ -71,6 +110,17 @@ def cs_by_software(request, software):
 
     return JsonResponse({"ciphersuites":cs}, safe=False)
 
+def cs_by_software_v2(request, software):
+    if software == 'openssl':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.exclude(openssl_name="")]
+    elif software == 'gnutls':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.exclude(gnutls_name="")]
+    else:
+        raise Http404(f"Software '{software}' does not exist.")
+
+    return JsonResponse({"ciphersuites":cs}, safe=False)
 
 def cs_by_tlsversion(request, tlsv):
     if tlsv == '10':
@@ -90,12 +140,36 @@ def cs_by_tlsversion(request, tlsv):
 
     return JsonResponse({"ciphersuites":cs}, safe=False)
 
+def cs_by_tlsversion_v2(request, tlsv):
+    if tlsv == '10':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="10")]
+    elif tlsv == '11':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="11")]
+    elif tlsv == '12':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="12")]
+    elif tlsv == '13':
+        cs = [reformat_cs_v2(cs.to_dict()) for cs in
+                CipherSuite.objects.filter(tls_version__short="13")]
+    else:
+        raise Http404(f"TLS version '{tlsv}' does not exist.")
+
+    return JsonResponse({"ciphersuites":cs}, safe=False)
 
 def rfc_all(request):
     rfc = [reformat_rfc(x.to_dict()) for x in Rfc.objects.all()]
     return JsonResponse({"rfcs":rfc}, safe=False)
 
+def rfc_all_v2(request):
+    rfc = [x.to_dict() for x in Rfc.objects.all()]
+    return JsonResponse({"rfcs":rfc}, safe=False)
 
 def rfc_single(request, rfc_number):
     rfc = get_object_or_404(Rfc, pk=rfc_number)
     return JsonResponse(reformat_rfc(rfc.to_dict()), safe=False)
+
+def rfc_single_v2(request, rfc_number):
+    rfc = get_object_or_404(Rfc, pk=rfc_number)
+    return JsonResponse(rfc.to_dict(), safe=False)
