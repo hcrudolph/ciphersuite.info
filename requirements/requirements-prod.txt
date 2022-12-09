@@ -1,6 +1,6 @@
 asgiref==3.5.2
 brotlipy==0.7.0
-certifi==2022.9.24
+certifi==2022.12.7
 cffi==1.15.1
 chardet==5.0.0
 charset-normalizer==2.1.1
