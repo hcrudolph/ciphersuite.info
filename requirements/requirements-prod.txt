@@ -3,7 +3,7 @@ brotlipy==0.7.0
 certifi==2022.12.7
 cffi==1.15.1
 chardet==5.0.0
-charset-normalizer==2.1.1
+charset-normalizer==3.0.1
 dj-database-url==1.0.0
 Django==4.1.2
 django-appconf==1.0.5
