@@ -14,7 +14,7 @@ django-sass-processor==1.2.1
 idna==3.4
 importlib-metadata==5.0.0
 libsass==0.22.0
-lxml==4.9.1
+lxml==4.9.2
 Markdown==3.4.1
 Pillow==9.2.0
 psycopg2-binary==2.9.4
