@@ -28,5 +28,5 @@ rjsmin==1.2.1
 six==1.16.0
 sqlparse==0.4.3
 urllib3==1.26.12
-whitenoise==6.2.0
+whitenoise==6.3.0
 zipp==3.11.0
