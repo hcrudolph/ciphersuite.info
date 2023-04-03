@@ -10,7 +10,7 @@ django-appconf==1.0.5
 django-compressor==4.1
 django-markdownx==4.0.0b1
 django-otp==1.1.4
-django-sass-processor==1.2.1
+django-sass-processor==1.2.2
 idna==3.4
 importlib-metadata==5.0.0
 libsass==0.22.0
