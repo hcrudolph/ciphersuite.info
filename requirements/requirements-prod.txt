@@ -1,4 +1,4 @@
-asgiref==3.5.2
+asgiref==3.6.0
 brotlipy==0.7.0
 certifi==2022.12.7
 cffi==1.15.1
