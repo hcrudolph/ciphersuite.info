@@ -40,11 +40,16 @@
                 {% for algo in related_tech %}
                 <dt><b>{% cycle 'Protocol' 'Key Exchange' 'Authentication' 'Encryption' 'Hash' as atype %}:</b></dt>
                 <dd>
+                    {% if atype == 'Key Exchange' and cipher_suite.kex_algorithm.pfs_support %}
+                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Perfect Forward Secrecy">PFS</span>
+                    {% endif %}
+
                     {% if atype == 'Encryption' and cipher_suite.enc_algorithm.aead_algorithm %}
                         <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Authenticated Encryption with Associated Data">AEAD</span>
                     {% elif atype == 'Hash' and not cipher_suite.enc_algorithm.aead_algorithm %}
                         <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Hash-based Message Authentication Code">HMAC</span>
                     {% endif %}
+
                     {% if algo.long_name %}
                         {{ algo.long_name }} ({{ algo.short_name }})
                     {% elif algo.short_name %}

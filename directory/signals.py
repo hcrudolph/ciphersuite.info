@@ -107,6 +107,8 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
 def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
+    tls_13_flag = False
+
     # GOST ciphers
     if (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x01') or\
         (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x02') or\
@@ -121,6 +123,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     # TLS1.3 authentication/integrity-only ciphers
     elif (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB4') or\
         (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB5'):
+        tls_13_flag = True
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (aut,_,hsh) = rst.rpartition(" ")
@@ -131,6 +134,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     elif instance.hex_byte_1 == '0x13'\
         or instance.hex_byte_2 == '0xC6'\
         or instance.hex_byte_2 == '0xC7':
+        tls_13_flag = True
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (enc,_,hsh) = rst.rpartition(" ")
@@ -169,6 +173,11 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
             kex = "DHE"
             aut = "PSK"
 
+    # identify PFS algorithms
+    pfs_flag = False
+    if re.search(r'ECDHE|DHE', kex, re.IGNORECASE) or tls_13_flag:
+        pfs_flag = True
+
     # identify AEAD algorithms
     aead_flag = False
     if re.search(r'GCM|POLY1305|CCM', enc, re.IGNORECASE):
@@ -184,8 +193,9 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         instance.auth_algorithm, _ = AuthAlgorithm.objects.get_or_create(
             short_name=aut.strip()
         )
-    instance.kex_algorithm, _ = KexAlgorithm.objects.get_or_create(
-        short_name=kex.strip()
+    instance.kex_algorithm, _ = KexAlgorithm.objects.update_or_create(
+        short_name=kex.strip(),
+        defaults={'pfs_support': pfs_flag}
     )
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()

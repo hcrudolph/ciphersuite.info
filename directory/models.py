@@ -443,6 +443,11 @@ class KexAlgorithm(Technology):
         verbose_name=_('key exchange algorithm')
         verbose_name_plural=_('key exchange algorithms')
 
+    pfs_support = models.BooleanField(
+        default=False,
+        null=True
+    )
+
 
 class AuthAlgorithm(Technology):
     class Meta(Technology.Meta):
