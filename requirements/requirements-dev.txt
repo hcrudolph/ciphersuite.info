@@ -20,7 +20,7 @@ iniconfig==2.0.0
 libsass==0.22.0
 lxml==4.9.2
 Markdown==3.4.3
-packaging==23.0
+packaging==23.1
 Pillow==9.5.0
 pluggy==1.0.0
 psycopg2-binary==2.9.6
