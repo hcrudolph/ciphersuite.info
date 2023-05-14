@@ -7,7 +7,7 @@ charset-normalizer==3.1.0
 dj-database-url==2.0.0
 Django==4.2.1
 django-appconf==1.0.5
-django-compressor==4.1
+django-compressor==4.3.1
 django-markdownx==4.0.2
 django-otp==1.1.4
 django-sass-processor==1.2.2
