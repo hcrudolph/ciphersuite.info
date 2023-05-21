@@ -19,7 +19,7 @@ Markdown==3.4.3
 Pillow==9.5.0
 psycopg2-binary==2.9.4
 pycparser==2.21
-pytz==2022.5
+pytz==2023.3
 PyYAML==6.0
 qrcode==7.3.1
 rcssmin==1.1.1
