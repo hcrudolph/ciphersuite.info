@@ -5,6 +5,6 @@ updates:
     target-branch: "development"
     schedule:
       interval: "weekly"
-      day: "sunday"
-      time: "09:00"
+      day: "saturday"
+      time: "00:00"
       timezone: "Europe/Berlin"
