@@ -12,7 +12,7 @@ django-compressor==4.3.1
 django-markdownx==4.0.2
 django-otp==1.2.1
 django-sass-processor==1.2.2
-exceptiongroup==1.0.1
+exceptiongroup==1.1.1
 idna==3.4
 importlib-metadata==6.6.0
 iniconfig==2.0.0
