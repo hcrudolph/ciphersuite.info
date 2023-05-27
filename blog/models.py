@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 # general python imports
 import re
@@ -68,6 +69,10 @@ class Post(models.Model):
 
     def get_day(self):
         return f"{self.first_published.day:02d}"
+
+    @property
+    def formatted_text(self):
+        return markdownify(self.text)
 
     def __str__(self):
         return self.title

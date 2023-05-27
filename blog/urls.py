@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from . import views
 
 urlpatterns = [
@@ -8,6 +8,7 @@ urlpatterns = [
     path('authors/', views.author_archive),
     re_path(r'^authors/(?P<author_slug>[a-zA-Z0-9_-]+)/$', views.author_post_archive),
     path('categories/', views.category_archive),
+    path('markdownx/', include('markdownx.urls')),
     re_path(r'^categories/(?P<category_slug>[a-zA-Z0-9_-]+)/$', views.category_post_archive),
     re_path(r'^(?P<year>[0-9]{4})/$', views.yearly_post_archive),
     re_path(r'^(?P<year>[0-9]{4})\/(?P<month>[0-9]{2})/$', views.monthly_post_archive),
