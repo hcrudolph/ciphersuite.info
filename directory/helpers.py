@@ -57,10 +57,10 @@ def filter_cs_tls(ciphersuites, tls_version):
 def filter_cs_lib(ciphersuites, software_library):
     """Filters the given list of ciphersuites by a specified software_library."""
 
-    if software_library == 'gnutls':
-        return ciphersuites.filter(openssl_name__isnull=False)
+    if software_library == 'openssl':
+        return ciphersuites.exclude(openssl_name='')
     elif software_library == 'gnutls':
-        return ciphersuites.filter(gnutls_name__isnull=False)
+        return ciphersuites.exclude(gnutls_name='')
     else:
         return ciphersuites
 
