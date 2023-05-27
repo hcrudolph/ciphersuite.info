@@ -23,7 +23,7 @@ pytz==2023.3
 PyYAML==6.0
 qrcode==7.3.1
 rcssmin==1.1.1
-requests==2.30.0
+requests==2.31.0
 rjsmin==1.2.1
 six==1.16.0
 sqlparse==0.4.4
