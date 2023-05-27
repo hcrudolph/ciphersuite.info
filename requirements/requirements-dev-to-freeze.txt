@@ -1,5 +1,4 @@
 asgiref
-attrs
 brotlipy
 certifi
 cffi
@@ -10,7 +9,7 @@ dj-database-url
 Django
 django-appconf
 django-compressor
-django-markdownx>=4.0.0b1
+django-markdownx
 django-otp
 django-sass-processor
 idna
@@ -23,19 +22,14 @@ packaging
 Pillow
 pluggy
 psycopg2-binary
-py
 pycparser
-pyparsing
 pytest
-pytz
 PyYAML
 qrcode
 rcssmin
 requests
 rjsmin
-six
 sqlparse
-toml
 tomli
 urllib3
 whitenoise
