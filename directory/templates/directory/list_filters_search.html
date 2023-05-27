@@ -3,7 +3,7 @@
 {% with params=request.GET.urlencode %}
 
 {% block list_filters_search %}
-<li><a class="dropdown-item {% if sorting == 'rel' or sorting == '' %}active{% endif %}" href="{% relative_url 'rel' 'sort' params %}">Relevancy</a></li>
+<li><a class="dropdown-item {% if sorting == 'rel' or sorting == '' %}active{% endif %}" href="{% relative_url 'rel' 'sort' params %}">Search relevancy</a></li>
 <li><hr class="dropdown-divider"></li>
 {% endblock %}
 

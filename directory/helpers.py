@@ -72,6 +72,10 @@ def sort_ciphersuites(ciphersuites, order):
         return ciphersuites.order_by('name')
     elif order == 'name-desc':
         return ciphersuites.order_by('-name')
+    elif order == 'sec-asc':
+        return ciphersuites.order_by('-security')
+    elif order == 'sec-desc':
+        return ciphersuites.order_by('security')
     else:
         return ciphersuites
 
