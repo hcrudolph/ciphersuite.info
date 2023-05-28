@@ -48,37 +48,34 @@ def index_cs(request):
     single_page = request.GET.get('singlepage', 'false')
     page = request.GET.get('page', '1')
 
-    # get subsets based on list filters
-    cs_by_sl = get_cs_by_security_level(sec_level)
-    cs_by_sw = get_cs_by_software(software)
-    cs_by_tv = get_cs_by_tls_version(tls_version)
+    ciphersuites = CipherSuite.objects.all()
 
-    # create intersection of all subsets
-    cipher_suites = cs_by_sl.intersection(cs_by_sw, cs_by_tv)
+    # Filtering
+    ciphersuites = filter_ciphersuites(
+        ciphersuites, sec_level, tls_version, software)
 
-    if len(cipher_suites) > 0:
-        cipher_suites = sort_cipher_suites(cipher_suites, sorting)
+    # Sorting
+    ciphersuites = sort_ciphersuites(ciphersuites, sorting)
+
+    if len(ciphersuites) > 0:
+        ciphersuites = sort_ciphersuites(ciphersuites, sorting)
 
     # paginate depending on GET parameter
-    if single_page == 'true' and len(cipher_suites) > 0:
-        cipher_suites_paginated = paginate(
-            cipher_suites, page, len(cipher_suites))
+    if single_page == 'true' and len(ciphersuites) > 0:
+        ciphersuites_paginated = paginate(
+            ciphersuites, page, len(ciphersuites))
     else:
-        cipher_suites_paginated = paginate(
-            cipher_suites, page, 15)
-
-    # display CS name format according to search query
-    search_type = 'openssl' if software == 'openssl' else 'iana'
+        ciphersuites_paginated = paginate(
+            ciphersuites, page, 15)
 
     sponsor = Sponsor.objects.first()
 
     context = {
-        'count': cipher_suites_paginated.paginator.count,
+        'count': ciphersuites_paginated.paginator.count,
         'navbar_context': 'cs',
-        'page_number_range': cipher_suites_paginated.paginator.page_range,
-        'results': cipher_suites_paginated,
+        'page_number_range': ciphersuites_paginated.paginator.page_range,
+        'results': ciphersuites_paginated,
         'search_form': NavbarSearchForm(),
-        'search_type': search_type,
         'sec_level': sec_level,
         'singlepage': single_page,
         'software': software,
@@ -193,24 +190,16 @@ def search(request):
     category = request.GET.get('cat', 'cs')
     page = request.GET.get('page', '1')
 
-    # display cs name format according to search query
-    search_type = 'openssl' if ('-' in search_term) or (software == 'openssl') else 'iana'
-
-    # get subsets based on search term
-    ranked_list = search_cipher_suites(search_term)
-    search_result = CipherSuite.objects.filter(pk__in=ranked_list.values_list('name', flat=True))
-
-    # get subsets based on list filters
-    cs_by_sl = get_cs_by_security_level(sec_level)
-    cs_by_sw = get_cs_by_software(software)
-    cs_by_tv = get_cs_by_tls_version(tls_version)
-
-    # create intersection of all subsets
-    cipher_suites = search_result.intersection(cs_by_sl, cs_by_sw, cs_by_tv)
+    # Searching
+    ciphersuites = search_cipher_suites(search_term)
     rfcs = search_rfcs(search_term)
 
-    # Query list returned from db is already sorted by relevancy
-    result_list_cs = sort_cipher_suites(cipher_suites, sorting)
+    # Filtering
+    ciphersuites = filter_ciphersuites(
+        ciphersuites, sec_level, tls_version, software)
+
+    # Sorting
+    result_list_cs = sort_ciphersuites(ciphersuites, sorting)
     result_list_rfc = sort_rfcs(rfcs, sorting)
 
     # distinguish results to display by category
@@ -238,7 +227,6 @@ def search(request):
         'results': result_list_paginated,
         'search_form': NavbarSearchForm(),
         'search_term': search_term,
-        'search_type': search_type,
         'sec_level': sec_level,
         'singlepage': single_page,
         'software': software,

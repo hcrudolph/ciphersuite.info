@@ -8,7 +8,7 @@ dj-database-url
 Django
 django-appconf
 django-compressor
-django-markdownx>=4.0.0b1
+django-markdownx
 django-otp
 django-sass-processor
 idna
@@ -19,14 +19,14 @@ Markdown
 Pillow
 psycopg2-binary
 pycparser
-pytz
+pypng
 PyYAML
 qrcode
 rcssmin
 requests
 rjsmin
-six
 sqlparse
+typing_extensions
 urllib3
 whitenoise
 zipp

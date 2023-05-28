@@ -9,8 +9,10 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="sortDropdownButton">
                 {% block list_filters_search %}{% endblock list_filters_search %}
-                <li><a class="dropdown-item {% if sorting == 'asc' %}active{% endif %}" href="{% relative_url 'asc' 'sort' params %}">Ascending</a></li>
-                <li><a class="dropdown-item {% if sorting == 'desc' %}active{% endif %}" href="{% relative_url 'desc' 'sort' params %}">Descending</a></li>
+                <li><a class="dropdown-item {% if sorting == 'sec-asc' %}active{% endif %}" href="{% relative_url 'sec-asc' 'sort' params %}">Security (ascending)</a></li>
+                <li><a class="dropdown-item {% if sorting == 'sec-desc' %}active{% endif %}" href="{% relative_url 'sec-desc' 'sort' params %}">Security (descending)</a></li>
+                <li><a class="dropdown-item {% if sorting == 'name-asc' %}active{% endif %}" href="{% relative_url 'name-asc' 'sort' params %}">Name (ascending)</a></li>
+                <li><a class="dropdown-item {% if sorting == 'name-desc' %}active{% endif %}" href="{% relative_url 'name-desc' 'sort' params %}">Name (descending)</a></li>
             </ul>
         </div>
     </div>

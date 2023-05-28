@@ -74,26 +74,19 @@ class CipherSuiteQuerySet(models.QuerySet):
 
     def search(self, search_term):
         # create query and vector object needed for ranking results
-        query = SearchQuery(search_term)
-        vector = SearchVector(
-            'name',
-            'openssl_name',
-            'gnutls_name',
-            'auth_algorithm__long_name',
-            'enc_algorithm__long_name',
-            'kex_algorithm__long_name',
-            'hash_algorithm__long_name',
-            'protocol_version__vulnerabilities__name',
-            'auth_algorithm__vulnerabilities__name',
-            'enc_algorithm__vulnerabilities__name',
-            'kex_algorithm__vulnerabilities__name',
-            'hash_algorithm__vulnerabilities__name',
-            'protocol_version__vulnerabilities__description',
-            'auth_algorithm__vulnerabilities__description',
-            'enc_algorithm__vulnerabilities__description',
-            'kex_algorithm__vulnerabilities__description',
-            'hash_algorithm__vulnerabilities__description'
-        )
+        query = SearchQuery(search_term.strip())
+        vector = SearchVector('name', weight='A') + \
+            SearchVector('openssl_name', weight='A') +\
+            SearchVector('gnutls_name', weight='A') + \
+            SearchVector('auth_algorithm__long_name', weight='B') + \
+            SearchVector('enc_algorithm__long_name', weight='B') + \
+            SearchVector('kex_algorithm__long_name', weight='B') + \
+            SearchVector('hash_algorithm__long_name', weight='B') + \
+            SearchVector('protocol_version__vulnerabilities__name', weight='C') + \
+            SearchVector('auth_algorithm__vulnerabilities__name', weight='C') + \
+            SearchVector('enc_algorithm__vulnerabilities__name', weight='C') + \
+            SearchVector('kex_algorithm__vulnerabilities__name', weight='C') + \
+            SearchVector('hash_algorithm__vulnerabilities__name', weight='C')
 
         # retrieve list of all results ordered by decreasing relevancy
         ranked_results = CipherSuite.objects.annotate(
@@ -114,12 +107,7 @@ class CipherSuiteQuerySet(models.QuerySet):
                 Q(auth_algorithm__vulnerabilities__name__icontains=search_term)|
                 Q(enc_algorithm__vulnerabilities__name__icontains=search_term)|
                 Q(kex_algorithm__vulnerabilities__name__icontains=search_term)|
-                Q(hash_algorithm__vulnerabilities__name__icontains=search_term)|
-                Q(protocol_version__vulnerabilities__description__icontains=search_term)|
-                Q(auth_algorithm__vulnerabilities__description__icontains=search_term)|
-                Q(enc_algorithm__vulnerabilities__description__icontains=search_term)|
-                Q(kex_algorithm__vulnerabilities__description__icontains=search_term)|
-                Q(hash_algorithm__vulnerabilities__description__icontains=search_term)
+                Q(hash_algorithm__vulnerabilities__name__icontains=search_term)
             )
         ).distinct()
 
@@ -443,6 +431,11 @@ class KexAlgorithm(Technology):
         verbose_name=_('key exchange algorithm')
         verbose_name_plural=_('key exchange algorithms')
 
+    pfs_support = models.BooleanField(
+        default=False,
+        null=True
+    )
+
 
 class AuthAlgorithm(Technology):
     class Meta(Technology.Meta):
@@ -573,7 +566,7 @@ class Sponsor(models.Model):
         max_length=50,
     )
     icon = models.ImageField(
-        upload_to='sponsors/',
+        upload_to='uploads/',
     )
     link = models.URLField()
 

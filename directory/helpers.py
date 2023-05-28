@@ -16,77 +16,80 @@ def paginate(result_list, current_page, elements_per_page):
         result = paginator.page(paginator.num_pages)
     return result
 
-def get_cs_by_security_level(sec_level):
-    """Returns all CipherSuites of a certain security level."""
+def filter_ciphersuites(ciphersuites, sec, tls, lib):
+    """Wrapper function for filter_cs_sec, filter_cs_tls, filter_cs_lib."""
+    ciphersuites = filter_cs_sec(ciphersuites, sec)
+    ciphersuites = filter_cs_tls(ciphersuites, tls)
+    ciphersuites = filter_cs_lib(ciphersuites, lib)
+    return ciphersuites
 
-    if sec_level == 'recommended':
-        return CipherSuite.objects.filter(security=0)
-    elif sec_level == 'secure':
-        return CipherSuite.objects.filter(security__lte=1)
-    elif sec_level == 'weak':
-        return CipherSuite.objects.filter(security=2)
-    elif sec_level == 'insecure':
-        return CipherSuite.objects.filter(security=3)
+
+def filter_cs_sec(ciphersuites, security_level):
+    """Filters the given list of ciphersuites by a specified security_level."""
+
+    if security_level == 'recommended':
+        return ciphersuites.filter(security=0)
+    elif security_level == 'secure':
+        return ciphersuites.filter(security=1)
+    elif security_level == 'weak':
+        return ciphersuites.filter(security=2)
+    elif security_level == 'insecure':
+        return ciphersuites.filter(security=3)
     else:
-        return CipherSuite.objects.all()
+        return ciphersuites
 
-def get_cs_by_tls_version(version):
-    """Returns a list of CipherSuite instances filtered by their TLS version."""
 
-    if version == 'tls10':
-        return CipherSuite.objects.filter(tls_version__short='11')
-    elif version == 'tls12':
-        return CipherSuite.objects.filter(tls_version__short='12')
-    elif version == 'tls13':
-        return CipherSuite.objects.filter(tls_version__short='13')
+def filter_cs_tls(ciphersuites, tls_version):
+    """Filters the given list of ciphersuites by a specified tls_version."""
+
+    if tls_version == 'tls10':
+        return ciphersuites.filter(tls_version__major=1, tls_version__minor=0)
+    elif tls_version == 'tls11':
+        return ciphersuites.filter(tls_version__major=1, tls_version__minor=1)
+    elif tls_version == 'tls12':
+        return ciphersuites.filter(tls_version__major=1, tls_version__minor=2)
+    elif tls_version == 'tls13':
+        return ciphersuites.filter(tls_version__major=1, tls_version__minor=3)
     else:
-        return CipherSuite.objects.all()
+        return ciphersuites
 
-def get_cs_by_software(software):
-    """Returns a list of CipherSuite instances filtered by their available implementations."""
 
-    if software == 'gnutls':
-        return CipherSuite.objects.exclude(gnutls_name='')
-    elif software == 'openssl':
-        return CipherSuite.objects.exclude(openssl_name='')
+def filter_cs_lib(ciphersuites, software_library):
+    """Filters the given list of ciphersuites by a specified software_library."""
+
+    if software_library == 'openssl':
+        return ciphersuites.exclude(openssl_name='')
+    elif software_library == 'gnutls':
+        return ciphersuites.exclude(gnutls_name='')
     else:
-        return CipherSuite.objects.all()
+        return ciphersuites
 
-def filter_cs_by_sec_level(cipher_suites, sec_level):
-    """Returns a list of CipherSuite instances filtered by their algorithm's vulnerabilities."""
 
-    if sec_level == 'insecure':
-        return cipher_suites.intersection(CipherSuite.objects.filter(security=3))
-    elif sec_level == 'weak':
-        return cipher_suites.intersection(CipherSuite.objects.filter(security=2))
-    elif sec_level == 'secure':
-        return cipher_suites.intersection(CipherSuite.objects.filter(security__lte=1))
-    elif sec_level == 'recommended':
-        return cipher_suites.intersection(CipherSuite.objects.filter(security=0))
+def sort_ciphersuites(ciphersuites, order):
+    """Sorts the given list of ciphersuites in a specified order."""
+
+    if order == 'name-asc':
+        return ciphersuites.order_by('name')
+    elif order == 'name-desc':
+        return ciphersuites.order_by('-name')
+    elif order == 'sec-asc':
+        return ciphersuites.order_by('-security')
+    elif order == 'sec-desc':
+        return ciphersuites.order_by('security')
     else:
-        return cipher_suites
-
-def sort_cipher_suites(cipher_suites, ordering):
-    """Sorts the given list of CipherSuite instances in a specific order."""
-
-    if ordering == 'asc':
-        return cipher_suites.order_by('name')
-    elif ordering == 'desc':
-        return cipher_suites.order_by('-name')
-    else:
-        return cipher_suites
+        return ciphersuites
 
 
-def sort_rfcs(rfcs, ordering):
-    """Sorts the given list of Rfc instances in a specific order."""
+def sort_rfcs(rfcs, order):
+    """Sorts the given list of rfcs instances in a specified order."""
 
-    if ordering == 'number-asc':
+    if order == 'number-asc':
         return rfcs.order_by('number')
-    elif ordering == 'number-desc':
+    elif order == 'number-desc':
         return rfcs.order_by('-number')
-    elif ordering == 'title-asc':
+    elif order == 'title-asc':
         return rfcs.order_by('title')
-    elif ordering == 'title-desc':
+    elif order == 'title-desc':
         return rfcs.order_by('-title')
     else:
         return rfcs

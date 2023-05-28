@@ -21,7 +21,7 @@
 
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
-            <div class="post-content">{{ post.text }}</div>
+            <div class="post-content">{{ post.formatted_text|safe }}</div>
         </div><!-- end column -->
     </div>
 

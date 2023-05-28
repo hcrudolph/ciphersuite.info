@@ -4,8 +4,7 @@
 <div class="container">
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1>Search results</h1>
-            <h4 class="long-string text-muted">"{{ search_term }}"</h4>
+            <h1>Search results for "{{ search_term }}"</h1>
         </div><!-- end column -->
         <div class="col-lg-8 col-lg-offset-2">
             {% include "directory/list_filters_search.html" %}
@@ -18,17 +17,17 @@
             <ul class="nav nav-tabs nav-justified">
             {% if cs_tab_active %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Cipher Suites <span class="badge badge-dark">{{ result_count_cs }}</span></a>
+                    <a class="nav-link active" href="#">Cipher Suites <span class="badge bg-secondary">{{ result_count_cs }}</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/search/?q={{ search_term }}&cat=rfc">RFCs <span class="badge badge-secondary">{{ result_count_rfc }}</span></a>
+                    <a class="nav-link" href="/search/?q={{ search_term }}&cat=rfc">RFCs <span class="badge bg-secondary">{{ result_count_rfc }}</span></a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/search/?q={{ search_term }}&cat=cs">Cipher Suites <span class="badge badge-secondary">{{ result_count_cs }}</span></a>
+                    <a class="nav-link" href="/search/?q={{ search_term }}&cat=cs">Cipher Suites <span class="badge bg-secondary">{{ result_count_cs }}</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="active nav-link" href="#">RFCs <span class="badge badge-dark">{{ result_count_rfc }}</span></a>
+                    <a class="active nav-link" href="#">RFCs <span class="badge bg-secondary">{{ result_count_rfc }}</span></a>
                 </li>
             {% endif %}
             </ul>
@@ -53,12 +52,7 @@
                             {% else %}
                                 <span class="badge bg-fixed-width bg-success">Recommended</span>
                             {% endif %}
-
-                            {% if search_type == 'openssl' and element.openssl_name != '' %}
-                                {{ element.openssl_name }}
-                            {% else %}
-                                {{ element.name }}
-                            {% endif %}
+                            {{ element.name }}
                             </a>
                         </li>
                     {% else %}
