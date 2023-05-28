@@ -59,21 +59,26 @@ class Command(BaseCommand):
                 cipher_suite.tls_version.add(tls13)
             elif 'IDEA' in cipher_suite.name or 'DES' in cipher_suite.name:
                 # IDEA and DES are deprecated with TLS1.2
-                cipher_suite.tls_version.add(tls10)
+                cipher_suite.tls_version.add(tls13)
+                cipher_suite.tls_version.add(tls12)
                 cipher_suite.tls_version.add(tls11)
+                cipher_suite.tls_version.add(tls10)
             elif 'POLY1305' in cipher_suite.name or\
                 'GCM' in cipher_suite.name or\
                 'CCM' in cipher_suite.name or\
                 'GOST' in cipher_suite.name:
-                # ChaCha/Poly, GCM, CCM, and GOST are TLS1.2-only
+                # ChaCha/Poly, GCM, CCM, and GOST are supported from TLS1.2 onwards
+                cipher_suite.tls_version.add(tls13)
                 cipher_suite.tls_version.add(tls12)
             elif cipher_suite.name in misc_tls12:
-                # catch some others by name
+                # catch some others TLS1.2+ ciphers by name
+                cipher_suite.tls_version.add(tls13)
                 cipher_suite.tls_version.add(tls12)
             else:
-                # default is support by all legacy TLS versions
-                cipher_suite.tls_version.add(tls10)
-                cipher_suite.tls_version.add(tls11)
+                # default: supported by all TLS versions
+                cipher_suite.tls_version.add(tls13)
                 cipher_suite.tls_version.add(tls12)
+                cipher_suite.tls_version.add(tls11)
+                cipher_suite.tls_version.add(tls10)
             cipher_suite.save()
 
