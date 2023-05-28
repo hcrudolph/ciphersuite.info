@@ -566,7 +566,7 @@ class Sponsor(models.Model):
         max_length=50,
     )
     icon = models.ImageField(
-        upload_to='sponsors/',
+        upload_to='uploads/',
     )
     link = models.URLField()
 
