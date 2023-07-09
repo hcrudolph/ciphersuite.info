@@ -27,12 +27,17 @@
   pk: 'NULL Encryption'
   fields:
     severity: 2
-    description: 'This cipher suite uses no encryption at all. Hence, it is not providing confidentiality.'
+    description: 'This cipher suite uses no encryption at all. Hence, it does not provide confidentiality protection.'
 - model: directory.Vulnerability
   pk: 'NULL Authentication'
   fields:
     severity: 2
-    description: 'This cipher suite uses no authentication at all. Hence, it is not providing integrity.'
+    description: 'This cipher suite uses no authentication at all.'
+- model: directory.Vulnerability
+  pk: 'NULL Integrity'
+  fields:
+    severity: 2
+    description: 'This cipher suite uses no hash algorithm at all. Hence, it does not provide integrity protection.'
 - model: directory.Vulnerability
   pk: 'Data Encryption Standard'
   fields:
