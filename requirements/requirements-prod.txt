@@ -12,7 +12,7 @@ django-markdownx==4.0.2
 django-otp==1.2.2
 django-sass-processor==1.2.2
 idna==3.4
-importlib-metadata==6.6.0
+importlib-metadata==6.8.0
 libsass==0.22.0
 lxml==4.9.2
 Markdown==3.4.3
