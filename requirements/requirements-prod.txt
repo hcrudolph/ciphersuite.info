@@ -5,11 +5,11 @@ cffi==1.15.1
 chardet==5.1.0
 charset-normalizer==3.1.0
 dj-database-url==2.0.0
-Django==4.2.1
+Django==4.2.2
 django-appconf==1.0.5
 django-compressor==4.3.1
 django-markdownx==4.0.2
-django-otp==1.2.1
+django-otp==1.2.2
 django-sass-processor==1.2.2
 idna==3.4
 importlib-metadata==6.6.0
@@ -27,6 +27,6 @@ requests==2.31.0
 rjsmin==1.2.1
 sqlparse==0.4.4
 typing_extensions==4.6.3
-urllib3==2.0.2
-whitenoise==6.4.0
+urllib3==2.0.3
+whitenoise==6.5.0
 zipp==3.15.0
