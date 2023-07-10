@@ -82,6 +82,11 @@
   fields:
     long_name: 'gostIMIT28147'
     vulnerabilities: ['GOST']
+- model: directory.AuthAlgorithm
+  pk: 'GOSTR341012'
+  fields:
+    long_name: 'GOST R 34.10-2012 Digital Signature Algorithm'
+    vulnerabilities: ['GOST']
 
 ###########################
 # Key Exchange Algorithms #
@@ -133,9 +138,9 @@
     long_name: 'Secure Remote Password'
     vulnerabilities: []
 - model: directory.KexAlgorithm
-  pk: 'VKO GOSTR3410 2012 256'
+  pk: 'GOSTR341112 256'
   fields:
-    long_name: ''
+    long_name: 'Key agreement Function based on GOST R 34.11-2012'
     vulnerabilities: ['GOST']
 
 ###################
@@ -151,7 +156,7 @@
   pk: 'NULL'
   fields:
     long_name: 'NULL Hash'
-    vulnerabilities: []
+    vulnerabilities: ['NULL Integrity']
 - model: directory.HashAlgorithm
   pk: 'SHA'
   fields:
@@ -173,9 +178,9 @@
     long_name: 'ShangMi 3 Hashing Algorithm'
     vulnerabilities: ['ShangMi 3 Hash']
 - model: directory.HashAlgorithm
-  pk: 'GOST R 34.11-2012'
+  pk: 'GOSTR341112'
   fields:
-    long_name: ''
+    long_name: 'GOST R 34.11-2012 Hash Function'
     vulnerabilities: ['GOST']
 
 #########################
@@ -340,12 +345,32 @@
 - model: directory.EncAlgorithm
   pk: 'KUZNYECHIK CTR'
   fields:
-    long_name: 'Kuznyechik Block Cipher'
+    long_name: 'Kuznyechik Block Cipher in Counter Mode (CTR)'
+    vulnerabilities: ['GOST']
+- model: directory.EncAlgorithm
+  pk: 'KUZNYECHIK MGM S'
+  fields:
+    long_name: 'Kuznyechik Block Cipher in Multilinear Galois Mode (MGM)'
+    vulnerabilities: ['GOST']
+- model: directory.EncAlgorithm
+  pk: 'KUZNYECHIK MGM L'
+  fields:
+    long_name: 'Kuznyechik Block Cipher in Multilinear Galois Mode (MGM)'
     vulnerabilities: ['GOST']
 - model: directory.EncAlgorithm
   pk: 'MAGMA CTR'
   fields:
-    long_name: 'Magma Block Cipher'
+    long_name: 'Magma Block Cipher in Counter Mode (CTR)'
+    vulnerabilities: ['GOST']
+- model: directory.EncAlgorithm
+  pk: 'MAGMA MGM S'
+  fields:
+    long_name: 'Magma Block Cipher in Multilinear Galois Mode (MGM)'
+    vulnerabilities: ['GOST']
+- model: directory.EncAlgorithm
+  pk: 'MAGMA MGM L'
+  fields:
+    long_name: 'Magma Block Cipher in Multilinear Galois Mode (MGM)'
     vulnerabilities: ['GOST']
 - model: directory.EncAlgorithm
   pk: '28147 CNT'

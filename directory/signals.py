@@ -107,23 +107,37 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
 def complete_cs_instance(sender, instance, *args, **kwargs):
     '''Derives related algorithms form instance.name of the cipher suites.'''
 
-    tls_13_flag = False
+    flag_tls13 = False
+    flag_pfs = False
+    flag_aead = False
 
     # GOST ciphers
-    if (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x01') or\
+    if (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x00') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x01') or\
         (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x02') or\
-        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x03'):
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x03') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x04') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x05') or\
+        (instance.hex_byte_1 == '0xC1' and instance.hex_byte_2 == '0x06'):
         name = instance.name
-        (prt,_,rst) = name.replace("_", " ").partition("WITH")
-        (enc,_,aut) = rst.rpartition(" ")
-        prt = "TLS"
-        kex = "VKO GOSTR3410 2012 256"
-        hsh = "GOST R 34.11-2012"
+        (fst,_,rst) = name.replace("_", " ").partition("WITH")
+        (prt,kex) = fst.split(" ", 1)
+        aut = 'GOSTR341012'
+        hsh = 'GOSTR341112'
+
+        if re.search(r'MGM', rst, re.IGNORECASE):
+            flag_tls13 = True
+            kex = 'ECDHE'
+            enc = rst
+            aut = '-'
+            hsh = '-'
+        else:
+            (enc,_) = rst.rsplit(" ", 1)
 
     # TLS1.3 authentication/integrity-only ciphers
     elif (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB4') or\
         (instance.hex_byte_1 == '0xC0' and instance.hex_byte_2 == '0xB5'):
-        tls_13_flag = True
+        flag_tls13 = True
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (aut,_,hsh) = rst.rpartition(" ")
@@ -134,7 +148,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     elif instance.hex_byte_1 == '0x13'\
         or instance.hex_byte_2 == '0xC6'\
         or instance.hex_byte_2 == '0xC7':
-        tls_13_flag = True
+        flag_tls13 = True
         name = instance.name
         (prt,_,rst) = name.replace("_", " ").partition(" ")
         (enc,_,hsh) = rst.rpartition(" ")
@@ -174,14 +188,12 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
             aut = "PSK"
 
     # identify PFS algorithms
-    pfs_flag = False
-    if re.search(r'ECDHE|DHE', kex, re.IGNORECASE) or tls_13_flag:
-        pfs_flag = True
+    if re.search(r'ECDHE|DHE', kex, re.IGNORECASE) or flag_tls13:
+        flag_pfs = True
 
     # identify AEAD algorithms
-    aead_flag = False
-    if re.search(r'GCM|POLY1305|CCM', enc, re.IGNORECASE):
-        aead_flag = True
+    if re.search(r'GCM|POLY1305|CCM|MGM', enc, re.IGNORECASE):
+        flag_aead = True
 
     # connect foreign keys from other models
     # if aut is not excplicitly defined, set it equal to kex
@@ -195,7 +207,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
         )
     instance.kex_algorithm, _ = KexAlgorithm.objects.update_or_create(
         short_name=kex.strip(),
-        defaults={'pfs_support': pfs_flag}
+        defaults={'pfs_support': flag_pfs}
     )
     instance.protocol_version, _ = ProtocolVersion.objects.get_or_create(
         short_name=prt.strip()
@@ -205,7 +217,7 @@ def complete_cs_instance(sender, instance, *args, **kwargs):
     )
     instance.enc_algorithm, _ = EncAlgorithm.objects.update_or_create(
         short_name=enc.strip(),
-        defaults={'aead_algorithm': aead_flag}
+        defaults={'aead_algorithm': flag_aead}
     )
 
 

@@ -46,7 +46,9 @@
 
                     {% if atype == 'Encryption' and cipher_suite.enc_algorithm.aead_algorithm %}
                         <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Authenticated Encryption with Associated Data">AEAD</span>
-                    {% elif atype == 'Hash' and not cipher_suite.enc_algorithm.aead_algorithm %}
+                    {% endif %}
+
+                    {% if atype == 'Hash' and not algo.short_name == 'NULL' and not cipher_suite.enc_algorithm.aead_algorithm %}
                         <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Hash-based Message Authentication Code">HMAC</span>
                     {% endif %}
 

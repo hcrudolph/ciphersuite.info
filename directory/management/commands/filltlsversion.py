@@ -48,12 +48,12 @@ class Command(BaseCommand):
             'TLS_ECDH_RSA_WITH_CAMELLIA_256_CBC_SHA384',
         ]
 
-        for cipher_suite in CipherSuite.objects.all():
-            tls10, _ = TlsVersion.objects.get_or_create(major=1, minor=0)
-            tls11, _ = TlsVersion.objects.get_or_create(major=1, minor=1)
-            tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
-            tls13, _ = TlsVersion.objects.get_or_create(major=1, minor=3)
+        tls10, _ = TlsVersion.objects.get_or_create(major=1, minor=0)
+        tls11, _ = TlsVersion.objects.get_or_create(major=1, minor=1)
+        tls12, _ = TlsVersion.objects.get_or_create(major=1, minor=2)
+        tls13, _ = TlsVersion.objects.get_or_create(major=1, minor=3)
 
+        for cipher_suite in CipherSuite.objects.all():
             if not 'WITH' in cipher_suite.name:
                 # TLS1.3 IANA names don't include WITH
                 cipher_suite.tls_version.add(tls13)
@@ -63,6 +63,9 @@ class Command(BaseCommand):
                 cipher_suite.tls_version.add(tls12)
                 cipher_suite.tls_version.add(tls11)
                 cipher_suite.tls_version.add(tls10)
+            elif 'MGM' in cipher_suite.name:
+                # GOST MGM are supported by TLS1.3 onwards
+                cipher_suite.tls_version.add(tls13)
             elif 'POLY1305' in cipher_suite.name or\
                 'GCM' in cipher_suite.name or\
                 'CCM' in cipher_suite.name or\
