@@ -41,7 +41,8 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item {% if tls_version == 'tls10' %}active{% endif %}" href="{% relative_url 'tls10' 'tls' params %}">TLS1.0/TLS1.1</a></li>
                 <li><a class="dropdown-item {% if tls_version == 'tls12' %}active{% endif %}" href="{% relative_url 'tls12' 'tls' params %}">TLS1.2</a></li>
-                <li><a class="dropdown-item {% if tls_version == 'tls13' %}active{% endif %}" href="{% relative_url 'tls13' 'tls' params %}">TLS1.3</a></li>
+                <li><a class="dropdown-item {% if tls_version == 'tls13' %}active{% endif %}" href="{% relative_url 'tls13' 'tls' params %}">TLS1.3 (all)</a></li>
+                <li><a class="dropdown-item {% if tls_version == 'xtls13' %}active{% endif %}" href="{% relative_url 'xtls13' 'tls' params %}">TLS1.3 (only)</a></li>
             </ul>
         </div>
     </div>
