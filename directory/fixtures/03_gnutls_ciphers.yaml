@@ -1,910 +1,911 @@
+---
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_NULL_MD5'
+  pk: "TLS_RSA_NULL_MD5"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x01'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x01"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_NULL_SHA1'
+  pk: "TLS_RSA_NULL_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x02'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x02"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_NULL_SHA256'
+  pk: "TLS_RSA_NULL_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x3b'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x3b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_ARCFOUR_128_SHA1'
+  pk: "TLS_RSA_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x05'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x05"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_ARCFOUR_128_MD5'
+  pk: "TLS_RSA_ARCFOUR_128_MD5"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x04'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x04"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_3DES_EDE_CBC_SHA1'
+  pk: "TLS_RSA_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x0a'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x0a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_128_CBC_SHA1'
+  pk: "TLS_RSA_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x2f'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x2f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_256_CBC_SHA1'
+  pk: "TLS_RSA_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x35'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x35"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_RSA_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xba'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xba"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_CAMELLIA_256_CBC_SHA256'
+  pk: "TLS_RSA_CAMELLIA_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xc0'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xc0"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_CAMELLIA_128_CBC_SHA1'
+  pk: "TLS_RSA_CAMELLIA_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x41'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x41"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_CAMELLIA_256_CBC_SHA1'
+  pk: "TLS_RSA_CAMELLIA_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x84'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x84"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_128_CBC_SHA256'
+  pk: "TLS_RSA_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x3c'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x3c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_256_CBC_SHA256'
+  pk: "TLS_RSA_AES_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x3d'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x3d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_128_GCM_SHA256'
+  pk: "TLS_RSA_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x9c'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x9c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_256_GCM_SHA384'
+  pk: "TLS_RSA_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x9d'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x9d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_RSA_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x7a'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x7a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_RSA_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x7b'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x7b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_128_CCM'
+  pk: "TLS_RSA_AES_128_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x9c'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x9c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_256_CCM'
+  pk: "TLS_RSA_AES_256_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x9d'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x9d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_128_CCM_8'
+  pk: "TLS_RSA_AES_128_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa0'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa0"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_AES_256_CCM_8'
+  pk: "TLS_RSA_AES_256_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa1'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa1"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_ARCFOUR_128_SHA1'
+  pk: "TLS_DHE_DSS_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x66'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x66"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_3DES_EDE_CBC_SHA1'
+  pk: "TLS_DHE_DSS_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x13'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x13"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_AES_128_CBC_SHA1'
+  pk: "TLS_DHE_DSS_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x32'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x32"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_AES_256_CBC_SHA1'
+  pk: "TLS_DHE_DSS_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x38'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x38"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_DHE_DSS_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xbd'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xbd"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_CAMELLIA_256_CBC_SHA256'
+  pk: "TLS_DHE_DSS_CAMELLIA_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xc3'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xc3"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_CAMELLIA_128_CBC_SHA1'
+  pk: "TLS_DHE_DSS_CAMELLIA_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x44'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x44"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_CAMELLIA_256_CBC_SHA1'
+  pk: "TLS_DHE_DSS_CAMELLIA_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x87'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x87"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_AES_128_CBC_SHA256'
+  pk: "TLS_DHE_DSS_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x40'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x40"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_AES_256_CBC_SHA256'
+  pk: "TLS_DHE_DSS_AES_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x6a'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x6a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_AES_128_GCM_SHA256'
+  pk: "TLS_DHE_DSS_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xa2'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xa2"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_AES_256_GCM_SHA384'
+  pk: "TLS_DHE_DSS_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xa3'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xa3"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_DHE_DSS_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x80'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x80"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_DSS_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_DHE_DSS_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x81'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x81"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_3DES_EDE_CBC_SHA1'
+  pk: "TLS_DHE_RSA_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x16'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x16"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_128_CBC_SHA1'
+  pk: "TLS_DHE_RSA_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x33'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x33"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_256_CBC_SHA1'
+  pk: "TLS_DHE_RSA_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x39'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x39"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_DHE_RSA_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xbe'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xbe"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CAMELLIA_256_CBC_SHA256'
+  pk: "TLS_DHE_RSA_CAMELLIA_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xc4'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xc4"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CAMELLIA_128_CBC_SHA1'
+  pk: "TLS_DHE_RSA_CAMELLIA_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x45'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x45"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CAMELLIA_256_CBC_SHA1'
+  pk: "TLS_DHE_RSA_CAMELLIA_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x88'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x88"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_128_CBC_SHA256'
+  pk: "TLS_DHE_RSA_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x67'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x67"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_256_CBC_SHA256'
+  pk: "TLS_DHE_RSA_AES_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x6b'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x6b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_128_GCM_SHA256'
+  pk: "TLS_DHE_RSA_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x9e'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x9e"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_256_GCM_SHA384'
+  pk: "TLS_DHE_RSA_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x9f'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x9f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_DHE_RSA_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x7c'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x7c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_DHE_RSA_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x7d'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x7d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_CHACHA20_POLY1305'
+  pk: "TLS_DHE_RSA_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xaa'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xaa"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_128_CCM'
+  pk: "TLS_DHE_RSA_AES_128_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x9e'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x9e"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_256_CCM'
+  pk: "TLS_DHE_RSA_AES_256_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x9f'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x9f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_128_CCM_8'
+  pk: "TLS_DHE_RSA_AES_128_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa2'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa2"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_RSA_AES_256_CCM_8'
+  pk: "TLS_DHE_RSA_AES_256_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa3'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa3"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_NULL_SHA1'
+  pk: "TLS_ECDHE_RSA_NULL_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x10'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x10"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_3DES_EDE_CBC_SHA1'
+  pk: "TLS_ECDHE_RSA_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x12'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x12"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_AES_128_CBC_SHA1'
+  pk: "TLS_ECDHE_RSA_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x13'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x13"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_AES_256_CBC_SHA1'
+  pk: "TLS_ECDHE_RSA_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x14'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x14"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_AES_256_CBC_SHA384'
+  pk: "TLS_ECDHE_RSA_AES_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x28'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x28"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_ARCFOUR_128_SHA1'
+  pk: "TLS_ECDHE_RSA_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x11'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x11"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_ECDHE_RSA_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x76'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x76"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_CAMELLIA_256_CBC_SHA384'
+  pk: "TLS_ECDHE_RSA_CAMELLIA_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x77'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x77"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_NULL_SHA1'
+  pk: "TLS_ECDHE_ECDSA_NULL_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x06'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x06"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_3DES_EDE_CBC_SHA1'
+  pk: "TLS_ECDHE_ECDSA_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x08'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x08"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_128_CBC_SHA1'
+  pk: "TLS_ECDHE_ECDSA_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x09'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x09"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_256_CBC_SHA1'
+  pk: "TLS_ECDHE_ECDSA_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x0a'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x0a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_ARCFOUR_128_SHA1'
+  pk: "TLS_ECDHE_ECDSA_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x07'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x07"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_ECDHE_ECDSA_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x72'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x72"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_CAMELLIA_256_CBC_SHA384'
+  pk: "TLS_ECDHE_ECDSA_CAMELLIA_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x73'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x73"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_128_CBC_SHA256'
+  pk: "TLS_ECDHE_ECDSA_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x23'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x23"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_AES_128_CBC_SHA256'
+  pk: "TLS_ECDHE_RSA_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x27'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x27"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_ECDHE_ECDSA_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x86'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x86"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_ECDHE_ECDSA_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x87'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x87"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_128_GCM_SHA256'
+  pk: "TLS_ECDHE_ECDSA_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x2b'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x2b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_256_GCM_SHA384'
+  pk: "TLS_ECDHE_ECDSA_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x2c'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x2c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_AES_128_GCM_SHA256'
+  pk: "TLS_ECDHE_RSA_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x2f'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x2f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_AES_256_GCM_SHA384'
+  pk: "TLS_ECDHE_RSA_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x30'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x30"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_256_CBC_SHA384'
+  pk: "TLS_ECDHE_ECDSA_AES_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x24'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x24"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_ECDHE_RSA_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x8a'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x8a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_ECDHE_RSA_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x8b'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x8b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_RSA_CHACHA20_POLY1305'
+  pk: "TLS_ECDHE_RSA_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xa8'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xa8"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_CHACHA20_POLY1305'
+  pk: "TLS_ECDHE_ECDSA_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xa9'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xa9"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_128_CCM'
+  pk: "TLS_ECDHE_ECDSA_AES_128_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xac'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xac"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_256_CCM'
+  pk: "TLS_ECDHE_ECDSA_AES_256_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xad'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xad"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_128_CCM_8'
+  pk: "TLS_ECDHE_ECDSA_AES_128_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xae'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xae"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_ECDSA_AES_256_CCM_8'
+  pk: "TLS_ECDHE_ECDSA_AES_256_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xaf'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xaf"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_3DES_EDE_CBC_SHA1'
+  pk: "TLS_ECDHE_PSK_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x34'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x34"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_AES_128_CBC_SHA1'
+  pk: "TLS_ECDHE_PSK_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x35'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x35"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_AES_256_CBC_SHA1'
+  pk: "TLS_ECDHE_PSK_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x36'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x36"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_AES_128_CBC_SHA256'
+  pk: "TLS_ECDHE_PSK_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x37'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x37"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_AES_256_CBC_SHA384'
+  pk: "TLS_ECDHE_PSK_AES_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x38'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x38"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_ARCFOUR_128_SHA1'
+  pk: "TLS_ECDHE_PSK_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x33'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x33"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_NULL_SHA1'
+  pk: "TLS_ECDHE_PSK_NULL_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x39'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x39"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_NULL_SHA256'
+  pk: "TLS_ECDHE_PSK_NULL_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x3a'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x3a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_NULL_SHA384'
+  pk: "TLS_ECDHE_PSK_NULL_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x3b'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x3b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_ECDHE_PSK_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x9a'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x9a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_CAMELLIA_256_CBC_SHA384'
+  pk: "TLS_ECDHE_PSK_CAMELLIA_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x9b'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x9b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_ARCFOUR_128_SHA1'
+  pk: "TLS_PSK_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x8a'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x8a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_3DES_EDE_CBC_SHA1'
+  pk: "TLS_PSK_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x8b'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x8b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_128_CBC_SHA1'
+  pk: "TLS_PSK_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x8c'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x8c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_256_CBC_SHA1'
+  pk: "TLS_PSK_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x8d'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x8d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_128_CBC_SHA256'
+  pk: "TLS_PSK_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xae'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xae"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_256_GCM_SHA384'
+  pk: "TLS_PSK_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xa9'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xa9"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_PSK_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x8e'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x8e"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_PSK_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x8f'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x8f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_128_GCM_SHA256'
+  pk: "TLS_PSK_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xa8'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xa8"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_NULL_SHA1'
+  pk: "TLS_PSK_NULL_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x2c'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x2c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_NULL_SHA256'
+  pk: "TLS_PSK_NULL_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb0'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb0"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_PSK_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x94'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x94"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_CAMELLIA_256_CBC_SHA384'
+  pk: "TLS_PSK_CAMELLIA_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x95'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x95"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_256_CBC_SHA384'
+  pk: "TLS_PSK_AES_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xaf'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xaf"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_NULL_SHA384'
+  pk: "TLS_PSK_NULL_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb1'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb1"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_ARCFOUR_128_SHA1'
+  pk: "TLS_RSA_PSK_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x92'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x92"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_3DES_EDE_CBC_SHA1'
+  pk: "TLS_RSA_PSK_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x93'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x93"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_AES_128_CBC_SHA1'
+  pk: "TLS_RSA_PSK_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x94'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x94"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_AES_256_CBC_SHA1'
+  pk: "TLS_RSA_PSK_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x95'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x95"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_RSA_PSK_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x92'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x92"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_RSA_PSK_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x93'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x93"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_AES_128_GCM_SHA256'
+  pk: "TLS_RSA_PSK_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xac'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xac"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_AES_128_CBC_SHA256'
+  pk: "TLS_RSA_PSK_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb6'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb6"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_NULL_SHA1'
+  pk: "TLS_RSA_PSK_NULL_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x2e'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x2e"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_NULL_SHA256'
+  pk: "TLS_RSA_PSK_NULL_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb8'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb8"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_AES_256_GCM_SHA384'
+  pk: "TLS_RSA_PSK_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xad'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xad"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_AES_256_CBC_SHA384'
+  pk: "TLS_RSA_PSK_AES_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb7'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb7"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_NULL_SHA384'
+  pk: "TLS_RSA_PSK_NULL_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb9'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb9"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_RSA_PSK_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x98'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x98"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_CAMELLIA_256_CBC_SHA384'
+  pk: "TLS_RSA_PSK_CAMELLIA_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x99'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x99"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_ARCFOUR_128_SHA1'
+  pk: "TLS_DHE_PSK_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x8e'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x8e"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_3DES_EDE_CBC_SHA1'
+  pk: "TLS_DHE_PSK_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x8f'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x8f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_128_CBC_SHA1'
+  pk: "TLS_DHE_PSK_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x90'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x90"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_256_CBC_SHA1'
+  pk: "TLS_DHE_PSK_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x91'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x91"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_128_CBC_SHA256'
+  pk: "TLS_DHE_PSK_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb2'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb2"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_128_GCM_SHA256'
+  pk: "TLS_DHE_PSK_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xaa'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xaa"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_NULL_SHA1'
+  pk: "TLS_DHE_PSK_NULL_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x2d'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x2d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_NULL_SHA256'
+  pk: "TLS_DHE_PSK_NULL_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb4'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb4"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_NULL_SHA384'
+  pk: "TLS_DHE_PSK_NULL_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb5'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb5"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_256_CBC_SHA384'
+  pk: "TLS_DHE_PSK_AES_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xb3'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xb3"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_256_GCM_SHA384'
+  pk: "TLS_DHE_PSK_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xab'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xab"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_DHE_PSK_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x96'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x96"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_CAMELLIA_256_CBC_SHA384'
+  pk: "TLS_DHE_PSK_CAMELLIA_256_CBC_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x97'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x97"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_DHE_PSK_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x90'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x90"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_DHE_PSK_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x91'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x91"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_128_CCM'
+  pk: "TLS_PSK_AES_128_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa4'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa4"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_256_CCM'
+  pk: "TLS_PSK_AES_256_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa5'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa5"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_128_CCM'
+  pk: "TLS_DHE_PSK_AES_128_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa6'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa6"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_256_CCM'
+  pk: "TLS_DHE_PSK_AES_256_CCM"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa7'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa7"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_128_CCM_8'
+  pk: "TLS_PSK_AES_128_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa8'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa8"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_AES_256_CCM_8'
+  pk: "TLS_PSK_AES_256_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xa9'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xa9"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_128_CCM_8'
+  pk: "TLS_DHE_PSK_AES_128_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xaa'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xaa"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_AES_256_CCM_8'
+  pk: "TLS_DHE_PSK_AES_256_CCM_8"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0xab'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0xab"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DHE_PSK_CHACHA20_POLY1305'
+  pk: "TLS_DHE_PSK_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xad'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xad"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDHE_PSK_CHACHA20_POLY1305'
+  pk: "TLS_ECDHE_PSK_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xac'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xac"
 - model: directory.GnutlsCipher
-  pk: 'TLS_RSA_PSK_CHACHA20_POLY1305'
+  pk: "TLS_RSA_PSK_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xae'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xae"
 - model: directory.GnutlsCipher
-  pk: 'TLS_PSK_CHACHA20_POLY1305'
+  pk: "TLS_PSK_CHACHA20_POLY1305"
   fields:
-    hex_byte_1: '0xcc'
-    hex_byte_2: '0xab'
+    hex_byte_1: "0xcc"
+    hex_byte_2: "0xab"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_ARCFOUR_128_MD5'
+  pk: "TLS_DH_ANON_ARCFOUR_128_MD5"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x18'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x18"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_3DES_EDE_CBC_SHA1'
+  pk: "TLS_DH_ANON_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x1b'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x1b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_AES_128_CBC_SHA1'
+  pk: "TLS_DH_ANON_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x34'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x34"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_AES_256_CBC_SHA1'
+  pk: "TLS_DH_ANON_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x3a'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x3a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_CAMELLIA_128_CBC_SHA256'
+  pk: "TLS_DH_ANON_CAMELLIA_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xbf'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xbf"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_CAMELLIA_256_CBC_SHA256'
+  pk: "TLS_DH_ANON_CAMELLIA_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xc5'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xc5"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_CAMELLIA_128_CBC_SHA1'
+  pk: "TLS_DH_ANON_CAMELLIA_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x46'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x46"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_CAMELLIA_256_CBC_SHA1'
+  pk: "TLS_DH_ANON_CAMELLIA_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x89'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x89"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_AES_128_CBC_SHA256'
+  pk: "TLS_DH_ANON_AES_128_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x6c'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x6c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_AES_256_CBC_SHA256'
+  pk: "TLS_DH_ANON_AES_256_CBC_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0x6d'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0x6d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_AES_128_GCM_SHA256'
+  pk: "TLS_DH_ANON_AES_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xa6'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xa6"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_AES_256_GCM_SHA384'
+  pk: "TLS_DH_ANON_AES_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0x00'
-    hex_byte_2: '0xa7'
+    hex_byte_1: "0x00"
+    hex_byte_2: "0xa7"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_CAMELLIA_128_GCM_SHA256'
+  pk: "TLS_DH_ANON_CAMELLIA_128_GCM_SHA256"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x84'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x84"
 - model: directory.GnutlsCipher
-  pk: 'TLS_DH_ANON_CAMELLIA_256_GCM_SHA384'
+  pk: "TLS_DH_ANON_CAMELLIA_256_GCM_SHA384"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x85'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x85"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDH_ANON_NULL_SHA1'
+  pk: "TLS_ECDH_ANON_NULL_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x15'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x15"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDH_ANON_3DES_EDE_CBC_SHA1'
+  pk: "TLS_ECDH_ANON_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x17'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x17"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDH_ANON_AES_128_CBC_SHA1'
+  pk: "TLS_ECDH_ANON_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x18'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x18"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDH_ANON_AES_256_CBC_SHA1'
+  pk: "TLS_ECDH_ANON_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x19'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x19"
 - model: directory.GnutlsCipher
-  pk: 'TLS_ECDH_ANON_ARCFOUR_128_SHA1'
+  pk: "TLS_ECDH_ANON_ARCFOUR_128_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x16'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x16"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_3DES_EDE_CBC_SHA1'
+  pk: "TLS_SRP_SHA_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x1a'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x1a"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_AES_128_CBC_SHA1'
+  pk: "TLS_SRP_SHA_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x1d'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x1d"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_AES_256_CBC_SHA1'
+  pk: "TLS_SRP_SHA_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x20'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x20"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_DSS_3DES_EDE_CBC_SHA1'
+  pk: "TLS_SRP_SHA_DSS_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x1c'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x1c"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_RSA_3DES_EDE_CBC_SHA1'
+  pk: "TLS_SRP_SHA_RSA_3DES_EDE_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x1b'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x1b"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_DSS_AES_128_CBC_SHA1'
+  pk: "TLS_SRP_SHA_DSS_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x1f'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x1f"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_RSA_AES_128_CBC_SHA1'
+  pk: "TLS_SRP_SHA_RSA_AES_128_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x1e'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x1e"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_DSS_AES_256_CBC_SHA1'
+  pk: "TLS_SRP_SHA_DSS_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x22'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x22"
 - model: directory.GnutlsCipher
-  pk: 'TLS_SRP_SHA_RSA_AES_256_CBC_SHA1'
+  pk: "TLS_SRP_SHA_RSA_AES_256_CBC_SHA1"
   fields:
-    hex_byte_1: '0xc0'
-    hex_byte_2: '0x21'
+    hex_byte_1: "0xc0"
+    hex_byte_2: "0x21"
