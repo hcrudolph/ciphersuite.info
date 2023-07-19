@@ -1,3 +1,4 @@
+---
 - model: directory.OpensslCipher
   pk: 'ADH-AES128-GCM-SHA256'
   fields:
