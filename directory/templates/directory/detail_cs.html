@@ -19,14 +19,14 @@
         <div class="col-lg-8 col-lg-offset-2">
             <dl class="dl-horizontal">
                 <dt><b>IANA name:</b></dt>
-                <dd class="long-string">{{ cipher_suite.name }} </dd>
+                <dd>{{ cipher_suite.name }} </dd>
                 {% if cipher_suite.openssl_name %}
                     <dt><b>OpenSSL name:</b></dt>
-                    <dd class="long-string">{{ cipher_suite.openssl_name }}</dd>
+                    <dd>{{ cipher_suite.openssl_name }}</dd>
                 {% endif %}
                 {% if cipher_suite.gnutls_name %}
                     <dt><b>GnuTLS name:</b></dt>
-                    <dd class="long-string">{{ cipher_suite.gnutls_name }}</dd>
+                    <dd>{{ cipher_suite.gnutls_name }}</dd>
                 {% endif %}
                 <dt><b>Hex code:</b></dt>
                 <dd>{{ cipher_suite.hex_byte_1 }}, {{ cipher_suite.hex_byte_2 }}</dd>

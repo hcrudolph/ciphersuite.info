@@ -6,7 +6,7 @@
 {% with params=request.GET.urlencode %}
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
-                <h1>{{ count }} Cipher Suites</h1>
+            <h1>{{ count }} Cipher Suites</h1>
         </div><!-- end column -->
         <div class="col-lg-8 col-xl-offset-2">
             {% include "directory/list_filters.html" %}
@@ -18,13 +18,15 @@
         {% if results %}
             <ul class="prettylist">
                 {% for cipher_suite in results %}
-                <li><a class="long-string" href="/cs/{{ cipher_suite.name }}/">
+                <li><a href="/cs/{{ cipher_suite.name }}/">
                     {% if cipher_suite.insecure %}<span class="badge bg-fixed-width bg-danger">Insecure</span>
                     {% elif cipher_suite.weak %}<span class="badge bg-fixed-width bg-warning">Weak</span>
                     {% elif cipher_suite.secure %}<span class="badge bg-fixed-width bg-secure">Secure</span>
                     {% else %}<span class="badge bg-fixed-width bg-success">Recommended</span>
                     {% endif %}
-                    {{ cipher_suite.name }}</a></li>
+                    <span class="break-all">{{ cipher_suite.name }}</span>
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
         {% else %}

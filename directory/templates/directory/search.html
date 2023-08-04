@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
-            <h1>Search results for "{{ search_term }}"</h1>
+            <h1>Search results for <span class="break-all">{{ search_term }}</span></h1>
         </div><!-- end column -->
         <div class="col-lg-8 col-lg-offset-2">
             {% include "directory/list_filters_search.html" %}
@@ -42,7 +42,7 @@
                 {% for element in results %}
                     {% if cs_tab_active %}
                         <li>
-                            <a class="long-string" href="/cs/{{ element }}">
+                            <a href="/cs/{{ element }}">
                             {% if element.insecure %}
                                 <span class="badge bg-fixed-width bg-danger">Insecure</span>
                             {% elif element.weak %}
@@ -52,7 +52,7 @@
                             {% else %}
                                 <span class="badge bg-fixed-width bg-success">Recommended</span>
                             {% endif %}
-                            {{ element.name }}
+                            <span class="break-all">{{ element.name }}</span>
                             </a>
                         </li>
                     {% else %}
