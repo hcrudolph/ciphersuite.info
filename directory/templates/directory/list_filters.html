@@ -15,7 +15,7 @@
         </ul>
     </div>
     <div class="btn-group my-2">
-        <button type="button" class="btn btn-outline-secondary dropdown-toggle {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
+        <button type="button" class="btn dropdown-toggle {% if sec_level != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
             Filter by Security
         </button>
         <ul class="dropdown-menu">
@@ -28,7 +28,7 @@
         </ul>
     </div>
     <div class="btn-group my-2">
-        <button type="button" class="btn btn-outline-secondary dropdown-toggle {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
+        <button type="button" class="btn dropdown-toggle {% if tls_version != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
             Filter by TLS Version
         </button>
         <ul class="dropdown-menu">
@@ -41,7 +41,7 @@
         </ul>
     </div>
     <div class="btn-group my-2">
-        <button type="button" class="btn btn-outline-secondary dropdown-toggle {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
+        <button type="button" class="btn dropdown-toggle {% if software != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
             Filter by Library
         </button>
         <ul class="dropdown-menu">
