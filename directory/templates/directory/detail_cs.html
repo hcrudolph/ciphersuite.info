@@ -18,19 +18,19 @@
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
             <dl class="dl-horizontal">
-                <dt><b>IANA name:</b></dt>
+                <dt>IANA name:</dt>
                 <dd>{{ cipher_suite.name }} </dd>
                 {% if cipher_suite.openssl_name %}
-                    <dt><b>OpenSSL name:</b></dt>
+                    <dt>OpenSSL name:</dt>
                     <dd>{{ cipher_suite.openssl_name }}</dd>
                 {% endif %}
                 {% if cipher_suite.gnutls_name %}
-                    <dt><b>GnuTLS name:</b></dt>
+                    <dt>GnuTLS name:</dt>
                     <dd>{{ cipher_suite.gnutls_name }}</dd>
                 {% endif %}
-                <dt><b>Hex code:</b></dt>
+                <dt>Hex code:</dt>
                 <dd>{{ cipher_suite.hex_byte_1 }}, {{ cipher_suite.hex_byte_2 }}</dd>
-                <dt><b>TLS Version(s):</b></dt>
+                <dt>TLS Version(s):</dt>
                 <dd>
                     {% for version in cipher_suite.tls_version.all %}
                         {{ version }}{% if not forloop.last %}, {% endif %}
@@ -38,7 +38,7 @@
                 </dd>
                 <hr />
                 {% for algo in related_tech %}
-                <dt><b>{% cycle 'Protocol' 'Key Exchange' 'Authentication' 'Encryption' 'Hash' as atype %}:</b></dt>
+                <dt>{% cycle 'Protocol' 'Key Exchange' 'Authentication' 'Encryption' 'Hash' as atype %}:</dt>
                 <dd>
                     {% if atype == 'Key Exchange' and cipher_suite.kex_algorithm.pfs_support %}
                         <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Perfect Forward Secrecy">PFS</span>
@@ -84,7 +84,7 @@
                 {% endfor %}
                 <hr />
                 {% if referring_rfc_list %}
-                    <dt><b>Included in RFC:</b></dt>
+                    <dt>Included in RFC:</dt>
                     <dd>
                         <ul class="rfclist">
                         {% for rfc in referring_rfc_list %}
@@ -94,7 +94,7 @@
                     </dd>
                 {% endif %}
 
-                <dt><b>Machine-readable:</b></dt>
+                <dt>Machine-readable:</dt>
                 <dd><a href="/api/cs/{{ cipher_suite.name }}">application/json</a></dd>
             </dl>
         </div>
