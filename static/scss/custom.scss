@@ -178,6 +178,16 @@ dd {
     word-break: break-all;
 }
 
+.dropdown:hover >.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu:hover > .dropdown-menu{
+    display: block;
+    left: 100%;
+    margin-top: -37px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 

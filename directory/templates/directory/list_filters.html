@@ -1,9 +1,9 @@
 {% load add_get_parameter %}
 {% with params=request.GET.urlencode %}
 
-<div class="d-flex justify-content-between flex-wrap">
-    <div class="btn-group my-2">
-        <button type="button" class="btn btn-outline-secondary dropdown-toggle {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
+<div class="d-flex justify-content-left flex-wrap">
+    <div class="btn-group m-2">
+        <button type="button" class="btn btn-secondary dropdown-toggle {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
             Sort by
         </button>
         <ul class="dropdown-menu">
@@ -14,44 +14,51 @@
             <li><a class="dropdown-item {% if sorting == 'name-desc' %}active{% endif %}" href="{% relative_url 'name-desc' 'sort' params %}">Name (descending)</a></li>
         </ul>
     </div>
-    <div class="btn-group my-2">
-        <button type="button" class="btn dropdown-toggle {% if sec_level != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
-            Filter by Security
+    <div class="btn-group m-2">
+        <button type="button" class="btn dropdown-toggle {% if sec_level != 'all' or tls_version != 'all' or software != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+            Filter by
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item {% if sec_level == '' or sec_level == 'all' %}active{% endif %}" href="{% relative_url 'all' 'security' params %}">All</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item {% if sec_level == 'recommended' %}active{% endif %}" href="{% relative_url 'recommended' 'security' params %}">Recommended</a></li>
-            <li><a class="dropdown-item {% if sec_level == 'secure' %}active{% endif %}" href="{% relative_url 'secure' 'security' params %}">Secure</a></li>
-            <li><a class="dropdown-item {% if sec_level == 'weak' %}active{% endif %}" href="{% relative_url 'weak' 'security' params %}">Weak</a></li>
-            <li><a class="dropdown-item {% if sec_level == 'insecure' %}active{% endif %}" href="{% relative_url 'insecure' 'security' params %}">Insecure</a></li>
+            <li type="button" class="dropdown-submenu dropend">
+                <a class="dropdown-item dropdown-toggle {% if sec_level != 'all' %}active{% endif %}" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  Security
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item {% if sec_level == '' or sec_level == 'all' %}active{% endif %}" href="{% relative_url 'all' 'security' params %}">All</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item {% if sec_level == 'recommended' %}active{% endif %}" href="{% relative_url 'recommended' 'security' params %}">Recommended</a></li>
+                    <li><a class="dropdown-item {% if sec_level == 'secure' %}active{% endif %}" href="{% relative_url 'secure' 'security' params %}">Secure</a></li>
+                    <li><a class="dropdown-item {% if sec_level == 'weak' %}active{% endif %}" href="{% relative_url 'weak' 'security' params %}">Weak</a></li>
+                    <li><a class="dropdown-item {% if sec_level == 'insecure' %}active{% endif %}" href="{% relative_url 'insecure' 'security' params %}">Insecure</a></li>
+                </ul>
+            </li>
+            <li type="button" class="dropdown-submenu dropend">
+                <a class="dropdown-item dropdown-toggle {% if tls_version != 'all' %}active{% endif %}" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  TLS version
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item {% if tls_version == '' or tls_version == 'all' %}active{% endif %}" href="{% relative_url 'all' 'tls' params %}">All</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item {% if tls_version == 'tls10' %}active{% endif %}" href="{% relative_url 'tls10' 'tls' params %}">TLS1.0/TLS1.1</a></li>
+                    <li><a class="dropdown-item {% if tls_version == 'tls12' %}active{% endif %}" href="{% relative_url 'tls12' 'tls' params %}">TLS1.2</a></li>
+                    <li><a class="dropdown-item {% if tls_version == 'tls13' %}active{% endif %}" href="{% relative_url 'tls13' 'tls' params %}">TLS1.3 (all)</a></li>
+                    <li><a class="dropdown-item {% if tls_version == 'xtls13' %}active{% endif %}" href="{% relative_url 'xtls13' 'tls' params %}">TLS1.3 (only)</a></li>
+                </ul>
+            </li>
+            <li type="button" class="dropdown-submenu dropend">
+                <a class="dropdown-item dropdown-toggle {% if software != 'all' %}active{% endif %}" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                    Software library
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item {% if software == '' or software == 'all' %}active{% endif %}" href="{% relative_url 'all' 'software' params %}">All</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item {% if software == 'openssl' %}active{% endif %}" href="{% relative_url 'openssl' 'software' params %}">OpenSSL</a></li>
+                    <li><a class="dropdown-item {% if software == 'gnutls' %}active{% endif %}" href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
-    <div class="btn-group my-2">
-        <button type="button" class="btn dropdown-toggle {% if tls_version != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
-            Filter by TLS Version
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item {% if tls_version == '' or tls_version == 'all' %}active{% endif %}" href="{% relative_url 'all' 'tls' params %}">All</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item {% if tls_version == 'tls10' %}active{% endif %}" href="{% relative_url 'tls10' 'tls' params %}">TLS1.0/TLS1.1</a></li>
-            <li><a class="dropdown-item {% if tls_version == 'tls12' %}active{% endif %}" href="{% relative_url 'tls12' 'tls' params %}">TLS1.2</a></li>
-            <li><a class="dropdown-item {% if tls_version == 'tls13' %}active{% endif %}" href="{% relative_url 'tls13' 'tls' params %}">TLS1.3 (all)</a></li>
-            <li><a class="dropdown-item {% if tls_version == 'xtls13' %}active{% endif %}" href="{% relative_url 'xtls13' 'tls' params %}">TLS1.3 (only)</a></li>
-        </ul>
-    </div>
-    <div class="btn-group my-2">
-        <button type="button" class="btn dropdown-toggle {% if software != 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %} {% if category == 'rfc' %}disabled{% endif %}" data-bs-toggle="dropdown">
-            Filter by Library
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item {% if software == '' or software == 'all' %}active{% endif %}" href="{% relative_url 'all' 'software' params %}">All</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item {% if software == 'openssl' %}active{% endif %}" href="{% relative_url 'openssl' 'software' params %}">OpenSSL</a></li>
-            <li><a class="dropdown-item {% if software == 'gnutls' %}active{% endif %}" href="{% relative_url 'gnutls' 'software' params %}">GnuTLS</a></li>
-        </ul>
-    </div>
-    <div class="btn-group my-2">
+    <div class="btn-group m-2">
         <a href="{% relative_url 'false' 'singlepage' params %}" class="btn btn-outline-secondary {% if singlepage != 'true' %}active{% endif %}">Paginated</a>
         <a href="{% relative_url 'true' 'singlepage' params %}" class="btn btn-outline-secondary {% if singlepage == 'true' %}active{% endif %}">Single Page</a>
     </div>
