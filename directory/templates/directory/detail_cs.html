@@ -5,12 +5,12 @@
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
             <h1 class="mb-4">
-            {% if cipher_suite.insecure %}<span class="text-danger">Insecure</span>
-            {% elif cipher_suite.weak %}<span class="text-warning">Weak</span>
-            {% elif cipher_suite.secure %}<span class="text-secure">Secure</span>
-            {% else %}<span class="text-success">Recommended</span>
+            {% if cipher_suite.insecure %}<span class="badge bg-danger">Insecure</span>
+            {% elif cipher_suite.weak %}<span class="badge bg-warning">Weak</span>
+            {% elif cipher_suite.secure %}<span class="badge bg-secure">Secure</span>
+            {% else %}<span class="badge bg-success">Recommended</span>
             {% endif %}
-            Cipher Suite
+            <span class="break-all">{{ cipher_suite.name }}</span>
             </h1>
         </div>
     </div>
