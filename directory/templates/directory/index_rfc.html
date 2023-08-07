@@ -11,15 +11,15 @@
         <div class="col-lg-8 col-lg-offset-2">
             <div class="d-flex justify-content-between flex-wrap">
                 <div class="btn-group my-2">
-                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
                         Sort by
                     </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item {% if sorting == 'number-asc' %}active{% endif %}" href="{% relative_url 'number-asc' 'sort' params %}">Number ascending</a>
-                        <a class="dropdown-item {% if sorting == 'number-desc' %}active{% endif %}" href="{% relative_url 'number-desc' 'sort' params %}">Number descending</a>
-                        <a class="dropdown-item {% if sorting == 'title-asc' %}active{% endif %}" href="{% relative_url 'title-asc' 'sort' params %}">Title ascending</a>
-                        <a class="dropdown-item {% if sorting == 'title-desc' %}active{% endif %}" href="{% relative_url 'title-desc' 'sort' params %}">Title descending</a>
-                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item {% if sorting == 'number-asc' %}active{% endif %}" href="{% relative_url 'number-asc' 'sort' params %}">Number ascending</a></li>
+                        <li><a class="dropdown-item {% if sorting == 'number-desc' %}active{% endif %}" href="{% relative_url 'number-desc' 'sort' params %}">Number descending</a></li>
+                        <li><a class="dropdown-item {% if sorting == 'title-asc' %}active{% endif %}" href="{% relative_url 'title-asc' 'sort' params %}">Title ascending</a></li>
+                        <li><a class="dropdown-item {% if sorting == 'title-desc' %}active{% endif %}" href="{% relative_url 'title-desc' 'sort' params %}">Title descending</a></li>
+                    </ul>
                 </div> <!-- end button group -->
                 <div class="btn-group my-2">
                     <a href="{% relative_url 'false' 'singlepage' params %}" class="btn btn-outline-secondary {% if singlepage != 'true' %}active{% endif %}">Paginated</a>
