@@ -91,7 +91,7 @@ def index_rfc(request):
     """Rfc overview, listing all instances stored in the database."""
 
     # parse GET parameters
-    sorting = request.GET.get('sorting', 'number-asc').strip()
+    sorting = request.GET.get('sort', 'number-asc').strip()
     single_page = request.GET.get('singlepage', 'false').strip()
     page = request.GET.get('page', '1').strip()
 
@@ -113,6 +113,7 @@ def index_rfc(request):
         'search_form': NavbarSearchForm(),
         'singlepage': single_page,
         'sponsor': sponsor,
+        'sorting': sorting,
     }
 
     return render(request, 'directory/index_rfc.html', context)

@@ -50,6 +50,9 @@ def filter_cs_tls(ciphersuites, tls_version):
         return ciphersuites.filter(tls_version__major=1, tls_version__minor=2)
     elif tls_version == 'tls13':
         return ciphersuites.filter(tls_version__major=1, tls_version__minor=3)
+    elif tls_version == 'xtls13':
+        return ciphersuites.filter(tls_version__major=1, tls_version__minor=3)\
+            .exclude(tls_version__minor=2)
     else:
         return ciphersuites
 

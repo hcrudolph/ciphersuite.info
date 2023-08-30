@@ -11,38 +11,37 @@
     <div class="row flex-row justify-content-center">
         <div class="col-lg-8 col-lg-offset-2">
             <dl class="dl-horizontal">
-                <dt><b>Title:</b></dt>
+                <dt>Title:</dt>
                 <dd>{{ rfc.title }}</td>
 
-                <dt><b>Status:</b></dt>
+                <dt>Status:</dt>
                 <dd>{{ rfc_status_code }}</dd>
 
-                <dt><b>Publication:</b></dt>
+                <dt>Publication:</dt>
                 <dd>{{ rfc.release_year }}</dd>
 
                 {% for rel_rfc in related_docs %}
                     <b>Related documents:</b> <a href="/rfc/{{ rel_rfc.number }}">{{ rel_rfc }}</a>
                 {% endfor %}
 
-                <dt><b>View on ietf.org:</b></dt>
+                <dt>View on ietf.org:</dt>
                 <dd><a href="{{ rfc.url }}" target="_blank" rel="noopener noreferrer">{{ rfc.url }} <span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></dd>
 
             {% if defined_cipher_suites %}
-            <dt><b>Defined Cipher suites:</b></dt>
+            <dt>Defined Cipher suites:</dt>
             <dd>
             <ul class="minimallist">
                 {% for cipher_suite in defined_cipher_suites %}
                     <li>
-                        <a class="long-string" href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a>
+                        <a href="/cs/{{ cipher_suite.name }}/">{{ cipher_suite.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
             </dd>
             {% endif %}
             <hr />
-            <dt><b>Machine-readable:</b></dt>
+            <dt>Machine-readable:</dt>
             <dd><a href="/api/rfc/{{ rfc.number }}">application/json</a></dd>
-
             </dl>
             </div>
         </div>

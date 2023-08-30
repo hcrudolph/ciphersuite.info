@@ -96,12 +96,12 @@
   pk: 'DH'
   fields:
     long_name: 'Diffie-Hellman'
-    vulnerabilities: ['Non-ephemeral Key Exchange']
+    vulnerabilities: ['Non-ephemeral Key Exchange', 'Raccoon Attack']
 - model: directory.KexAlgorithm
   pk: 'DHE'
   fields:
     long_name: 'Diffie-Hellman Ephemeral'
-    vulnerabilities: []
+    vulnerabilities: ['Raccoon Attack']
 - model: directory.KexAlgorithm
   pk: 'ECDH'
   fields:

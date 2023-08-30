@@ -1,17 +1,15 @@
-@import 'mixins/_custom-mixins';
-
-$background:        #ffffff;
-$background-alt:    #eeeeee;
 $default-font:      'Open Sans Regular', sans-serif;
 $heading-bold:      'Roboto Bold', sans-serif;
 $heading-semibold:  'Roboto Medium', sans-serif;
+
 $primary:           #fd7e14;
 $primary-superlight:#fee1b0;
 $primary-light:     #fda514;
 $primary-dark:      #fd5714;
-$gray-800:          #343a40;
-$gray-900:          #212529;
+$background:        #ffffff;
+$background-alt:    #eeeeee;
 
+@import "bootstrap";
 
 html {
     position: relative;
@@ -55,10 +53,6 @@ a:hover {
 ::-moz-selection {
     background: $gray-800;
     color: #ffffff;
-}
-
-.centered-block {
-    @include margin-horizontal(auto);
 }
 
 .centered-text {
@@ -139,8 +133,10 @@ a:hover {
 .prettylist li a {
     display: block;
     text-decoration: none;
-    @include padding-vertical(10px);
-    @include padding-horizontal(15px);
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .minimallist {
@@ -176,6 +172,24 @@ dd {
 .bi{
     font-size: 1.25em;
     vertical-align: .175em;
+}
+
+.break-all {
+    word-break: break-all;
+}
+
+.dropdown:hover >.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu:hover > .dropdown-menu{
+    display: block;
+    left: 100%;
+    margin-top: -37px;
+}
+
+dt {
+    font-weight: bold;
 }
 
 /* Sticky footer styles

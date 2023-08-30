@@ -1,7 +1,7 @@
 # Custom rules
 .DS_Store
-*.css.map
 .vscode/
+custom.css
 migrations/
 media/
 

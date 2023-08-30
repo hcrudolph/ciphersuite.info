@@ -83,3 +83,8 @@
   fields:
     severity: 2
     description: 'The GOST algorithms are Russian cryptographic standard algorithms. Their security is not proven and its use is not recommended by the IETF. (see <a href="https://www.rfc-editor.org/rfc/rfc9189" class="alert-link" target="_blank" rel="noopener noreferrer">ietf.org</a>)'
+- model: directory.Vulnerability
+  pk: 'Raccoon Attack'
+  fields:
+    severity: 0
+    description: 'The so-called <a href ="https://raccoon-attack.com" class="alert-link" target="_blank" rel="noopener noreferrer">Raccoon Attack</a> affects the specifications of TLS 1.2 and below when using a DH(E) key exchange. According to the researchers, while very hard to exploit, in rare circumstances this timing attack allows attackers to decrypt the connection between users and the server. A fix has been introduced in the TLS 1.3 specification.'
