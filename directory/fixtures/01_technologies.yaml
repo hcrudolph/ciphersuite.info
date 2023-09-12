@@ -101,7 +101,7 @@
   pk: 'DHE'
   fields:
     long_name: 'Diffie-Hellman Ephemeral'
-    vulnerabilities: ['Raccoon Attack']
+    vulnerabilities: ['DHEat Attack', 'Raccoon Attack']
 - model: directory.KexAlgorithm
   pk: 'ECDH'
   fields:
