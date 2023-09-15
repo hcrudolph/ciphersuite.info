@@ -88,3 +88,8 @@
   fields:
     severity: 0
     description: 'The so-called <a href ="https://raccoon-attack.com" class="alert-link" target="_blank" rel="noopener noreferrer">Raccoon Attack</a> affects the specifications of TLS 1.2 and below when using a DH(E) key exchange. According to the researchers, while very hard to exploit, in rare circumstances this timing attack allows attackers to decrypt the connection between users and the server. A fix has been introduced in the TLS 1.3 specification.'
+- model: directory.Vulnerability
+  pk: 'DHEat Attack'
+  fields:
+    severity: 1
+    description: 'The so-called <a href ="https://dheatattack.com" class="alert-link" target="_blank" rel="noopener noreferrer">DHEat Attack</a> affects cryptographic protocols using the Diffie Hellman key exchange (incl. TLS). According to its authors, it exploits a potocol particularity that may allow attackers to perform a DoS attack "with a low-bandwidth network connection without authentication, privilege, or user interaction."'

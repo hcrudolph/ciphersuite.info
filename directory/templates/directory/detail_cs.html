@@ -41,15 +41,15 @@
                 <dt>{% cycle 'Protocol' 'Key Exchange' 'Authentication' 'Encryption' 'Hash' as atype %}:</dt>
                 <dd>
                     {% if atype == 'Key Exchange' and cipher_suite.kex_algorithm.pfs_support %}
-                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Perfect Forward Secrecy">PFS</span>
+                        <span class="badge bg-secondary">PFS</span>
                     {% endif %}
 
                     {% if atype == 'Encryption' and cipher_suite.enc_algorithm.aead_algorithm %}
-                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Authenticated Encryption with Associated Data">AEAD</span>
+                        <span class="badge bg-secondary">AEAD</span>
                     {% endif %}
 
                     {% if atype == 'Hash' and not algo.short_name == 'NULL' and not cipher_suite.enc_algorithm.aead_algorithm %}
-                        <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Data Authentication via Hash-based Message Authentication Code">HMAC</span>
+                        <span class="badge bg-secondary">HMAC</span>
                     {% endif %}
 
                     {% if algo.long_name %}
@@ -65,17 +65,17 @@
                     <p>
                     {% if item.severity == 2 %}
                         <div class="alert alert-danger" role="alert">
-                            <i class="bi bi-exclamation-octagon-fill me-1"></i>
+                            <i class="bi bi-exclamation-octagon-fill align-middle me-1"></i>
                             <strong>{{ item.name }}:</strong> {{ item.formatted_desc|safe }}
                         </div>
                     {% elif item.severity == 1 %}
                         <div class="alert alert-warning" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                            <i class="bi bi-exclamation-triangle-fill align-middle me-1"></i>
                             <strong>{{ item.name }}:</strong> {{ item.formatted_desc|safe }}
                         </div>
                     {% else %}
                         <div class="alert alert-info" role="alert">
-                            <i class="bi bi-info-circle-fill me-1"></i>
+                            <i class="bi bi-info-circle-fill align-middle me-1"></i>
                             <strong>{{ item.name }}:</strong> {{ item.formatted_desc|safe }}
                         </div>
                     {% endif %}
@@ -101,12 +101,3 @@
     </div>
 </div>
 {% endblock content %}
-
-{% block customjs %}
-<script>
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-})
-</script>
-{% endblock customjs %}
