@@ -36,4 +36,4 @@ tomli==2.0.1
 typing_extensions==4.8.0
 urllib3==2.0.6
 whitenoise==6.5.0
-zipp==3.16.2
+zipp==3.17.0
