@@ -17,7 +17,7 @@ libsass==0.22.0
 lxml==4.9.3
 Markdown==3.4.4
 Pillow==10.0.1
-psycopg2-binary==2.9.7
+psycopg2-binary==2.9.9
 pycparser==2.21
 pypng==0.20220715.0
 PyYAML==6.0.1
