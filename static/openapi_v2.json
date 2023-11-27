@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Ciphersuite.info API",
-    "description": "A directory of every cipher suite defined by the IETF. Each cipher suite is broken down to its containing algorithms whose security is then individually assessed. Different warnings are generated based on the severity of known vulnerabilities.",
-    "version": "2.0.0",
+    "description": "NOTE: You are accessing a pre-release version of the APIv2 by ciphersuite.info. Although we are trying to avoid major changes, API end points may still be subject to change without prior notice for the time being.",
+    "version": "2.0.0-rc1",
     "contact": {
       "email": "info@ciphersuite.info"
     },
@@ -19,30 +19,30 @@
   ],
   "tags": [
     {
-      "name": "ciphersuite",
-      "description": "Everything about TLS ciphersuites",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "https://ciphersuite.info/cs"
-      }
+      "name": "Ciphersuites",
+      "description": "API end points primarily related to TLS ciphersuites"
     },
     {
-      "name": "rfc",
-      "description": "Everything about related RFCs",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "https://ciphersuite.info/rfc"
-      }
+      "name": "RFCs",
+      "description": "API end points primarily related to ciphersuite-related RFCs"
+    },
+    {
+      "name": "Vulnerabilities",
+      "description": "API end points primarily related to ciphersuite vulnerabilities"
+    },
+    {
+      "name": "Algorithms",
+      "description": "API end points primarily related to ciphersuite algorithms"
     }
   ],
   "paths": {
     "/cs": {
       "get": {
         "tags": [
-          "ciphersuite"
+          "Ciphersuites"
         ],
-        "description": "List all TLS ciphersuites.",
-        "operationId": "getCs",
+        "description": "Get a list of all TLS ciphersuites.",
+        "operationId": "getAllCs",
         "responses": {
           "200": {
             "description": "OK",
@@ -56,6 +56,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "No ciphersuites found."
           }
         }
       }
@@ -63,9 +66,9 @@
     "/cs/{cs_name}": {
       "get": {
         "tags": [
-          "ciphersuite"
+          "Ciphersuites"
         ],
-        "description": "Get a TLS ciphersuite by IANA name.",
+        "description": "Get a single TLS ciphersuite by its IANA name.",
         "operationId": "getCsByName",
         "parameters": [
           {
@@ -86,7 +89,24 @@
                   "$ref": "#/components/schemas/Ciphersuite"
                 }
               }
+            },
+            "links": {
+              "Vulnerabilities by Ciphersuite Name": {
+                "operationId": "getVulnByCsName",
+                "parameters": {
+                  "cs_name": "$response.body#/iana_name"
+                }
+              },
+              "Ciphersuites by Security": {
+                "operationId": "getCsBySecurity",
+                "parameters": {
+                  "level": "$response.body#/security"
+                }
+              }
             }
+          },
+          "404": {
+            "description": "Ciphersuite does not exist."
           }
         }
       }
@@ -94,7 +114,7 @@
     "/cs/tls/{tls_version}": {
       "get": {
         "tags": [
-          "ciphersuite"
+          "Ciphersuites"
         ],
         "description": "Get a list of TLS ciphersuites by TLS version.",
         "operationId": "getCsByTlsversion",
@@ -127,21 +147,27 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Illegal TLS version."
+          },
+          "404": {
+            "description": "No ciphersuites found."
           }
         }
       }
     },
-    "/cs/security/{sec_level}": {
+    "/cs/security/{level}": {
       "get": {
         "tags": [
-          "ciphersuite"
+          "Ciphersuites"
         ],
         "description": "Get a list of TLS ciphersuites by security level.",
         "operationId": "getCsBySecurity",
         "parameters": [
           {
             "in": "path",
-            "name": "sec_level",
+            "name": "level",
             "schema": {
               "type": "string",
               "enum": [
@@ -167,21 +193,27 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Illegal security rating."
+          },
+          "404": {
+            "description": "No ciphersuites found."
           }
         }
       }
     },
-    "/cs/software/{tls_lib}": {
+    "/cs/software/{library}": {
       "get": {
         "tags": [
-          "ciphersuite"
+          "Ciphersuites"
         ],
         "description": "Get a list of TLS ciphersuites by software library.",
         "operationId": "getCsBySoftware",
         "parameters": [
           {
             "in": "path",
-            "name": "tls_lib",
+            "name": "library",
             "schema": {
               "type": "string",
               "enum": [
@@ -205,6 +237,66 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Illegal software library."
+          },
+          "404": {
+            "description": "No ciphersuites found."
+          }
+        }
+      }
+    },
+    "/cs/{algo_type}/{search_term}": {
+      "get": {
+        "tags": [
+          "Ciphersuites"
+        ],
+        "description": "Search TLS ciphersuites by their associated algorithms. Requires the algorithm type to be specified.",
+        "operationId": "getCsByAlgorithm",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "algo_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "keyx",
+                "auth",
+                "encr",
+                "hash"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "search_term",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ciphersuite"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Illegal algorithm type."
+          },
+          "404": {
+            "description": "No ciphersuites found."
           }
         }
       }
@@ -212,9 +304,9 @@
     "/rfc": {
       "get": {
         "tags": [
-          "rfc"
+          "RFCs"
         ],
-        "description": "List all RFCs.",
+        "description": "Get a list of all RFCs that define TLS ciphersuites.",
         "operationId": "getAllRfc",
         "responses": {
           "200": {
@@ -233,17 +325,17 @@
         }
       }
     },
-    "/rfc/{rfc_number}": {
+    "/rfc/{number}": {
       "get": {
         "tags": [
-          "rfc"
+          "RFCs"
         ],
-        "description": "Get RFC by number.",
-        "operationId": "getRfc",
+        "description": "Get a single RFC by its number.",
+        "operationId": "getRfcByNum",
         "parameters": [
           {
             "in": "path",
-            "name": "rfc_number",
+            "name": "number",
             "schema": {
               "type": "integer"
             },
@@ -260,6 +352,300 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "RFC does not exist."
+          }
+        }
+      }
+    },
+    "/algo": {
+      "get": {
+        "tags": [
+          "Algorithms"
+        ],
+        "description": "Get a list of all Algorithms.",
+        "operationId": "getAllAlgo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlgorithmAlt"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No algorithms found."
+          }
+        }
+      }
+    },
+    "/algo/type/{algo_type}": {
+      "get": {
+        "tags": [
+          "Algorithms"
+        ],
+        "description": "Get a list of all Algorithms of a certain type.",
+        "operationId": "getAlgoByType",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "algo_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "keyx",
+                "auth",
+                "encr",
+                "hash"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Algorithm"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Illegal algorithm type."
+          },
+          "404": {
+            "description": "No algorithm found."
+          }
+        }
+      }
+    },
+    "/algo/sev/{severity}": {
+      "get": {
+        "tags": [
+          "Algorithms"
+        ],
+        "description": "Get a list of all Algorithms with vulnerabilities of a certain severity. Requires the algorithm type to be specified.",
+        "operationId": "getAlgoByVuln",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "severity",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Algorithm"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Illegal severity rating."
+          },
+          "404": {
+            "description": "No algorithm found."
+          }
+        }
+      }
+    },
+    "/vuln": {
+      "get": {
+        "tags": [
+          "Vulnerabilities"
+        ],
+        "description": "Get a list of all Vulnerabilities.",
+        "operationId": "getAllVuln",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vulnerability"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No vulnerabilities found."
+          }
+        }
+      }
+    },
+    "/vuln/{vuln_name}": {
+      "get": {
+        "tags": [
+          "Vulnerabilities"
+        ],
+        "description": "Get a single Vulnerability by its name.",
+        "operationId": "getVulnByName",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vuln_name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vulnerability"
+                }
+              }
+            },
+            "links": {
+              "Vulnerability by Severity": {
+                "operationId": "getVulnBySeverity",
+                "parameters": {
+                  "severity": "$response.body#/severity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vulnerability does not exist."
+          }
+        }
+      }
+    },
+    "/vuln/cs/{cs_name}": {
+      "get": {
+        "tags": [
+          "Vulnerabilities"
+        ],
+        "description": "Get a list of vulnerabilities associated to a certain TLS ciphersuite.",
+        "operationId": "getVulnByCsName",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cs_name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vulnerability"
+                  }
+                }
+              }
+            },
+            "links": {
+              "Vulnerability by Name": {
+                "operationId": "getVulnByName",
+                "parameters": {
+                  "vuln_name": "$response.body#/vulnerabilities/name"
+                }
+              },
+              "Vulnerability by Severity": {
+                "operationId": "getVulnBySeverity",
+                "parameters": {
+                  "severity": "$response.body#/vulnerabilities/severity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ciphersuite does not exist."
+          }
+        }
+      }
+    },
+    "/vuln/sev/{severity}": {
+      "get": {
+        "tags": [
+          "Vulnerabilities"
+        ],
+        "description": "Get a list of vulnearbilities by severity.",
+        "operationId": "getVulnBySeverity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "severity",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vulnerability"
+                  }
+                }
+              }
+            },
+            "links": {
+              "Vulnerability by Name": {
+                "operationId": "getVulnByName",
+                "parameters": {
+                  "vuln_name": "$response.body#/vulnerabilities/name"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Illegal severity rating."
+          },
+          "404": {
+            "description": "No vulnerabilities found."
           }
         }
       }
@@ -279,22 +665,22 @@
           "openssl_name": {
             "type": "string"
           },
-          "tls_version": {
-            "type": "string",
-            "enum": [
-              "TLS1.0",
-              "TLS1.1",
-              "TLS1.2",
-              "TLS1.3"
-            ]
+          "version": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "TLS1.0",
+                "TLS1.1",
+                "TLS1.2",
+                "TLS1.3"
+              ]
+            }
           },
           "hex_byte_1": {
             "type": "string"
           },
           "hex_byte_2": {
-            "type": "string"
-          },
-          "protocol_version": {
             "type": "string"
           },
           "kex_algorithm": {
@@ -308,6 +694,15 @@
           },
           "hash_algorithm": {
             "type": "string"
+          },
+          "security": {
+            "type": "string",
+            "enum": [
+              "insecure",
+              "weak",
+              "secure",
+              "recommended"
+            ]
           }
         }
       },
@@ -350,11 +745,67 @@
             }
           }
         }
+      },
+      "Vulnerability": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      },
+      "Algorithm": {
+        "type": "object",
+        "properties": {
+          "short_name": {
+            "type": "string"
+          },
+          "long_name": {
+            "type": "string"
+          },
+          "vulnerabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AlgorithmAlt": {
+        "type": "object",
+        "properties": {
+          "short_name": {
+            "type": "string"
+          },
+          "long_name": {
+            "type": "string"
+          },
+          "vulnerabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "algorithm_type": {
+            "type": "string"
+          }
+        }
       }
     }
   },
   "externalDocs": {
     "description": "Git repository",
-    "url": "https://github.com/hcrudolph/ciphersuite.info.git"
+    "url": "https://github.com/hcrudolph/ciphersuite.info"
   }
 }

@@ -408,7 +408,7 @@ class TlsVersion(models.Model):
         return f"TLS{self.major}.{self.minor}"
 
 
-class Technology(models.Model):
+class Technology(PrintableModel):
     class Meta:
         abstract=True
         ordering=['short_name']
@@ -467,7 +467,7 @@ class HashAlgorithm(Technology):
         verbose_name_plural=_('hash algorithms')
 
 
-class Vulnerability(models.Model):
+class Vulnerability(PrintableModel):
     class Meta:
         ordering=['name']
         verbose_name=_('vulnerability')
