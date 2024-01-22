@@ -16,7 +16,7 @@ importlib-metadata==6.8.0
 libsass==0.22.0
 lxml==4.9.3
 Markdown==3.5.1
-Pillow==10.1.0
+Pillow==10.2.0
 psycopg2-binary==2.9.9
 pycparser==2.21
 pypng==0.20220715.0
