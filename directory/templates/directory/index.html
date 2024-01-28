@@ -15,14 +15,14 @@
             <h1 class="title-heading centered-text">TLS Ciphersuite Search</h1>
         </div><!-- end column -->
         <div class="col-lg-6 col-lg-offset-3">
-            <div id="custom-search-input">
-                <form class="form-group input-group input-group-lg" action="/search?q={{ search_form.get_search_term }}" method="get">
-                    {{ search_form }}
-                    <button class="btn btn-primary btn-lg" type="submit">
+            <form  action="/search?q={{ search_form.get_search_term }}" method="get">
+                <div class="input-group input-group-lg">
+                    {{ search_form.q }}
+                    <button class="btn btn-primary" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
+                </div>
                 </form>
-            </div><!-- end end input -->
         </div><!-- end column -->
     </div>
     <div class="row flex-row justify-content-center">

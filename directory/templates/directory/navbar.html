@@ -43,9 +43,9 @@
                 {% endfor %}
             </ul>
             {% if not hide_navbar_search %}
-            <form class="form-inline my-2 my-md-0" action="/search?q={{ search_form.get_search_term }}" method="get">
-                <div class="form-group input-group">
-                    {{ search_form }}
+                <form action="/search?q={{ search_form.get_search_term }}" method="get">
+                    <div class="input-group">
+                        {{ search_form.q }}
                         <button class="btn btn-primary" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
