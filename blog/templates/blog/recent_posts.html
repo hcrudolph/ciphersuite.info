@@ -6,7 +6,7 @@
         <div class="col-lg-8 col-lg-offset-2">
             <h1>Recent Posts</h1>
         </div><!-- end column -->
-        <div class="col-xl-8 col-xl-offset-2">
+        <div class="col-lg-8 col-lg-offset-2">
             <ul class="post-list">
             {% for post in posts %}
             <li><a href="/blog/{{ post.first_published|date:"Y" }}/{{ post.first_published|date:"m" }}/{{ post.first_published|date:"d" }}/{{ post.slug }}">
