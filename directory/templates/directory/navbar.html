@@ -1,56 +1,57 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="/"><img src="{% static 'img/logo.png' %}" height="25"/></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="mainNavigation">
-        <ul class="navbar-nav me-auto">
-                <li class="nav-item {% if navbar_context == 'cs' %}active{% endif %}">
-                    <a class="nav-link d-flex align-items-center" href="/cs/">
-                        <i class="bi bi-lock-fill me-1"></i>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center {% if navbar_context == 'cs' %}active{% endif %}" href="/cs/">
+                        <i class="bi bi-lock-fill me-1" aria-hidden="true"></i>
                         Cipher Suites
                     </a>
                 </li>
-                <li class="nav-item {% if navbar_context == 'rfc' %}active{% endif %}">
-                    <a class="nav-link d-flex align-items-center" href="/rfc/">
-                        <i class="bi bi-file-earmark-lock2-fill me-1"></i>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center {% if navbar_context == 'rfc' %}active{% endif %}" href="/rfc/">
+                        <i class="bi bi-file-earmark-lock2-fill me-1" aria-hidden="true"></i>
                         RFCs
                     </a>
                 </li>
-                <li class="nav-item {% if navbar_context == 'blog' %}active{% endif %}">
-                    <a class="nav-link d-flex align-items-center" href="/blog/">
-                        <i class="bi bi-newspaper me-1"></i>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center {% if navbar_context == 'blog' %}active{% endif %}" href="/blog/">
+                        <i class="bi bi-newspaper me-1" aria-hidden="true"></i>
                         News
                     </a>
                 </li>
                 {% for page in static_pages %}
                     {% if page.show_in_nav %}
-                    <li class="nav-item {% if navbar_context == page.title %}active{% endif %}">
+                    <li class="nav-item">
                         {% if page.direct_link and page.content %}
                         <a class="nav-link d-flex align-items-center" href="{{ page.content }}" target="_blank" rel="noopener noreferrer">
                         {% else %}
-                        <a class="nav-link d-flex align-items-center" href="/page/{{ page|lower }}/">
+                        <a class="nav-link d-flex align-items-center {% if navbar_context == page.title %}active{% endif %}" href="/page/{{ page|lower }}/">
                         {% endif %}
-                            {% if page.icon %}<i class="bi bi-{{ page.icon }}"></i>{% endif %}
+                            {% if page.icon %}<i class="bi bi-{{ page.icon }}" aria-hidden="true"></i>{% endif %}
                             {{ page|title }}
                         </a>
                     </li>
                     {% endif %}
                 {% endfor %}
-        </ul>
-        {% if not hide_navbar_search %}
-            <form class="form-inline my-2 my-md-0" action="/search?q={{ search_form.get_search_term }}" method="get">
-                <div class="form-group input-group">
-                    {{ search_form }}
-                    <button class="btn btn-primary" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </form>
-        {% endif %}
+            </ul>
+            {% if not hide_navbar_search %}
+                <form action="/search?q={{ search_form.get_search_term }}" method="get">
+                    <div class="input-group">
+                        {{ search_form.q }}
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            {% endif %}
         </div>
     </div>
 </nav>

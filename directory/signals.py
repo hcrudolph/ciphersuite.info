@@ -14,8 +14,8 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
 
     def get_year(html):
         docinfo = " ".join(
-            html.xpath('//pre[1]/text()')
-        )
+            html.xpath('//tbody[@class="meta align-top  border-top"]/tr/td[2]/text()')
+        ).strip()
         month_list = ['January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December']
         month_and_year = re.compile(
@@ -24,22 +24,15 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         match = month_and_year.search(docinfo)
         return int(match.group(1))
 
-    def get_year_alt(html):
-        date = " ".join(html.xpath('//time[@class="published"]/text()'))
-        return int(date.split()[1])
-
     def get_title(html):
-        headers = html.xpath('//span[@class="h1"]/text()')
-        return " ".join(headers)
-
-    def get_title_alt(html):
-        return " ".join(html.xpath('//h1[@id="title"]/text()'))
+        docinfo = " ".join(html.xpath('//h1/text()'))
+        return docinfo.strip()
 
     def get_status(html):
-        # concat all fields possibly containing doc status
+        # get table with document properties
         docinfo = " ".join(
-            html.xpath('//pre[@class="pre meta-info"]/text()')
-        )
+            html.xpath('//td/*[contains(text(),"RFC")]/text()')
+        ).strip()
 
         # search for predefined options
         if re.search('INTERNET STANDARD', docinfo, re.IGNORECASE):
@@ -59,45 +52,14 @@ def complete_rfc_instance(sender, instance, *args, **kwargs):
         else:
             return 'UND'
 
-    def get_status_alt(html):
-        docinfo = " ".join(html.xpath('//dl[@id="external-updates"]/text()'))
-
-        # search for predefined options
-        if re.search('INTERNET STANDARD', docinfo, re.IGNORECASE):
-            return 'IST'
-        elif re.search('PROPOSED STANDARD', docinfo, re.IGNORECASE):
-            return 'PST'
-        elif re.search('DRAFT STANDARD', docinfo, re.IGNORECASE):
-            return 'DST'
-        elif re.search('BEST CURRENT PRACTISE', docinfo, re.IGNORECASE):
-            return 'BCP'
-        elif re.search('INFORMATIONAL', docinfo, re.IGNORECASE):
-            return 'INF'
-        elif re.search('EXPERIMENTAL', docinfo, re.IGNORECASE):
-            return 'EXP'
-        elif re.search('HISTORIC', docinfo, re.IGNORECASE):
-            return 'HST'
-        else:
-            return 'UND'
-
-    if instance.is_draft:
-        url = f"https://tools.ietf.org/html/draft-ietf-tls-rfc{instance.number}"
-    else:
-        url = f"https://tools.ietf.org/html/rfc{instance.number}"
-    resp = requests.get(url)
-    if resp.status_code == 200:
-        content = html.fromstring(resp.content)
-        if int(instance.number) < 8650:
-            instance.url  = url
-            instance.title = get_title(content)
-            instance.status = get_status(content)
-            instance.release_year = get_year(content)
-        # required for parsing new RFC Editor format
-        elif int(instance.number) > 8650:
-            instance.url  = url
-            instance.title = get_title_alt(content)
-            instance.status = get_status_alt(content)
-            instance.release_year = get_year_alt(content)
+    url = f"https://datatracker.ietf.org/doc/rfc{instance.number}"
+    rfc = requests.get(url)
+    if rfc.status_code == 200:
+        content = html.fromstring(rfc.content)
+        instance.url  = url
+        instance.title = get_title(content)
+        instance.status = get_status(content)
+        instance.release_year = get_year(content)
     else:
         # cancel saving the instance if unable to receive web page
         raise Exception('RFC not found')

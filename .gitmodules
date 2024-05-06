@@ -1,0 +1,3 @@
+[submodule "static/bootstrap"]
+	path = static/bootstrap
+	url = https://github.com/hcrudolph/csi-bootstrap-theme.git

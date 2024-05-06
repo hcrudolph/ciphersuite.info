@@ -6,7 +6,7 @@ class MainSearchForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control input-lg',
+                'class': 'form-control form-control-lg',
                 'placeholder': 'cipher, algorithm, rfc, vulnerability...',
             }
         ),
