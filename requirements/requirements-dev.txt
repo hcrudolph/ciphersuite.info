@@ -24,7 +24,7 @@ pluggy==1.5.0
 psycopg2-binary==2.9.9
 pycparser==2.22
 pypng==0.20220715.0
-pytest==8.2.0
+pytest==8.2.1
 PyYAML==6.0.1
 qrcode==7.4.2
 rcssmin==1.1.1
