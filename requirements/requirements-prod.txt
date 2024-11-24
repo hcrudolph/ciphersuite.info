@@ -5,7 +5,7 @@ cffi==1.16.0
 chardet==5.2.0
 charset-normalizer==3.3.2
 dj-database-url==2.1.0
-Django==5.0.8
+Django==5.0.9
 django-appconf==1.0.6
 django-compressor==4.4
 django-markdownx==4.0.7
