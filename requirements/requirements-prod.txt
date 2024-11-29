@@ -9,7 +9,7 @@ Django==5.0.6
 django-appconf==1.0.6
 django-compressor==4.4
 django-markdownx==4.0.7
-django-otp==1.5.0
+django-otp==1.5.4
 django-sass-processor==1.4.1
 idna==3.10
 importlib_metadata==7.1.0
