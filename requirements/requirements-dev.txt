@@ -6,7 +6,7 @@ chardet==5.2.0
 charset-normalizer==3.3.2
 coverage==7.5.1
 dj-database-url==2.1.0
-Django==5.0.9
+Django==5.0.10
 django-appconf==1.0.6
 django-compressor==4.4
 django-markdownx==4.0.7
