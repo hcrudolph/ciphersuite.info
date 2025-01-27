@@ -57,7 +57,7 @@
   pk: 'Cipher Block Chaining'
   fields:
     severity: 1
-    description: 'In 2013, researchers demonstrated a timing attack against several TLS implementations using the CBC encryption algorithm (see <a href="http://www.isg.rhul.ac.uk/tls/Lucky13.html" class="alert-link" target="_blank" rel="noopener noreferrer">isg.rhul.ac.uk</a>). Additionally, the CBC mode is vulnerable to plain-text attacks in TLS 1.0, SSL 3.0 and lower. A fix has been introduced with TLS 1.2 in form of the GCM mode which is not vulnerable to the BEAST attack. GCM should be preferred over CBC.'
+    description: 'In 2013, researchers demonstrated a timing attack against several TLS implementations using the CBC encryption algorithm (see <a href="https://www.isg.rhul.ac.uk/tls/Lucky13.html" class="alert-link" target="_blank" rel="noopener noreferrer">isg.rhul.ac.uk</a>). Additionally, the CBC mode is vulnerable to plain-text attacks in TLS 1.0, SSL 3.0 and lower. A fix has been introduced with TLS 1.2 in form of the GCM mode which is not vulnerable to the BEAST attack. GCM should be preferred over CBC.'
 - model: directory.Vulnerability
   pk: 'Rivest Cipher 2'
   fields:
