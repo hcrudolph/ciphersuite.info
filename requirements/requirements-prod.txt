@@ -19,7 +19,7 @@ lxml==6.0.0
 Markdown==3.6
 packaging==24.1
 pillow==11.3.0
-pluggy==1.5.0
+pluggy==1.6.0
 psycopg2-binary==2.9.9
 pycparser==2.22
 pypng==0.20220715.0
