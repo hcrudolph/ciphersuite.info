@@ -17,7 +17,7 @@ importlib_metadata==7.1.0
 iniconfig==2.0.0
 libsass==0.23.0
 lxml==6.0.0
-Markdown==3.6
+Markdown==3.9
 packaging==24.1
 pillow==11.3.0
 pluggy==1.6.0
