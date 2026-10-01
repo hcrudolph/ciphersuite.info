@@ -7,7 +7,7 @@
   pk: 'Secure Hash Algorithm 1'
   fields:
     severity: 1
-    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (see <a href="https://shattered.io" class="alert-link" target="_blank" rel="noopener noreferrer">shattered.io</a>).'
+    description: 'The Secure Hash Algorithm 1 has been proven to be insecure as of 2017 (see <a href="https://marc-stevens.nl/research/shattered.io/" class="alert-link" target="_blank" rel="noopener noreferrer">shattered.io</a>).'
 - model: directory.Vulnerability
   pk: 'Message Digest 5'
   fields:
